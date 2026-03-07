@@ -10,7 +10,7 @@
     "tagline": "22+ years in tech and management; led Hipobuy overseas app from 0 to 344K+ downloads; strong use of AI to boost development efficiency.",
     "contact": {
       "phone": "+86 13902658317",
-      "email": "xiebaoxin@163.com",
+      "email": "xiebaoxin@gmail.com",
       "wechat": "13531703369"
     },
     "location": "Shenzhen",
@@ -87,7 +87,8 @@
     "title": "Attachments",
     "links": [
       { "label": "Product Images", "href": "attachment-portfolio.html" },
-      { "label": "Detailed Experience & Skills", "href": "attachment-detail.html" }
+      { "label": "Detailed Experience & Skills", "href": "attachment-detail.html" },
+      { "label": "AI Capability", "href": "attachment-ai-capability.html" }
     ]
   },
   "ui": {

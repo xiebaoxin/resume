@@ -1,13 +1,24 @@
-/* Single-page resume – clean, scannable, print-friendly */
+/* Unified resume & attachment style (matches AI capability aesthetic) */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap");
 
 :root {
-  --color-text: #1a1a1a;
-  --color-muted: #444;
-  --color-accent: #0d47a1;
-  --color-bg: #fff;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --ink: #0f0f0f;
+  --paper: #f7f5f0;
+  --accent: #c8402a;
+  --accent2: #2a5fc8;
+  --muted: #666;
+  --border: #d8d4cc;
+  --serif: "Noto Serif SC", Georgia, serif;
+  --mono: "JetBrains Mono", "Courier New", monospace;
+  --sans: "Space Grotesk", system-ui, sans-serif;
+  --color-text: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-bg: var(--paper);
+  --font-sans: var(--sans);
   --space: 1rem;
-  --max-width: 720px;
+  --max-width: 860px;
 }
 
 * {
@@ -17,17 +28,29 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-sans);
+  font-family: var(--serif);
   font-size: 15px;
-  line-height: 1.5;
-  color: var(--color-text);
-  background: var(--color-bg);
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--paper);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
 }
 
 .page {
+  position: relative;
+  z-index: 1;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--space) var(--space) 2rem;
+  padding: 2rem 2.5rem 3rem;
 }
 
 /* Header: language switch */
@@ -38,18 +61,21 @@ body {
 }
 
 .lang-switch {
-  padding: 0.35rem 0.75rem;
-  font-size: 13px;
-  color: var(--color-accent);
+  font-family: var(--mono);
+  padding: 0.4rem 0.85rem;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--accent);
   background: transparent;
-  border: 1px solid var(--color-accent);
-  border-radius: 4px;
+  border: 1px solid var(--border);
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .lang-switch:hover {
-  background: var(--color-accent);
-  color: #fff;
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
 }
 
 /* Hero */
@@ -58,10 +84,11 @@ body {
 }
 
 .name {
-  margin: 0 0 0.25rem;
-  font-size: 1.75rem;
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.6rem, 3.5vw, 2rem);
   font-weight: 700;
-  color: var(--color-text);
+  color: var(--ink);
+  letter-spacing: -0.02em;
 }
 
 .basics-line {
@@ -110,26 +137,38 @@ body {
   text-decoration: underline;
 }
 
-/* Section titles */
+/* Section titles (unified label style) */
 .section-title {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-text);
-  border-bottom: 2px solid var(--color-accent);
-  padding-bottom: 0.25rem;
+  margin: 0 0 1rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 /* Highlight block */
 .highlight {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .highlight-card {
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 6px;
-  border-left: 4px solid var(--color-accent);
+  padding: 1.25rem 1.5rem;
+  background: rgba(200, 64, 42, 0.04);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 
 .highlight-head {
@@ -196,7 +235,7 @@ body {
   width: 100%;
   height: auto;
   border-radius: 4px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border);
 }
 
 .chart-caption {
@@ -226,7 +265,7 @@ body {
 .exp-list li {
   margin-bottom: 0.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
 }
 
 .exp-list li:last-child {
@@ -287,11 +326,13 @@ body {
 .skills-tech .tag {
   display: inline-block;
   margin: 0.15rem 0.25rem 0.15rem 0;
-  padding: 0.2rem 0.5rem;
-  background: #e3f2fd;
-  color: var(--color-accent);
-  border-radius: 3px;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--mono);
   font-size: 12px;
+  letter-spacing: 0.02em;
+  background: rgba(0,0,0,0.06);
+  color: var(--ink);
+  border: 1px solid var(--border);
 }
 
 .skills-domain {
@@ -315,8 +356,9 @@ body {
 
   body {
     font-size: 11pt;
-    background: #fff;
+    background: var(--paper);
   }
+  body::before { display: none; }
 
   .page {
     max-width: none;
@@ -324,7 +366,7 @@ body {
   }
 
   .highlight-card {
-    background: #f5f5f5;
+    background: rgba(200,64,42,0.06);
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -361,13 +403,16 @@ body {
 }
 
 .attachment-page .back-link {
-  font-size: 14px;
-  color: var(--color-accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 .attachment-page .back-link:hover {
-  text-decoration: underline;
+  color: var(--accent);
 }
 
 .attachment-page .page-title {
@@ -391,10 +436,9 @@ body {
 
 .portfolio-list li {
   margin-bottom: 0.75rem;
-  padding: 0.75rem;
-  background: #f8f9fa;
-  border-radius: 4px;
-  border-left: 3px solid var(--color-accent);
+  padding: 0.75rem 1rem;
+  background: rgba(0,0,0,0.02);
+  border-left: 3px solid var(--accent);
 }
 
 .portfolio-list .period {
@@ -411,7 +455,7 @@ body {
 }
 
 .portfolio-showcase {
-  margin: 0 0 1.5rem;
+  margin: 1.5rem 0 0;
   padding: 0;
 }
 
@@ -420,7 +464,7 @@ body {
   max-width: 100%;
   height: auto;
   border-radius: 6px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border);
   display: block;
 }
 
@@ -433,21 +477,21 @@ body {
 
 .project-images-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1rem;
 }
 
 .project-image-fig {
   margin: 0;
-  flex: 1 1 280px;
-  max-width: 100%;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .project-image-img {
   width: 100%;
   height: auto;
   border-radius: 6px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border);
   display: block;
 }
 
@@ -478,7 +522,7 @@ body {
 .detail-project-list li {
   margin-bottom: 0.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
 }
 
 .detail-exp-list li:last-child,
@@ -535,11 +579,12 @@ body {
 .detail-skills-tech .tag {
   display: inline-block;
   margin: 0.15rem 0.25rem 0.15rem 0;
-  padding: 0.2rem 0.5rem;
-  background: #e3f2fd;
-  color: var(--color-accent);
-  border-radius: 3px;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--mono);
   font-size: 12px;
+  background: rgba(0,0,0,0.06);
+  color: var(--ink);
+  border: 1px solid var(--border);
 }
 
 .detail-skills-tools,
@@ -562,27 +607,52 @@ body {
   padding: 0;
 }
 
-/* Main resume: attachment links */
+/* Main resume: attachment links – 与关键技能统一的标签风格 */
 .attachments {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.attachments .section-title {
+  margin-bottom: 0.75rem;
 }
 
 .attachments-links {
   margin: 0;
-  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
 }
 
 .attachment-link {
-  color: var(--color-accent);
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
   text-decoration: none;
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .attachment-link:hover {
-  text-decoration: underline;
+  background: rgba(0, 0, 0, 0.08);
+  border-color: var(--muted);
 }
 
-.attachments-links .attachment-link + .attachment-link {
-  margin-left: 0.25rem;
+.resume-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.resume-footer .footer-note {
+  color: var(--muted);
 }

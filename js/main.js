@@ -167,7 +167,7 @@
       d.getElementById('attachmentsTitle').textContent = att.title || 'Attachments';
       d.getElementById('attachmentsLinks').innerHTML = att.links.map(function (link) {
         return '<a href="' + escapeHtml(link.href) + '" class="attachment-link">' + escapeHtml(link.label) + '</a>';
-      }).join(' · ');
+      }).join('');
     }
 
     d.getElementById('langSwitch').textContent = ui.langSwitch || 'English';

@@ -10,7 +10,7 @@
     "tagline": "22+ 年技术与管理经验，主导 Hipobuy 海外 App 从 0 到 34 万+ 下载，善用 AI 提升研发效率。",
     "contact": {
       "phone": "13902658317",
-      "email": "xiebaoxin@163.com",
+      "email": "xiebaoxin@gmail.com",
       "wechat": "13531703369"
     },
     "location": "深圳",
@@ -87,7 +87,8 @@
     "title": "附件",
     "links": [
       { "label": "商品图片", "href": "attachment-portfolio.html" },
-      { "label": "详细经历与技能", "href": "attachment-detail.html" }
+      { "label": "详细经历与技能", "href": "attachment-detail.html" },
+      { "label": "AI 实际技能", "href": "attachment-ai-capability.html" }
     ]
   },
   "ui": {

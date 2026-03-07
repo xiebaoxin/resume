@@ -103,11 +103,17 @@
       document.getElementById('educationContent').textContent = [s.school, s.degree, s.major, s.period].filter(Boolean).join(' · ');
     }
     s = sections.cert;
-    if (s && s.items && s.items.length) {
-      document.getElementById('certTitle').textContent = s.title;
-      document.getElementById('certList').innerHTML = s.items.map(function (item) {
-        return '<li>' + escapeHtml(item) + '</li>';
-      }).join('');
+    var certSection = document.getElementById('certSection');
+    if (certSection) {
+      if (s && s.items && s.items.length) {
+        certSection.style.display = '';
+        document.getElementById('certTitle').textContent = s.title;
+        document.getElementById('certList').innerHTML = s.items.map(function (item) {
+          return '<li>' + escapeHtml(item) + '</li>';
+        }).join('');
+      } else {
+        certSection.style.display = 'none';
+      }
     }
   }
 
