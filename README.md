@@ -49,9 +49,48 @@ resume-xiebaoxin/
 
 主简历底部有「附件」区，可进入**项目案例**、**详细经历与技能**两个附件页；附件页均支持中英文切换，并提供「返回简历」链接。
 
-## 部署说明（预留）
+## 部署到 GitHub Pages（个人简介站点）
 
-本简历为**纯静态**资源，可部署到任意支持静态托管的服务器或 CDN：
+本仓库已配置为可直接用 **GitHub Pages** 做独立个人简介站点（根目录即站点根，无需构建）。
+
+### 1. 在 GitHub 上新建仓库
+
+1. 登录 [GitHub](https://github.com)，点击右上角 **+** → **New repository**。
+2. **Repository name** 任选其一：
+   - 若希望站点地址为 `https://<你的用户名>.github.io`，填 **`<你的用户名>.github.io`**（例如 `xiebaoxin.github.io`）。
+   - 若希望为 `https://<你的用户名>.github.io/resume`，填 **`resume`** 或任意名称（例如 `resume`）。
+3. 选择 **Public**，**不要**勾选 “Add a README”等（本地已有）。
+4. 点击 **Create repository**。
+
+### 2. 本地关联并推送
+
+在项目目录执行（将 `YOUR_USERNAME` 和 `YOUR_REPO` 换成你的 GitHub 用户名和上一步的仓库名）：
+
+```bash
+cd /Users/a0000/resume-xiebaoxin
+
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git push -u origin main
+```
+
+若 GitHub 要求认证，按提示用浏览器登录或使用 Personal Access Token。
+
+### 3. 开启 GitHub Pages
+
+1. 打开该仓库 → **Settings** → 左侧 **Pages**。
+2. **Source** 选 **Deploy from a branch**。
+3. **Branch** 选 **main**，**Folder** 选 **/ (root)**，点 **Save**。
+4. 等待一两分钟，页面会显示站点地址，例如：
+   - 仓库名为 `用户名.github.io` 时：**https://YOUR_USERNAME.github.io**
+   - 其他名称时：**https://YOUR_USERNAME.github.io/YOUR_REPO/**
+
+之后每次 `git push` 到 `main` 都会自动更新站点。
+
+---
+
+## 部署到其他静态托管
+
+本简历为**纯静态**资源，也可部署到任意支持静态托管的服务器或 CDN：
 
 1. **上传整个文件夹**  
    将 `resume-xiebaoxin` 目录下的全部文件上传到服务器某一目录（如 ` /var/www/resume` 或 `public/resume`），确保 `index.html`、`css/`、`js/`、`data/`、`assets/` 相对路径不变。
