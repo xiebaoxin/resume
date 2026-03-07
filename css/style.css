@@ -410,6 +410,54 @@ body {
   line-height: 1.45;
 }
 
+.portfolio-showcase {
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.portfolio-showcase-img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  display: block;
+}
+
+.portfolio-showcase-caption {
+  margin-top: 0.5rem;
+  font-size: 13px;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
+.project-images-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.project-image-fig {
+  margin: 0;
+  flex: 1 1 280px;
+  max-width: 100%;
+}
+
+.project-image-img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  display: block;
+}
+
+.project-image-caption {
+  margin-top: 0.4rem;
+  font-size: 13px;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
 /* Detail page sections */
 .detail-section {
   margin-bottom: 1.5rem;

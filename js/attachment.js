@@ -29,14 +29,21 @@
   }
 
   function renderPortfolio(data) {
-    var html = '';
-    if (data.pageTitle) {
-      document.getElementById('pageTitle').textContent = data.pageTitle;
-    }
-    if (data.intro) {
-      var introEl = document.getElementById('pageIntro');
-      if (introEl) introEl.textContent = data.intro;
-    }
+    if (data.pageTitle) document.getElementById('pageTitle').textContent = data.pageTitle;
+    var introEl = document.getElementById('pageIntro');
+    if (introEl) introEl.textContent = data.intro || '';
+    var showcaseEl = document.getElementById('portfolioShowcase');
+    if (showcaseEl && data.showcase && data.showcase.src) {
+      showcaseEl.innerHTML = '<img src="' + escapeHtml(data.showcase.src) + '" alt="" class="portfolio-showcase-img"><figcaption class="portfolio-showcase-caption">' + escapeHtml(data.showcase.caption || '') + '</figcaption>';
+      showcaseEl.style.display = '';
+    } else if (showcaseEl) showcaseEl.style.display = 'none';
+    var productList = document.getElementById('productImagesList');
+    if (productList && data.productImages && data.productImages.length) {
+      productList.innerHTML = data.productImages.map(function (item) {
+        return '<figure class="project-image-fig"><img src="' + escapeHtml(item.src) + '" alt="" class="project-image-img"><figcaption class="project-image-caption">' + escapeHtml(item.caption) + '</figcaption></figure>';
+      }).join('');
+      productList.style.display = '';
+    } else if (productList) productList.style.display = 'none';
     var list = document.getElementById('portfolioList');
     if (list && data.items && data.items.length) {
       list.innerHTML = data.items.map(function (item) {
@@ -68,6 +75,16 @@
       document.getElementById('projectsList').innerHTML = s.items.map(function (item) {
         return '<li><div class="project-name">' + escapeHtml(item.name) + '</div><p class="project-desc">' + escapeHtml(item.desc) + '</p></li>';
       }).join('');
+    }
+    s = sections.cursorScreenshots;
+    if (s && s.items && s.items.length) {
+      document.getElementById('cursorScreenshotsSection').style.display = '';
+      document.getElementById('cursorScreenshotsTitle').textContent = s.title;
+      document.getElementById('cursorScreenshotsList').innerHTML = s.items.map(function (item) {
+        return '<figure class="project-image-fig"><img src="' + escapeHtml(item.src) + '" alt="" class="project-image-img"><figcaption class="project-image-caption">' + escapeHtml(item.caption) + '</figcaption></figure>';
+      }).join('');
+    } else {
+      document.getElementById('cursorScreenshotsSection').style.display = 'none';
     }
     s = sections.skills;
     if (s) {

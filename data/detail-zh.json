@@ -15,6 +15,13 @@
         { "company": "北京致远互联软件股份有限公司", "role": "实施顾问", "period": "2003.01 — 2013.10", "summary": "OA/ERP 售前、实施与顾问；政府、企业办公系统解决方案。" }
       ]
     },
+    "cursorScreenshots": {
+      "title": "技术能力图示",
+      "items": [
+        { "src": "assets/cursor-workflow.png", "caption": "Cursor 开发工作流：设置、MCP（飞书/Figma/qmd）、调试与 AI 辅助编码。" },
+        { "src": "assets/cursor-rules-skills.png", "caption": "Cursor Rules / Skills：项目规则、主题风格与 Figma 设计稿校对。" }
+      ]
+    },
     "projects": {
       "title": "部分项目",
       "items": [

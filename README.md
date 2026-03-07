@@ -72,6 +72,33 @@ resume-xiebaoxin/
 
 之后每次 `git push` 到 `main` 都会自动重新部署。
 
+### 自定义域名（更好记的地址）
+
+若你有自己的域名，可以绑到简历站，让人用短地址访问。
+
+**易记域名建议：**
+
+| 类型 | 示例 | 说明 |
+|------|------|------|
+| 子域名 | `resume.xiebaoxin.com`、`cv.xiebaoxin.com` | 主域名已有时，加 `resume` / `cv` / `jianli` 子域名 |
+| 短域名 | `xiebaoxin.me`、`xbx.me` | 买 .me / .io 等，短、好记 |
+| 中文含义 | `jianli.xiebaoxin.cn`（简历） | 国内可考虑 .cn |
+
+**设置步骤：**
+
+1. **在 GitHub 填自定义域名**  
+   仓库 **Settings** → **Pages** → **Custom domain** 里填你要用的域名（如 `resume.xiebaoxin.com`）→ **Save**。勾选 **Enforce HTTPS**。
+
+2. **在域名服务商配 DNS**（以「子域名」为例）：  
+   - 类型：**CNAME**  
+   - 主机记录：**resume**（或你用的子域名前缀，如 `cv`）  
+   - 记录值：**xiebaoxin.github.io**  
+
+   若用「根域名」（如 `xiebaoxin.me`），则添加 **A** 记录，指向：  
+   `185.199.108.153`、`185.199.109.153`、`185.199.110.153`、`185.199.111.153`（四条都填）。
+
+3. 等待 DNS 生效（几分钟到几小时），GitHub 会自动申请 SSL，生效后即可用 `https://你的域名` 访问。
+
 ---
 
 ## 部署到其他静态托管

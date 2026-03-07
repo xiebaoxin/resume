@@ -86,7 +86,7 @@
   "attachments": {
     "title": "Attachments",
     "links": [
-      { "label": "Project Portfolio", "href": "attachment-portfolio.html" },
+      { "label": "Product Images", "href": "attachment-portfolio.html" },
       { "label": "Detailed Experience & Skills", "href": "attachment-detail.html" }
     ]
   },

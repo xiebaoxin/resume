@@ -15,6 +15,13 @@
         { "company": "Beijing Seeyon Software Co., Ltd.", "role": "Implementation Consultant", "period": "Jan 2003 — Oct 2013", "summary": "OA/ERP presales, implementation and consulting; government and enterprise office systems." }
       ]
     },
+    "cursorScreenshots": {
+      "title": "Technical Evidence",
+      "items": [
+        { "src": "assets/cursor-workflow.png", "caption": "Cursor workflow: Settings, MCP (Feishu/Figma/qmd), debug & AI-assisted coding." },
+        { "src": "assets/cursor-rules-skills.png", "caption": "Cursor Rules/Skills: project rules, theme style, Figma design alignment." }
+      ]
+    },
     "projects": {
       "title": "Selected Projects",
       "items": [

@@ -86,7 +86,7 @@
   "attachments": {
     "title": "附件",
     "links": [
-      { "label": "项目案例", "href": "attachment-portfolio.html" },
+      { "label": "商品图片", "href": "attachment-portfolio.html" },
       { "label": "详细经历与技能", "href": "attachment-detail.html" }
     ]
   },
