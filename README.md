@@ -51,40 +51,26 @@ resume-xiebaoxin/
 
 ## 部署到 GitHub Pages（个人简介站点）
 
-本仓库已配置为可直接用 **GitHub Pages** 做独立个人简介站点（根目录即站点根，无需构建）。
+本仓库已配置 **GitHub Actions**，推送到 `main` 后会自动部署到 GitHub Pages。
 
-### 1. 在 GitHub 上新建仓库
+### 一键配置步骤
 
-1. 登录 [GitHub](https://github.com)，点击右上角 **+** → **New repository**。
-2. **Repository name** 任选其一：
-   - 若希望站点地址为 `https://<你的用户名>.github.io`，填 **`<你的用户名>.github.io`**（例如 `xiebaoxin.github.io`）。
-   - 若希望为 `https://<你的用户名>.github.io/resume`，填 **`resume`** 或任意名称（例如 `resume`）。
-3. 选择 **Public**，**不要**勾选 “Add a README”等（本地已有）。
-4. 点击 **Create repository**。
+1. **推送代码**（若尚未推送）：
+   ```bash
+   cd /Users/a0000/resume-xiebaoxin
+   git push -u origin main
+   ```
 
-### 2. 本地关联并推送
+2. **开启 GitHub Pages**：
+   - 打开仓库 **Settings** → 左侧 **Pages**。
+   - **Build and deployment** 下 **Source** 选 **GitHub Actions**（不要选 “Deploy from a branch”）。
+   - 保存后无需其他操作。
 
-在项目目录执行（将 `YOUR_USERNAME` 和 `YOUR_REPO` 换成你的 GitHub 用户名和上一步的仓库名）：
+3. **触发部署**：
+   - 若刚推送，Actions 会自动运行；或到 **Actions** 页签，选择 “Deploy to GitHub Pages” 工作流，点 **Run workflow**。
+   - 约一分钟后部署完成，站点地址为：**https://xiebaoxin.github.io/resume/**
 
-```bash
-cd /Users/a0000/resume-xiebaoxin
-
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
-
-若 GitHub 要求认证，按提示用浏览器登录或使用 Personal Access Token。
-
-### 3. 开启 GitHub Pages
-
-1. 打开该仓库 → **Settings** → 左侧 **Pages**。
-2. **Source** 选 **Deploy from a branch**。
-3. **Branch** 选 **main**，**Folder** 选 **/ (root)**，点 **Save**。
-4. 等待一两分钟，页面会显示站点地址，例如：
-   - 仓库名为 `用户名.github.io` 时：**https://YOUR_USERNAME.github.io**
-   - 其他名称时：**https://YOUR_USERNAME.github.io/YOUR_REPO/**
-
-之后每次 `git push` 到 `main` 都会自动更新站点。
+之后每次 `git push` 到 `main` 都会自动重新部署。
 
 ---
 
