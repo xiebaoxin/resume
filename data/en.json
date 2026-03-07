@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "title": "Xie Baoxin - Resume",
+    "lang": "en"
+  },
+  "name": "Xie Baoxin",
+  "basics": {
+    "genderAge": "Male | 48",
+    "targetRole": "Target: AI Coding–Related Design / Engineering Management",
+    "tagline": "22+ years in tech and management; led Hipobuy overseas app from 0 to 344K+ downloads; strong use of AI to boost development efficiency.",
+    "contact": {
+      "phone": "+86 13902658317",
+      "email": "xiebaoxin@163.com",
+      "wechat": "13531703369"
+    },
+    "location": "Shenzhen",
+    "yearsExp": "22 years"
+  },
+  "highlight": {
+    "title": "Top Achievement",
+    "company": "Shenzhen Wangke Technology Co., Ltd.",
+    "period": "Aug 2025 — Apr 2026",
+    "role": "App Development Lead",
+    "products": [
+      {
+        "name": "OpihPda",
+        "desc": "Professional factory procurement and warehouse management app; full ownership from requirements to release."
+      },
+      {
+        "name": "Hipobuy",
+        "desc": "Overseas procurement app for global markets; published on App Store and Google Play; led development and launch."
+      }
+    ],
+    "metrics": {
+      "play": "Google Play (last ~180 days): installed users grew from ~10K to ~65–70K with sustained growth.",
+      "appstore": "App Store (through Mar 2026): 344K+ cumulative iPhone downloads; daily downloads rose sharply in late period."
+    },
+    "aiNote": "Used Cursor, v0, Claude code and other AI tools to significantly improve development and design efficiency."
+  },
+  "experience": {
+    "title": "Relevant Experience",
+    "items": [
+      {
+        "company": "Xinmeiye Technology (Shenzhen) Co., Ltd.",
+        "role": "Technical Director",
+        "period": "Jan 2024 — Jul 2025",
+        "summary": "Led mini-program development and ops for Xinmeiye and Ruiyanling; AI-driven marketing for beauty; nearly 1,000 stores onboarded."
+      },
+      {
+        "company": "Guangxi Wangpei IoT Technology (Shenzhen Branch)",
+        "role": "Technical Director",
+        "period": "May 2020 — Nov 2023",
+        "summary": "Smart community app, video intercom (WebRTC), Chaozhiwei ERP supply chain, smart access, vending machines; technical decisions and team leadership."
+      },
+      {
+        "company": "Shenzhen Duzun Technology",
+        "role": "Project Manager / Lead",
+        "period": "Jul 2016 — Jun 2018",
+        "summary": "Backend R&D and technical management; led IoT projects including Duzun Tanba."
+      },
+      {
+        "company": "Beijing Seeyon Software Co., Ltd.",
+        "role": "Implementation Consultant",
+        "period": "Jan 2003 — Oct 2013",
+        "summary": "OA/ERP presales, implementation and consulting; government and enterprise office systems."
+      }
+    ]
+  },
+  "skills": {
+    "title": "Key Skills",
+    "lead": "AI-aided development (Cursor, v0, Claude code), architecture and design, cross-platform app (Flutter), project and team management.",
+    "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio"],
+    "domain": "ERP, smart community, IoT, e‑commerce and supply chain, smart hardware."
+  },
+  "education": {
+    "title": "Education",
+    "school": "Chongqing University",
+    "degree": "B.S.",
+    "major": "Thermal Automation & Computer Application",
+    "period": "1995 — 1999"
+  },
+  "charts": {
+    "playLabel": "Google Play installed users trend",
+    "appstoreLabel": "App Store downloads trend"
+  },
+  "attachments": {
+    "title": "Attachments",
+    "links": [
+      { "label": "Project Portfolio", "href": "attachment-portfolio.html" },
+      { "label": "Detailed Experience & Skills", "href": "attachment-detail.html" }
+    ]
+  },
+  "ui": {
+    "langSwitch": "中文",
+    "copy": "Copy",
+    "copied": "Copied"
+  }
+}

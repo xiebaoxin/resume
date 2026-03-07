@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "title": "谢宝新 - 简历",
+    "lang": "zh"
+  },
+  "name": "谢宝新",
+  "basics": {
+    "genderAge": "男 | 48岁",
+    "targetRole": "求职意向：AI 编程相关设计 / 技术管理",
+    "tagline": "22+ 年技术与管理经验，主导 Hipobuy 海外 App 从 0 到 34 万+ 下载，善用 AI 提升研发效率。",
+    "contact": {
+      "phone": "13902658317",
+      "email": "xiebaoxin@163.com",
+      "wechat": "13531703369"
+    },
+    "location": "深圳",
+    "yearsExp": "22年"
+  },
+  "highlight": {
+    "title": "最强成就",
+    "company": "深圳网科科技有限公司",
+    "period": "2025.08 — 2026.04",
+    "role": "App 开发主管",
+    "products": [
+      {
+        "name": "OpihPda",
+        "desc": "专业工厂代采与仓库管理 App，从需求到上线的全流程负责。"
+      },
+      {
+        "name": "Hipobuy",
+        "desc": "海外代采 App，面向海外市场，上架 App Store 与 Google Play，从开发到上线全程主导。"
+      }
+    ],
+    "metrics": {
+      "play": "Google Play 过去 180 天：安装用户从约 1 万增至约 6.5–7 万，持续增长。",
+      "appstore": "App Store（至 2026.3）：iPhone 累计下载 34.4 万+，日下载后期显著攀升。"
+    },
+    "aiNote": "使用 Cursor、v0、Claude code 等 AI 工具大幅提升开发与设计效率。"
+  },
+  "experience": {
+    "title": "相关经历",
+    "items": [
+      {
+        "company": "新美耶科技（深圳）有限公司",
+        "role": "技术总监",
+        "period": "2024.01 — 2025.07",
+        "summary": "负责新美耶、瑞琰龄小程序开发与运维，美业 AI 矩阵营销；已入驻门店近千家。"
+      },
+      {
+        "company": "广西网沛物联科技有限公司深圳分公司",
+        "role": "技术总监",
+        "period": "2020.05 — 2023.11",
+        "summary": "智慧社区 App/音视频对讲（WebRTC）、潮之味 ERP 供应链、智慧门禁、自动售卖机等；技术决策与团队管理。"
+      },
+      {
+        "company": "深圳独尊科技",
+        "role": "项目经理/主管",
+        "period": "2016.07 — 2018.06",
+        "summary": "后端研发与技术管理，主导独尊探霸等物联网项目。"
+      },
+      {
+        "company": "北京致远互联软件股份有限公司",
+        "role": "实施顾问",
+        "period": "2003.01 — 2013.10",
+        "summary": "OA/ERP 售前、实施与顾问；政府、企业办公系统解决方案。"
+      }
+    ]
+  },
+  "skills": {
+    "title": "关键技能",
+    "lead": "AI 辅助开发（Cursor、v0、Claude code）、架构与设计、跨端 App（Flutter）、项目管理与团队管理。",
+    "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio"],
+    "domain": "ERP、智慧社区、物联网、电商与供应链、智能硬件。"
+  },
+  "education": {
+    "title": "教育",
+    "school": "重庆大学",
+    "degree": "本科",
+    "major": "热工自动化与计算机应用",
+    "period": "1995 — 1999"
+  },
+  "charts": {
+    "playLabel": "Google Play 安装用户趋势",
+    "appstoreLabel": "App Store 下载趋势"
+  },
+  "attachments": {
+    "title": "附件",
+    "links": [
+      { "label": "项目案例", "href": "attachment-portfolio.html" },
+      { "label": "详细经历与技能", "href": "attachment-detail.html" }
+    ]
+  },
+  "ui": {
+    "langSwitch": "English",
+    "copy": "复制",
+    "copied": "已复制"
+  }
+}

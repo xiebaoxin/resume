@@ -1,0 +1,16 @@
+{
+  "meta": { "title": "Xie Baoxin - Project Portfolio", "lang": "en" },
+  "pageTitle": "Project Portfolio",
+  "intro": "Cross-industry experience in App, e‑commerce, IoT and related projects, by period and type.",
+  "ui": { "langSwitch": "中文", "backToResume": "← Back to Resume" },
+  "items": [
+    { "period": "Before 2020", "desc": "Finance, payment, points mall, lending, fund, P2P, O2O, social, logistics, supply chain apps, etc." },
+    { "period": "2018–2020", "desc": "News, information, app distribution, social, IoT, VR, AR, smart hardware." },
+    { "period": "2017–2020", "desc": "Live streaming, shopping, e‑commerce, social, gaming, education apps." },
+    { "period": "2016–2018", "desc": "Information, short video, O2O, group buying, medical, social, video, live streaming apps." },
+    { "period": "2015–2016", "desc": "E‑commerce, food delivery, shopping, life services, O2O apps." },
+    { "period": "2013–2015", "desc": "E‑commerce, O2O, social, food delivery, life services apps." },
+    { "period": "2011–2013", "desc": "Utility apps, mobile office, smart hardware, transportation, logistics apps." },
+    { "period": "Before 2010", "desc": "Software development, smart hardware, embedded development, driver development." }
+  ]
+}

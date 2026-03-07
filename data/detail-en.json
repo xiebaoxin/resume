@@ -1,0 +1,45 @@
+{
+  "meta": { "title": "Xie Baoxin - Detailed Experience & Skills", "lang": "en" },
+  "pageTitle": "Detailed Experience & Skills",
+  "ui": { "langSwitch": "中文", "backToResume": "← Back to Resume" },
+  "sections": {
+    "work": {
+      "title": "Work History (Detail)",
+      "items": [
+        { "company": "Shenzhen Wangke Technology Co., Ltd.", "role": "App Development Lead", "period": "Aug 2025 — Apr 2026", "summary": "Led OpihPda (factory procurement & warehouse) and Hipobuy (overseas procurement) from development to App Store / Google Play; used AI tools to improve efficiency." },
+        { "company": "Xinmeiye Technology (Shenzhen) Co., Ltd.", "role": "Technical Director", "period": "Jan 2024 — Jul 2025", "summary": "Mini-program development and ops for Xinmeiye and Ruiyanling; AI-driven beauty marketing; nearly 1,000 stores onboarded." },
+        { "company": "Guangxi Wangpei IoT Technology (Shenzhen Branch)", "role": "Technical Director", "period": "May 2020 — Nov 2023", "summary": "Smart community, video intercom (WebRTC), Chaozhiwei ERP supply chain, smart access, vending machines, coffee machines, beauty devices; technical decisions and team leadership." },
+        { "company": "Chaozhiwei Smart Supply Chain", "role": "Technical Director", "period": "Mar 2021 — Jan 2024", "summary": "ERP for procurement, sales, warehousing, sorting, logistics; POS/scanner and app integration; traceability." },
+        { "company": "Vending machines, Yimeifan, Ruiyanling, etc.", "role": "Project Director", "period": "Apr 2022 — present", "summary": "Vending/coffee machine hardware and app/mini-programs; Yimeifan beauty device mini-program and payment; Ruiyanling beauty SaaS, ERP, mini-programs; smart access (Huixin IoT), Dashi 2D scan-to-video-call." },
+        { "company": "Shenzhen Duzun Technology", "role": "Project Manager / Lead", "period": "Jul 2016 — Jun 2018", "summary": "Backend R&D and technical management; IoT projects including Duzun Tanba; PHP, Redis, Swoole." },
+        { "company": "Beijing Seeyon Software Co., Ltd.", "role": "Implementation Consultant", "period": "Jan 2003 — Oct 2013", "summary": "OA/ERP presales, implementation and consulting; government and enterprise office systems." }
+      ]
+    },
+    "projects": {
+      "title": "Selected Projects",
+      "items": [
+        { "name": "Xjumping dynamic spectrum tool", "desc": "Electron + Node.js + Canvas + WebAudio + FFmpeg; record animation as MP4; Mac/Windows." },
+        { "name": "Dashi 2D", "desc": "QR-code app for scan-to-video-call; on App Store. Flutter + WebRTC." },
+        { "name": "Huixin IoT", "desc": "Smart access app and mini-program; WebRTC, Bluetooth, MQTT; on App Store. Flutter." },
+        { "name": "Survey & wheel lottery", "desc": "Email signup, survey, then Christmas wheel lottery (lead design)." }
+      ]
+    },
+    "skills": {
+      "title": "Skills (Detail)",
+      "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "Redis", "Swoole", "Electron", "Node.js"],
+      "tools": "Cursor, v0, Claude code and other AI-aided development; project management, R&D team leadership, technical strategy and process improvement.",
+      "domain": "ERP, smart retail, IoT, smart community, smart hardware, e‑commerce and supply chain."
+    },
+    "education": {
+      "title": "Education",
+      "school": "Chongqing University",
+      "degree": "B.S.",
+      "major": "Thermal Automation & Computer Application",
+      "period": "1995 — 1999"
+    },
+    "cert": {
+      "title": "Certifications",
+      "items": ["Securities Practitioner Qualification"]
+    }
+  }
+}

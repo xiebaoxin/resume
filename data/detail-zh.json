@@ -1,0 +1,45 @@
+{
+  "meta": { "title": "谢宝新 - 详细经历与技能", "lang": "zh" },
+  "pageTitle": "详细经历与技能",
+  "ui": { "langSwitch": "English", "backToResume": "← 返回简历" },
+  "sections": {
+    "work": {
+      "title": "工作经历（详）",
+      "items": [
+        { "company": "深圳网科科技有限公司", "role": "App 开发主管", "period": "2025.08 — 2026.04", "summary": "负责 OpihPda（工厂代采与仓库管理）、Hipobuy（海外代采）从开发到上架 App Store / Google Play；使用 AI 工具提升效率。" },
+        { "company": "新美耶科技（深圳）有限公司", "role": "技术总监", "period": "2024.01 — 2025.07", "summary": "新美耶、瑞琰龄小程序开发与运维，美业 AI 矩阵营销，入驻门店近千家。" },
+        { "company": "广西网沛物联科技有限公司深圳分公司", "role": "技术总监", "period": "2020.05 — 2023.11", "summary": "智慧社区、音视频对讲（WebRTC）、潮之味 ERP 供应链、智慧门禁、自动售卖机、咖啡机、美容仪等；技术决策与团队管理。" },
+        { "company": "潮之味智慧供应链系统", "role": "技术总监", "period": "2021.03 — 2024.01", "summary": "采购、销售、入库、分拣、物流 ERP，POS/扫码器与 App 整合，一码溯源。" },
+        { "company": "自动售卖机、亿美梵、瑞颜龄等", "role": "项目总监", "period": "2022.04 — 至今", "summary": "自动售卖机/咖啡机软硬件与 App/小程序；亿美梵美容仪小程序与三方支付；瑞颜龄美业商城、SaaS、ERP、小程序；智慧物联门禁（慧欣物联）、大石二维扫码音视频通话。" },
+        { "company": "深圳独尊科技", "role": "项目经理/主管", "period": "2016.07 — 2018.06", "summary": "后端研发与技术管理，独尊探霸等物联网项目；PHP、Redis、Swoole。" },
+        { "company": "北京致远互联软件股份有限公司", "role": "实施顾问", "period": "2003.01 — 2013.10", "summary": "OA/ERP 售前、实施与顾问；政府、企业办公系统解决方案。" }
+      ]
+    },
+    "projects": {
+      "title": "部分项目",
+      "items": [
+        { "name": "虾皮动态谱制作工具", "desc": "Electron + Node.js + Canvas + WebAudio + FFmpeg，动画录制为 MP4，支持 Mac/Windows。" },
+        { "name": "大石二维", "desc": "可扫码发起音视频通话的二维码应用，App Store 可搜「大石二维」。Flutter + WebRTC。" },
+        { "name": "慧欣物联", "desc": "智慧门禁 App/小程序，WebRTC、蓝牙、MQTT，App Store 可搜「慧欣物联」。Flutter。" },
+        { "name": "投票调查轮盘抽奖", "desc": "邮箱注册、问卷后圣诞轮盘抽奖（总设计）。" }
+      ]
+    },
+    "skills": {
+      "title": "技能详述",
+      "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "Redis", "Swoole", "Electron", "Node.js"],
+      "tools": "Cursor、v0、Claude code 等 AI 辅助开发；项目管理、研发团队管理、技术战略与流程优化。",
+      "domain": "ERP、智慧商业、物联网、智慧社区、智能硬件、电商与供应链。"
+    },
+    "education": {
+      "title": "教育",
+      "school": "重庆大学",
+      "degree": "本科",
+      "major": "热工自动化与计算机应用",
+      "period": "1995 — 1999"
+    },
+    "cert": {
+      "title": "资格证书",
+      "items": ["证券从业资格证"]
+    }
+  }
+}
