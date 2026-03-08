@@ -137,6 +137,14 @@ body::before {
   text-decoration: underline;
 }
 
+.contact-link {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.contact-link:hover {
+  text-decoration: underline;
+}
+
 /* Section titles (unified label style) */
 .section-title {
   margin: 0 0 1rem;
@@ -352,6 +360,23 @@ body::before {
 @media print {
   .no-print {
     display: none !important;
+  }
+
+  .contact {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+  .contact-link {
+    color: #000;
+    text-decoration: underline;
+  }
+  .contact-link[href]::after {
+    content: '';
+  }
+  a.contact-link {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   body {

@@ -69,11 +69,15 @@
     const contact = data.basics.contact;
     const copyLabel = ui.copy || 'Copy';
     const copiedLabel = ui.copied || 'Copied';
-    return [
-      '<span>Tel: <button type="button" class="btn-copy" data-copy-label="' + escapeHtml(copyLabel) + '" data-copied-label="' + escapeHtml(copiedLabel) + '" data-value="' + escapeHtml(contact.phone) + '">' + escapeHtml(contact.phone) + ' [' + escapeHtml(copyLabel) + ']</button></span>',
-      '<span>Email: <button type="button" class="btn-copy" data-copy-label="' + escapeHtml(copyLabel) + '" data-copied-label="' + escapeHtml(copiedLabel) + '" data-value="' + escapeHtml(contact.email) + '">' + escapeHtml(contact.email) + ' [' + escapeHtml(copyLabel) + ']</button></span>',
+    const parts = [
+      '<span>Tel: <button type="button" class="btn-copy" data-copy-label="' + escapeHtml(copyLabel) + '" data-copied-label="' + escapeHtml(copiedLabel) + '" data-value="' + escapeHtml(contact.phone) + '">' + escapeHtml(contact.phone) + '</button></span>',
+      '<span>Email: <button type="button" class="btn-copy" data-copy-label="' + escapeHtml(copyLabel) + '" data-copied-label="' + escapeHtml(copiedLabel) + '" data-value="' + escapeHtml(contact.email) + '">' + escapeHtml(contact.email) + '</button></span>',
       '<span>WeChat: ' + escapeHtml(contact.wechat) + '</span>'
-    ].join('');
+    ];
+    if (contact.resumeRepo && contact.resumeRepoLabel) {
+      parts.push('<span>' + escapeHtml(contact.resumeRepoLabel) + '：<a href="' + escapeHtml(contact.resumeRepo) + '" target="_blank" rel="noopener noreferrer" class="contact-link">' + escapeHtml(contact.resumeRepo) + '</a></span>');
+    }
+    return parts.join('');
   }
 
   function escapeHtml(s) {

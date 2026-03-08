@@ -11,7 +11,9 @@
     "contact": {
       "phone": "13902658317",
       "email": "xiebaoxin@gmail.com",
-      "wechat": "13531703369"
+      "wechat": "13531703369",
+      "resumeRepo": "https://github.com/xiebaoxin/resume",
+      "resumeRepoLabel": "简历"
     },
     "location": "深圳",
     "yearsExp": "22年"
