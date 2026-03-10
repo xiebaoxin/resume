@@ -168,9 +168,11 @@
 
     var att = data.attachments;
     if (att && att.links && att.links.length) {
+      var baseUrl = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '/');
       d.getElementById('attachmentsTitle').textContent = att.title || 'Attachments';
       d.getElementById('attachmentsLinks').innerHTML = att.links.map(function (link) {
-        return '<a href="' + escapeHtml(link.href) + '" class="attachment-link">' + escapeHtml(link.label) + '</a>';
+        var fullHref = link.href.indexOf('http') === 0 ? link.href : (baseUrl + link.href);
+        return '<span class="attachment-item">' + escapeHtml(link.label) + '：<a href="' + escapeHtml(fullHref) + '" class="attachment-link">' + escapeHtml(fullHref) + '</a></span>';
       }).join('');
     }
 

@@ -379,6 +379,14 @@ body::before {
     print-color-adjust: exact;
   }
 
+  .attachments {
+    display: block !important;
+  }
+  .attachment-link {
+    color: #000;
+    text-decoration: underline;
+  }
+
   body {
     font-size: 11pt;
     background: var(--paper);
@@ -661,6 +669,13 @@ body::before {
   background: rgba(0, 0, 0, 0.06);
   border: 1px solid var(--border);
   transition: background 0.15s, border-color 0.15s;
+}
+
+.attachment-item {
+  margin-right: 0.75rem;
+}
+.attachment-item:last-child {
+  margin-right: 0;
 }
 
 .attachment-link:hover {
