@@ -7,7 +7,7 @@
   "basics": {
     "genderAge": "男 | 48岁",
     "targetRole": "求职意向：AI 编程相关设计 / 技术管理",
-    "tagline": "22+ 年技术与管理经验，主导 Hipobuy 海外 App 从 0 到 34 万+ 下载，善用 AI 提升研发效率。",
+    "tagline": "AI 辅助编程与全栈 App 双强：熟练 Cursor / Claude 等工具，Flutter 跨端、后端与 IoT / 电商 / IM 全链路可独立交付，主导产品从 0 到 34 万+ 下载。详见项目作品展。",
     "contact": {
       "phone": "13902658317",
       "email": "xiebaoxin@gmail.com",
@@ -70,7 +70,7 @@
   },
   "skills": {
     "title": "关键技能",
-    "lead": "AI 辅助开发（Cursor、v0、Claude code）、架构与设计、跨端 App（Flutter）、项目管理与团队管理。",
+    "lead": "以 AI 编程为近期核心优势（Cursor、v0、Claude code），具备物联网、电商供应链、IM 等场景的 Flutter App 全栈经验；熟悉蓝牙、MQTT、WebRTC 及 AI 接口对接，可独立完成后端与 App 的构建与落地。",
     "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio"],
     "domain": "ERP、智慧社区、物联网、电商与供应链、智能硬件。"
   },

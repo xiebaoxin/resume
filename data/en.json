@@ -7,7 +7,7 @@
   "basics": {
     "genderAge": "Male | 48",
     "targetRole": "Target: AI Coding–Related Design / Engineering Management",
-    "tagline": "22+ years in tech and management; led Hipobuy overseas app from 0 to 344K+ downloads; strong use of AI to boost development efficiency.",
+    "tagline": "Strong in AI-aided coding and full-stack app delivery: fluent with Cursor / Claude; Flutter, backend, IoT, e‑commerce, and IM end-to-end; led apps from 0 to 344K+ downloads. See project portfolio.",
     "contact": {
       "phone": "+86 13902658317",
       "email": "xiebaoxin@gmail.com",
@@ -70,7 +70,7 @@
   },
   "skills": {
     "title": "Key Skills",
-    "lead": "AI-aided development (Cursor, v0, Claude code), architecture and design, cross-platform app (Flutter), project and team management.",
+    "lead": "AI coding as a core recent strength (Cursor, v0, Claude code); full-stack Flutter app experience in IoT, e‑commerce supply chain, and IM; familiar with Bluetooth, MQTT, WebRTC, and AI API integration; can independently deliver backend and app from design to production.",
     "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio"],
     "domain": "ERP, smart community, IoT, e‑commerce and supply chain, smart hardware."
   },
