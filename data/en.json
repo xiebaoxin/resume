@@ -7,7 +7,7 @@
   "basics": {
     "genderAge": "Male | 48",
     "targetRole": "Target: AI Coding–Related Design / Engineering Management",
-    "tagline": "Strong in AI-aided coding and full-stack app delivery: fluent with Cursor / Claude; Flutter, backend, IoT, e‑commerce, and IM end-to-end; led apps from 0 to 344K+ downloads. See project portfolio.",
+    "tagline": "AI-aided coding and full-stack app: fluent with Cursor / Claude; Flutter, backend, IoT, e-commerce, and IM end-to-end delivery; led apps from 0 to 344K+ downloads. See project portfolio.",
     "contact": {
       "phone": "+86 13902658317",
       "email": "xiebaoxin@gmail.com",
@@ -70,9 +70,9 @@
   },
   "skills": {
     "title": "Key Skills",
-    "lead": "AI coding as a core recent strength (Cursor, v0, Claude code); full-stack Flutter app experience in IoT, e‑commerce supply chain, and IM; familiar with Bluetooth, MQTT, WebRTC, and AI API integration; can independently deliver backend and app from design to production.",
+    "lead": "AI coding as a core recent strength (Cursor, v0, Claude code). Full-stack Flutter app experience across IoT, e-commerce supply chain, and IM; familiar with Bluetooth, MQTT, WebRTC, and AI API integration; can independently build and ship backend and app from design to production.",
     "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio"],
-    "domain": "ERP, smart community, IoT, e‑commerce and supply chain, smart hardware."
+    "domain": "ERP, smart community, IoT, e-commerce and supply chain, smart hardware."
   },
   "education": {
     "title": "Education",
