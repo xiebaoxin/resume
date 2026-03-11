@@ -1,6 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
+  const DATA_VERSION = '20260311-1';
 
   function getLang() {
     const hash = (window.location.hash || '').toLowerCase();
@@ -194,7 +195,7 @@
 
   function loadLang(lang, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'data/' + (lang === 'en' ? 'en' : 'zh') + '.json', true);
+    xhr.open('GET', 'data/' + (lang === 'en' ? 'en' : 'zh') + '.json?v=' + encodeURIComponent(DATA_VERSION), true);
     xhr.onload = function () {
       if (xhr.status >= 200 && xhr.status < 400) {
         try {
