@@ -46,7 +46,15 @@
   function renderPortfolio(data) {
     if (data.pageTitle) document.getElementById('pageTitle').textContent = data.pageTitle;
     var introEl = document.getElementById('pageIntro');
-    if (introEl) introEl.textContent = data.intro || '';
+    if (introEl) {
+      if (data.intro) {
+        introEl.textContent = data.intro;
+        introEl.style.display = '';
+      } else {
+        introEl.textContent = '';
+        introEl.style.display = 'none';
+      }
+    }
     var showcaseEl = document.getElementById('portfolioShowcase');
     if (showcaseEl && data.showcase && data.showcase.src) {
       showcaseEl.innerHTML = renderImage(data.showcase.src, 'portfolio-showcase-img', '', {
