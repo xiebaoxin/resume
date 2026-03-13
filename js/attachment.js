@@ -1,6 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
+  const DATA_VERSION = '20260313-2';
   const attachment = document.body.getAttribute('data-attachment') || 'portfolio';
 
   function getLang() {
@@ -169,7 +170,7 @@
   function loadLang(lang, callback) {
     var file = attachment === 'portfolio' ? 'portfolio' : 'detail';
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'data/' + file + '-' + (lang === 'en' ? 'en' : 'zh') + '.json', true);
+    xhr.open('GET', 'data/' + file + '-' + (lang === 'en' ? 'en' : 'zh') + '.json?v=' + encodeURIComponent(DATA_VERSION), true);
     xhr.onload = function () {
       if (xhr.status >= 200 && xhr.status < 400) {
         try {
