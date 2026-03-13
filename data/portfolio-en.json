@@ -1,7 +1,7 @@
 {
   "meta": { "title": "Xie Baoxin - Product Images", "lang": "en" },
   "pageTitle": "Product Images",
-  "intro": "Project and product screens, technical config, and deployment.",
+  "intro": "",
   "showcase": {
     "src": "assets/portfolio-showcase.png?v=20260313-1",
     "caption": "Sample project UIs (finance, e‑commerce, O2O, IoT, smart hardware, etc.)."
