@@ -28,19 +28,42 @@
     return div.innerHTML;
   }
 
+  function renderImage(src, className, alt, options) {
+    var opts = options || {};
+    var attrs = [
+      'src="' + escapeHtml(src) + '"',
+      'alt="' + escapeHtml(alt || '') + '"',
+      'class="' + escapeHtml(className) + '"',
+      'loading="' + (opts.loading || 'lazy') + '"',
+      'decoding="' + (opts.decoding || 'async') + '"'
+    ];
+    if (opts.fetchPriority) {
+      attrs.push('fetchpriority="' + escapeHtml(opts.fetchPriority) + '"');
+    }
+    return '<img ' + attrs.join(' ') + '>';
+  }
+
   function renderPortfolio(data) {
     if (data.pageTitle) document.getElementById('pageTitle').textContent = data.pageTitle;
     var introEl = document.getElementById('pageIntro');
     if (introEl) introEl.textContent = data.intro || '';
     var showcaseEl = document.getElementById('portfolioShowcase');
     if (showcaseEl && data.showcase && data.showcase.src) {
-      showcaseEl.innerHTML = '<img src="' + escapeHtml(data.showcase.src) + '" alt="" class="portfolio-showcase-img"><figcaption class="portfolio-showcase-caption">' + escapeHtml(data.showcase.caption || '') + '</figcaption>';
+      showcaseEl.innerHTML = renderImage(data.showcase.src, 'portfolio-showcase-img', '', {
+        loading: 'lazy',
+        decoding: 'async',
+        fetchPriority: 'low'
+      }) + '<figcaption class="portfolio-showcase-caption">' + escapeHtml(data.showcase.caption || '') + '</figcaption>';
       showcaseEl.style.display = '';
     } else if (showcaseEl) showcaseEl.style.display = 'none';
     var productList = document.getElementById('productImagesList');
     if (productList && data.productImages && data.productImages.length) {
       productList.innerHTML = data.productImages.map(function (item) {
-        return '<figure class="project-image-fig"><img src="' + escapeHtml(item.src) + '" alt="" class="project-image-img"><figcaption class="project-image-caption">' + escapeHtml(item.caption) + '</figcaption></figure>';
+        return '<figure class="project-image-fig">' + renderImage(item.src, 'project-image-img', '', {
+          loading: 'lazy',
+          decoding: 'async',
+          fetchPriority: 'low'
+        }) + '<figcaption class="project-image-caption">' + escapeHtml(item.caption) + '</figcaption></figure>';
       }).join('');
       productList.style.display = '';
     } else if (productList) productList.style.display = 'none';
@@ -81,7 +104,11 @@
       document.getElementById('cursorScreenshotsSection').style.display = '';
       document.getElementById('cursorScreenshotsTitle').textContent = s.title;
       document.getElementById('cursorScreenshotsList').innerHTML = s.items.map(function (item) {
-        return '<figure class="project-image-fig"><img src="' + escapeHtml(item.src) + '" alt="" class="project-image-img"><figcaption class="project-image-caption">' + escapeHtml(item.caption) + '</figcaption></figure>';
+        return '<figure class="project-image-fig">' + renderImage(item.src, 'project-image-img', '', {
+          loading: 'lazy',
+          decoding: 'async',
+          fetchPriority: 'low'
+        }) + '<figcaption class="project-image-caption">' + escapeHtml(item.caption) + '</figcaption></figure>';
       }).join('');
     } else {
       document.getElementById('cursorScreenshotsSection').style.display = 'none';
