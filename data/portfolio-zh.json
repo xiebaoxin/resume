@@ -1,7 +1,7 @@
 {
   "meta": { "title": "谢宝新 - 商品图片", "lang": "zh" },
   "pageTitle": "商品图片",
-  "intro": "项目与产品界面、技术配置及部署示意。",
+  "intro": "",
   "showcase": {
     "src": "assets/portfolio-showcase.png?v=20260313-1",
     "caption": "部分项目界面概览（金融、电商、O2O、物联网、智能硬件等）。"
