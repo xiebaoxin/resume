@@ -84,6 +84,7 @@
     this.captureBusy = false;
     this.captureTimer = null;
     this.captureReady = false;
+    this.inkMotion = { x: 0, y: 0, rz: 0, rx: 0 };
 
     this.layer = document.createElement('div');
     this.layer.className = 'silk-drape-layer';
@@ -138,16 +139,17 @@
 
   SilkDrape.prototype.setupCloth = function () {
     var THREE = this.THREE;
-    var compact = window.innerWidth < 900;
+    var compact = window.innerWidth < 960;
+    var mobile = window.innerWidth < 700;
 
-    this.cols = compact ? 26 : 34;
-    this.rows = compact ? 44 : 58;
+    this.cols = mobile ? 18 : (compact ? 24 : 34);
+    this.rows = mobile ? 30 : (compact ? 42 : 58);
     this.clothWidth = 3.0;
     this.clothHeight = 3.8;
     this.topY = 1.5;
-    this.gravity = 0.00106;
-    this.damping = 0.973;
-    this.iterations = compact ? 5 : 6;
+    this.gravity = mobile ? 0.00118 : 0.00106;
+    this.damping = mobile ? 0.968 : 0.973;
+    this.iterations = mobile ? 3 : (compact ? 5 : 6);
 
     this.geometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, this.cols, this.rows);
     this.positionAttr = this.geometry.attributes.position;
@@ -222,7 +224,7 @@
       map: weaveTex,
       alphaMap: weaveTex,
       transparent: true,
-      opacity: compact ? 0.35 : 0.38,
+      opacity: mobile ? 0.34 : (compact ? 0.35 : 0.38),
       alphaTest: 0.02,
       roughness: 0.9,
       metalness: 0.01,
@@ -239,9 +241,11 @@
   SilkDrape.prototype.setupInkOverlay = function () {
     if (!this.withInkCapture) return;
     var THREE = this.THREE;
+    var mobile = this.width < 700;
+    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.2, 1.6) : Math.min((window.devicePixelRatio || 1) * 1.4, 2.3);
     this.inkCanvas = document.createElement('canvas');
-    this.inkCanvas.width = Math.max(2, Math.floor(this.width));
-    this.inkCanvas.height = Math.max(2, Math.floor(this.height));
+    this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
+    this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
     this.inkCtx = this.inkCanvas.getContext('2d', { willReadFrequently: true });
     this.inkTexture = new THREE.CanvasTexture(this.inkCanvas);
     this.inkTexture.wrapS = THREE.ClampToEdgeWrapping;
@@ -258,7 +262,8 @@
       depthWrite: false,
       blending: THREE.NormalBlending
     });
-    this.inkMesh = new THREE.Mesh(this.geometry, this.inkMaterial);
+    this.inkGeometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, 1, 1);
+    this.inkMesh = new THREE.Mesh(this.inkGeometry, this.inkMaterial);
     this.inkMesh.position.z = this.mesh.position.z + 0.003;
     this.scene.add(this.inkMesh);
   };
@@ -294,8 +299,10 @@
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.width, this.height, false);
     if (this.withInkCapture && this.inkCanvas) {
-      this.inkCanvas.width = Math.max(2, Math.floor(this.width));
-      this.inkCanvas.height = Math.max(2, Math.floor(this.height));
+      var mobile = this.width < 700;
+      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.2, 1.6) : Math.min((window.devicePixelRatio || 1) * 1.4, 2.3);
+      this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
+      this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
       this.inkTexture.needsUpdate = true;
       this.scheduleCapture(220);
     }
@@ -377,6 +384,7 @@
         var ch = para.charAt(i);
         var test = line + ch;
         if (ctx.measureText(test).width > maxWidth && line) {
+          ctx.strokeText(line, drawX, y);
           ctx.fillText(line, drawX, y);
           y += lineHeight;
           linesDrawn++;
@@ -386,6 +394,7 @@
         }
       }
       if (line) {
+        ctx.strokeText(line, drawX, y);
         ctx.fillText(line, drawX, y);
         y += lineHeight;
         linesDrawn++;
@@ -399,8 +408,13 @@
     var ctx = this.inkCtx;
     var w = this.inkCanvas.width;
     var h = this.inkCanvas.height;
+    var s = this.inkScale || 1;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, w, h);
+    ctx.setTransform(s, 0, 0, s, 0, 0);
     ctx.textBaseline = 'top';
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
     var selectors = [
       '.header-actions',
@@ -454,6 +468,9 @@
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
+      ctx.strokeStyle = 'rgba(20,16,12,0.22)';
+      ctx.lineWidth = Math.max(0.35, fontSize * 0.035);
+      ctx.lineJoin = 'round';
       ctx.textAlign = style.textAlign || 'left';
       ctx.globalAlpha = Math.max(0.72, Math.min(1, this.parsePx(style.opacity, 1)));
 
@@ -624,10 +641,31 @@
 
   };
 
+  SilkDrape.prototype.updateInkPose = function () {
+    if (!this.inkMesh) return;
+    var p = this.pointer;
+    var tx = Math.max(-0.025, Math.min(0.025, p.windX * 8));
+    var ty = Math.max(-0.02, Math.min(0.02, p.windY * 8));
+    var trz = Math.max(-0.02, Math.min(0.02, p.windX * 0.28));
+    var trx = Math.max(-0.016, Math.min(0.016, p.windY * 0.24));
+
+    this.inkMotion.x += (tx - this.inkMotion.x) * 0.08;
+    this.inkMotion.y += (ty - this.inkMotion.y) * 0.08;
+    this.inkMotion.rz += (trz - this.inkMotion.rz) * 0.08;
+    this.inkMotion.rx += (trx - this.inkMotion.rx) * 0.08;
+
+    this.inkMesh.position.x = this.inkMotion.x;
+    this.inkMesh.position.y = this.inkMotion.y;
+    this.inkMesh.position.z = this.mesh.position.z + 0.003;
+    this.inkMesh.rotation.z = this.inkMotion.rz;
+    this.inkMesh.rotation.x = this.inkMotion.rx;
+  };
+
   SilkDrape.prototype.animate = function () {
     if (!this.hidden) {
       var dt = Math.min(this.clock.getDelta(), 0.033);
       this.simulate(dt, this.clock.elapsedTime);
+      this.updateInkPose();
       this.renderer.render(this.scene, this.camera);
     }
     this._raf = requestAnimationFrame(this.animate);
@@ -635,7 +673,6 @@
 
   function boot() {
     if (!document.body) return;
-    if (window.innerWidth < 700) return;
     if (document.body.getAttribute('data-silk-page') !== '1') return;
     loadThree(function (THREE) {
       try {
