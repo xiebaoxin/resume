@@ -61,6 +61,11 @@ body::before {
   opacity: 0.95;
 }
 
+.silk-text-bound {
+  will-change: transform;
+  transform-origin: 50% 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .silk-drape-layer {
     display: none !important;

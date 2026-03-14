@@ -78,6 +78,16 @@
       targetWindZ: 0
     };
 
+    this.pageEl = document.querySelector('.page');
+    this.pageMotion = {
+      x: 0,
+      y: 0,
+      rz: 0
+    };
+    if (this.pageEl) {
+      this.pageEl.classList.add('silk-text-bound');
+    }
+
     this.layer = document.createElement('div');
     this.layer.className = 'silk-drape-layer';
     this.canvas = document.createElement('canvas');
@@ -132,9 +142,9 @@
     this.clothWidth = 3.0;
     this.clothHeight = 3.8;
     this.topY = 1.5;
-    this.gravity = 0.00058;
-    this.damping = 0.986;
-    this.iterations = compact ? 3 : 4;
+    this.gravity = 0.00076;
+    this.damping = 0.978;
+    this.iterations = compact ? 4 : 5;
 
     this.geometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, this.cols, this.rows);
     this.positionAttr = this.geometry.attributes.position;
@@ -209,12 +219,12 @@
       map: weaveTex,
       alphaMap: weaveTex,
       transparent: true,
-      opacity: compact ? 0.25 : 0.28,
+      opacity: compact ? 0.29 : 0.32,
       alphaTest: 0.02,
-      roughness: 0.86,
+      roughness: 0.9,
       metalness: 0.01,
-      transmission: 0.06,
-      thickness: 0.22,
+      transmission: 0.03,
+      thickness: 0.28,
       side: THREE.DoubleSide
     });
 
@@ -257,11 +267,11 @@
     var dx = e.clientX - p.lastX;
     var dy = e.clientY - p.lastY;
     var speed = Math.hypot(dx, dy) / dt;
-    var gust = Math.min(speed * 0.35, 2.6);
+    var gust = Math.min(speed * 0.16, 1.1);
 
-    p.targetWindX = dx * 0.00023 * (1 + gust);
-    p.targetWindY = -dy * 0.00014 * (1 + gust * 0.6);
-    p.targetWindZ = gust * 0.0019;
+    p.targetWindX = dx * 0.00008 * (1 + gust * 0.45);
+    p.targetWindY = -dy * 0.00005 * (1 + gust * 0.35);
+    p.targetWindZ = gust * 0.00056;
 
     p.x = ((e.clientX / this.width) - 0.5) * this.clothWidth * 1.1;
     p.y = (0.5 - e.clientY / this.height) * this.clothHeight * 1.05 + 0.05;
@@ -314,12 +324,12 @@
     var current = this.current;
     var previous = this.previous;
 
-    p.windX += (p.targetWindX - p.windX) * 0.12;
-    p.windY += (p.targetWindY - p.windY) * 0.12;
-    p.windZ += (p.targetWindZ - p.windZ) * 0.12;
-    p.targetWindX *= 0.9;
-    p.targetWindY *= 0.9;
-    p.targetWindZ *= 0.88;
+    p.windX += (p.targetWindX - p.windX) * 0.08;
+    p.windY += (p.targetWindY - p.windY) * 0.08;
+    p.windZ += (p.targetWindZ - p.windZ) * 0.08;
+    p.targetWindX *= 0.94;
+    p.targetWindY *= 0.94;
+    p.targetWindZ *= 0.92;
 
     var i;
     for (i = rowSize; i < rowSize * (rows + 1); i++) {
@@ -346,25 +356,25 @@
       var u = cx / cols;
       var v = cy / rows;
 
-      var sway = Math.sin(time * 0.75 + v * 4.8 + u * 2.6) * 0.00072;
-      var ripple = Math.cos(time * 1.28 + u * 5.4 - v * 6.2) * 0.0003;
+      var sway = Math.sin(time * 0.5 + v * 4.4 + u * 2.2) * 0.00042;
+      var ripple = Math.cos(time * 0.96 + u * 4.9 - v * 5.6) * 0.00018;
       var edge = Math.abs(u - 0.5) * 2;
 
-      current[j] = x + vx + sway * 0.62 + p.windX * 0.34;
-      current[j + 1] = y + vy - this.gravity + p.windY * 0.1;
-      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.95 + edge * edge * 0.00034 * Math.sin(time + v * 3.2);
+      current[j] = x + vx + sway * 0.45 + p.windX * 0.16;
+      current[j + 1] = y + vy - this.gravity + p.windY * 0.05;
+      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.48 + edge * edge * 0.00023 * Math.sin(time + v * 3.2);
 
       if (p.active) {
         var dx = x - p.x;
         var dy = y - p.y;
         var d2 = dx * dx + dy * dy;
-        if (d2 < 1.05) {
-          var influence = 1 - d2 / 1.05;
+        if (d2 < 0.9) {
+          var influence = 1 - d2 / 0.9;
           influence *= influence;
-          current[j] += p.windX * influence * 1.7;
-          current[j + 1] += p.windY * influence * 0.45;
+          current[j] += p.windX * influence * 0.7;
+          current[j + 1] += p.windY * influence * 0.22;
           var curlDir = dx >= 0 ? 1 : -1;
-          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.52;
+          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.25;
         }
       }
     }
@@ -372,10 +382,10 @@
     for (var ix = 0; ix <= cols; ix++) {
       var top = ix * 3;
       var uu = ix / cols;
-      var hanger = Math.sin(time * 0.52 + uu * 5.8) * 0.012;
+      var hanger = Math.sin(time * 0.42 + uu * 5.5) * 0.008;
       current[top] = this.initial[top] + hanger;
       current[top + 1] = this.initial[top + 1];
-      current[top + 2] = this.initial[top + 2] + Math.cos(time * 0.44 + uu * 5.2) * 0.0048;
+      current[top + 2] = this.initial[top + 2] + Math.cos(time * 0.36 + uu * 5.2) * 0.0033;
       previous[top] = current[top];
       previous[top + 1] = current[top + 1];
       previous[top + 2] = current[top + 2];
@@ -392,6 +402,24 @@
     if (this.normalsFrame % 2 === 0) {
       this.geometry.computeVertexNormals();
     }
+
+    this.updatePageMotion(time);
+  };
+
+  SilkDrape.prototype.updatePageMotion = function (time) {
+    if (!this.pageEl) return;
+    var p = this.pointer;
+    var tX = Math.max(-4.2, Math.min(4.2, p.windX * 240 + Math.sin(time * 0.34) * 0.5));
+    var tY = Math.max(-2.8, Math.min(2.8, p.windY * 220 + Math.cos(time * 0.3) * 0.35));
+    var tRz = Math.max(-0.35, Math.min(0.35, p.windX * 14 + Math.sin(time * 0.24) * 0.07));
+
+    this.pageMotion.x += (tX - this.pageMotion.x) * 0.08;
+    this.pageMotion.y += (tY - this.pageMotion.y) * 0.08;
+    this.pageMotion.rz += (tRz - this.pageMotion.rz) * 0.08;
+
+    this.pageEl.style.transform =
+      'translate3d(' + this.pageMotion.x.toFixed(3) + 'px,' + this.pageMotion.y.toFixed(3) + 'px,0) ' +
+      'rotateZ(' + this.pageMotion.rz.toFixed(3) + 'deg)';
   };
 
   SilkDrape.prototype.animate = function () {
