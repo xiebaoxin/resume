@@ -363,30 +363,45 @@
     this.captureBusy = true;
     var self = this;
     var hadInkMode = document.body.classList.contains('silk-ink-mode');
-    if (hadInkMode) document.body.classList.remove('silk-ink-mode');
+    if (hadInkMode) {
+      document.body.classList.remove('silk-ink-mode');
+      // Force style flush so .main/.footer visibility is restored before capture.
+      void this.pageEl.offsetHeight;
+    }
     var scale = Math.min((window.devicePixelRatio || 1) * 1.15, 2);
     var rect = this.pageEl.getBoundingClientRect();
-
-    window.html2canvas(this.pageEl, {
-      backgroundColor: null,
-      logging: false,
-      useCORS: true,
-      scale: scale,
-      scrollX: 0,
-      scrollY: 0,
-      windowWidth: window.innerWidth,
-      windowHeight: window.innerHeight
-    }).then(function (canvas) {
-      self.updateInkMask(canvas, rect, scale);
-      self.captureReady = true;
-      document.body.classList.add('silk-ink-mode');
-    }).catch(function () {
-      console.warn('[silk-drape] capture failed.');
-    }).finally(function () {
-      self.captureBusy = false;
-      if (!self.captureReady && hadInkMode) {
-        document.body.classList.add('silk-ink-mode');
-      }
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        window.html2canvas(self.pageEl, {
+          backgroundColor: null,
+          logging: false,
+          useCORS: true,
+          scale: scale,
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth: window.innerWidth,
+          windowHeight: window.innerHeight
+        }).then(function (canvas) {
+          var ok = self.updateInkMask(canvas, rect, scale);
+          if (ok) {
+            self.captureReady = true;
+            document.body.classList.add('silk-ink-mode');
+          } else {
+            if (hadInkMode && self.captureReady) {
+              document.body.classList.add('silk-ink-mode');
+            }
+            self.scheduleCapture(420);
+          }
+        }).catch(function () {
+          console.warn('[silk-drape] capture failed.');
+          self.scheduleCapture(520);
+        }).finally(function () {
+          self.captureBusy = false;
+          if (!self.captureReady && hadInkMode) {
+            document.body.classList.remove('silk-ink-mode');
+          }
+        });
+      });
     });
   };
 
@@ -398,7 +413,16 @@
     var drawX = Math.round(rect.left * (scale || 1));
     var drawY = Math.round(rect.top * (scale || 1));
     this.inkCtx.drawImage(srcCanvas, drawX, drawY);
+    var probe = this.inkCtx.getImageData(0, 0, w, h).data;
+    var nonEmpty = 0;
+    for (var i = 3; i < probe.length; i += 32) {
+      if (probe[i] > 28) nonEmpty++;
+    }
+    if (nonEmpty < 120) {
+      return false;
+    }
     this.inkTexture.needsUpdate = true;
+    return true;
   };
 
   SilkDrape.prototype.relaxConstraints = function () {
