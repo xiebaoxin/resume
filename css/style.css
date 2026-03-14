@@ -45,6 +45,28 @@ body::before {
   z-index: 0;
 }
 
+.silk-drape-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 998;
+  contain: layout paint style;
+}
+
+.silk-drape-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0.95;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .silk-drape-layer {
+    display: none !important;
+  }
+}
+
 .page {
   position: relative;
   z-index: 1;
