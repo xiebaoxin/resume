@@ -80,12 +80,12 @@
 
     this.pageEl = document.querySelector('.page');
     if (this.pageEl) this.pageEl.style.transform = 'none';
+    document.body.classList.add('silk-preparing');
     this.withInkCapture = true;
     this.captureBusy = false;
     this.captureTimer = null;
     this.captureReady = false;
     this.modeEnabled = false;
-    this.inkMotion = { x: 0, y: 0, rz: 0, rx: 0 };
 
     this.layer = document.createElement('div');
     this.layer.className = 'silk-drape-layer';
@@ -96,11 +96,11 @@
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: true,
+      antialias: this.width >= 700,
       alpha: true,
       powerPreference: 'high-performance'
     });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.width < 700 ? 1.15 : 1.45));
     this.renderer.setClearColor(0x000000, 0);
 
     this.scene = new THREE.Scene();
@@ -114,9 +114,9 @@
     this.bindEvents();
     this.onResize();
     if (this.withInkCapture) {
-      this.scheduleCapture(480);
-      this.scheduleCapture(1300);
-      this.scheduleCapture(2500);
+      this.scheduleCapture(520);
+      this.scheduleCapture(1500);
+      this.scheduleCapture(2800);
     }
 
     this.clock = new THREE.Clock();
@@ -263,8 +263,7 @@
       depthWrite: false,
       blending: THREE.NormalBlending
     });
-    this.inkGeometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, 1, 1);
-    this.inkMesh = new THREE.Mesh(this.inkGeometry, this.inkMaterial);
+    this.inkMesh = new THREE.Mesh(this.geometry, this.inkMaterial);
     this.inkMesh.position.z = this.mesh.position.z + 0.003;
     this.scene.add(this.inkMesh);
   };
@@ -296,6 +295,7 @@
     this.height = window.innerHeight;
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.width < 700 ? 1.15 : 1.45));
     this.renderer.setSize(this.width, this.height, false);
     if (this.withInkCapture && this.inkCanvas) {
       var mobile = this.width < 700;
@@ -497,6 +497,7 @@
             self.captureReady = true;
             if (!self.modeEnabled) {
               document.body.classList.add('silk-ink-mode');
+              document.body.classList.remove('silk-preparing');
               self.modeEnabled = true;
             }
           } else {
@@ -636,31 +637,10 @@
 
   };
 
-  SilkDrape.prototype.updateInkPose = function () {
-    if (!this.inkMesh) return;
-    var p = this.pointer;
-    var tx = Math.max(-0.025, Math.min(0.025, p.windX * 8));
-    var ty = Math.max(-0.02, Math.min(0.02, p.windY * 8));
-    var trz = Math.max(-0.02, Math.min(0.02, p.windX * 0.28));
-    var trx = Math.max(-0.016, Math.min(0.016, p.windY * 0.24));
-
-    this.inkMotion.x += (tx - this.inkMotion.x) * 0.08;
-    this.inkMotion.y += (ty - this.inkMotion.y) * 0.08;
-    this.inkMotion.rz += (trz - this.inkMotion.rz) * 0.08;
-    this.inkMotion.rx += (trx - this.inkMotion.rx) * 0.08;
-
-    this.inkMesh.position.x = this.inkMotion.x;
-    this.inkMesh.position.y = this.inkMotion.y;
-    this.inkMesh.position.z = this.mesh.position.z + 0.003;
-    this.inkMesh.rotation.z = this.inkMotion.rz;
-    this.inkMesh.rotation.x = this.inkMotion.rx;
-  };
-
   SilkDrape.prototype.animate = function () {
     if (!this.hidden) {
       var dt = Math.min(this.clock.getDelta(), 0.033);
       this.simulate(dt, this.clock.elapsedTime);
-      this.updateInkPose();
       this.renderer.render(this.scene, this.camera);
     }
     this._raf = requestAnimationFrame(this.animate);

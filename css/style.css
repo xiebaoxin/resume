@@ -91,6 +91,10 @@ body.silk-ink-mode .silk-drape-layer {
   opacity: 1;
 }
 
+body.silk-preparing .silk-drape-layer {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .silk-drape-layer {
     display: none !important;
