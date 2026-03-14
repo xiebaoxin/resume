@@ -131,6 +131,8 @@
     this.onResize();
     if (this.withInkCapture) {
       this.scheduleCapture(420);
+      this.scheduleCapture(1200);
+      this.scheduleCapture(2300);
     }
 
     this.clock = new THREE.Clock();
@@ -360,42 +362,42 @@
     if (!this.pageEl) return;
     this.captureBusy = true;
     var self = this;
-    var previousVisibility = this.layer.style.visibility;
-    this.layer.style.visibility = 'hidden';
+    var hadInkMode = document.body.classList.contains('silk-ink-mode');
+    if (hadInkMode) document.body.classList.remove('silk-ink-mode');
     var scale = Math.min((window.devicePixelRatio || 1) * 1.15, 2);
+    var rect = this.pageEl.getBoundingClientRect();
 
-    window.html2canvas(document.body, {
+    window.html2canvas(this.pageEl, {
       backgroundColor: null,
       logging: false,
       useCORS: true,
       scale: scale,
-      scrollX: -window.scrollX,
-      scrollY: -window.scrollY,
-      width: Math.floor(this.width),
-      height: Math.floor(this.height),
+      scrollX: 0,
+      scrollY: 0,
       windowWidth: window.innerWidth,
-      windowHeight: window.innerHeight,
-      ignoreElements: function (el) {
-        return !!(el && el.classList && el.classList.contains('silk-drape-layer'));
-      }
+      windowHeight: window.innerHeight
     }).then(function (canvas) {
-      self.updateInkMask(canvas);
+      self.updateInkMask(canvas, rect, scale);
       self.captureReady = true;
       document.body.classList.add('silk-ink-mode');
     }).catch(function () {
       console.warn('[silk-drape] capture failed.');
     }).finally(function () {
       self.captureBusy = false;
-      self.layer.style.visibility = previousVisibility || '';
+      if (!self.captureReady && hadInkMode) {
+        document.body.classList.add('silk-ink-mode');
+      }
     });
   };
 
-  SilkDrape.prototype.updateInkMask = function (srcCanvas) {
-    if (!this.inkCtx || !srcCanvas) return;
+  SilkDrape.prototype.updateInkMask = function (srcCanvas, rect, scale) {
+    if (!this.inkCtx || !srcCanvas || !rect) return;
     var w = this.inkCanvas.width;
     var h = this.inkCanvas.height;
     this.inkCtx.clearRect(0, 0, w, h);
-    this.inkCtx.drawImage(srcCanvas, 0, 0, w, h);
+    var drawX = Math.round(rect.left * (scale || 1));
+    var drawY = Math.round(rect.top * (scale || 1));
+    this.inkCtx.drawImage(srcCanvas, drawX, drawY);
     this.inkTexture.needsUpdate = true;
   };
 
