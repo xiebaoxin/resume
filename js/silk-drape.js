@@ -84,6 +84,7 @@
     this.captureBusy = false;
     this.captureTimer = null;
     this.captureReady = false;
+    this.modeEnabled = false;
     this.inkMotion = { x: 0, y: 0, rz: 0, rx: 0 };
 
     this.layer = document.createElement('div');
@@ -113,9 +114,9 @@
     this.bindEvents();
     this.onResize();
     if (this.withInkCapture) {
-      this.scheduleCapture(420);
-      this.scheduleCapture(1200);
-      this.scheduleCapture(2300);
+      this.scheduleCapture(480);
+      this.scheduleCapture(1300);
+      this.scheduleCapture(2500);
     }
 
     this.clock = new THREE.Clock();
@@ -274,7 +275,10 @@
     this._onPointerMove = function (e) { self.onPointerMove(e); };
     this._onLeave = function () { self.pointer.active = false; };
     this._onVisibility = function () { self.hidden = document.hidden; };
-    this._onScroll = function () { self.scheduleCapture(140); };
+    this._onLangSwitch = function () {
+      self.scheduleCapture(200);
+      self.scheduleCapture(900);
+    };
 
     window.addEventListener('resize', this._onResize);
     window.addEventListener('pointermove', this._onPointerMove, { passive: true });
@@ -282,13 +286,8 @@
     window.addEventListener('blur', this._onLeave);
     document.addEventListener('visibilitychange', this._onVisibility);
     if (this.withInkCapture) {
-      window.addEventListener('scroll', this._onScroll, { passive: true });
-      if (this.pageEl && window.MutationObserver) {
-        this._observer = new MutationObserver(function () {
-          self.scheduleCapture(180);
-        });
-        this._observer.observe(this.pageEl, { subtree: true, childList: true, characterData: true });
-      }
+      var switchBtn = document.getElementById('langSwitch');
+      if (switchBtn) switchBtn.addEventListener('click', this._onLangSwitch);
     }
   };
 
@@ -490,26 +489,22 @@
     if (!this.pageEl) return;
     this.captureBusy = true;
     var self = this;
-    var hadInkMode = document.body.classList.contains('silk-ink-mode');
-    if (hadInkMode) {
-      document.body.classList.remove('silk-ink-mode');
-      void this.pageEl.offsetHeight;
-    }
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         try {
           var ok = self.renderTextInkFromDom();
           if (ok) {
             self.captureReady = true;
-            document.body.classList.add('silk-ink-mode');
+            if (!self.modeEnabled) {
+              document.body.classList.add('silk-ink-mode');
+              self.modeEnabled = true;
+            }
           } else {
             self.scheduleCapture(520);
-            if (hadInkMode) document.body.classList.add('silk-ink-mode');
           }
         } catch (err) {
           console.warn('[silk-drape] text ink render failed:', err);
           self.scheduleCapture(800);
-          if (hadInkMode) document.body.classList.add('silk-ink-mode');
         }
         self.captureBusy = false;
       });
