@@ -67,8 +67,8 @@ body::before {
 }
 
 body.silk-ink-mode .page {
-  opacity: 0.22;
-  transition: opacity 0.35s ease;
+  opacity: 0.01;
+  transition: opacity 0.25s ease;
 }
 
 body.silk-ink-mode .silk-drape-layer {

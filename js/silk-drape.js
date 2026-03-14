@@ -97,13 +97,8 @@
     };
 
     this.pageEl = document.querySelector('.page');
-    this.pageMotion = {
-      x: 0,
-      y: 0,
-      rz: 0
-    };
     if (this.pageEl) {
-      this.pageEl.classList.add('silk-text-bound');
+      this.pageEl.style.transform = 'none';
     }
     this.withInkCapture = !!withInkCapture;
     this.captureBusy = false;
@@ -276,9 +271,10 @@
     this.inkMaterial = new THREE.MeshBasicMaterial({
       map: this.inkTexture,
       transparent: true,
-      opacity: 0.88,
+      opacity: 0.92,
       side: THREE.DoubleSide,
-      depthWrite: false
+      depthWrite: false,
+      blending: THREE.MultiplyBlending
     });
     this.inkMesh = new THREE.Mesh(this.geometry, this.inkMaterial);
     this.inkMesh.position.z = this.mesh.position.z + 0.003;
@@ -545,23 +541,6 @@
       this.geometry.computeVertexNormals();
     }
 
-    this.updatePageMotion(time);
-  };
-
-  SilkDrape.prototype.updatePageMotion = function (time) {
-    if (!this.pageEl) return;
-    var p = this.pointer;
-    var tX = Math.max(-1.2, Math.min(1.2, p.windX * 70 + Math.sin(time * 0.24) * 0.15));
-    var tY = Math.max(-0.9, Math.min(0.9, p.windY * 68 + Math.cos(time * 0.21) * 0.12));
-    var tRz = Math.max(-0.08, Math.min(0.08, p.windX * 3.5 + Math.sin(time * 0.2) * 0.02));
-
-    this.pageMotion.x += (tX - this.pageMotion.x) * 0.08;
-    this.pageMotion.y += (tY - this.pageMotion.y) * 0.08;
-    this.pageMotion.rz += (tRz - this.pageMotion.rz) * 0.08;
-
-    this.pageEl.style.transform =
-      'translate3d(' + this.pageMotion.x.toFixed(3) + 'px,' + this.pageMotion.y.toFixed(3) + 'px,0) ' +
-      'rotateZ(' + this.pageMotion.rz.toFixed(3) + 'deg)';
   };
 
   SilkDrape.prototype.animate = function () {
