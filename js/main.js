@@ -178,6 +178,15 @@
     }
 
     d.getElementById('langSwitch').textContent = ui.langSwitch || 'English';
+    var modeSwitch = d.querySelector('.mode-switch');
+    if (modeSwitch) {
+      var toSilk = (modeSwitch.getAttribute('href') || '').indexOf('index-silk.html') !== -1;
+      if (toSilk) {
+        modeSwitch.textContent = (data.meta && data.meta.lang) === 'en' ? 'Silk' : '丝绸版';
+      } else {
+        modeSwitch.textContent = (data.meta && data.meta.lang) === 'en' ? 'Classic' : '普通版';
+      }
+    }
     if (data.meta && data.meta.title) {
       d.title = data.meta.title;
     }
