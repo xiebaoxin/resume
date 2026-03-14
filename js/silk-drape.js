@@ -108,12 +108,6 @@
     this.canvas = document.createElement('canvas');
     this.canvas.className = 'silk-drape-canvas';
     this.layer.appendChild(this.canvas);
-    this.leftNail = document.createElement('span');
-    this.leftNail.className = 'silk-nail left';
-    this.rightNail = document.createElement('span');
-    this.rightNail.className = 'silk-nail right';
-    this.layer.appendChild(this.leftNail);
-    this.layer.appendChild(this.rightNail);
     document.body.appendChild(this.layer);
 
     this.renderer = new THREE.WebGLRenderer({
@@ -167,8 +161,8 @@
     this.clothWidth = 3.0;
     this.clothHeight = 3.8;
     this.topY = 1.5;
-    this.gravity = 0.00084;
-    this.damping = 0.981;
+    this.gravity = 0.00106;
+    this.damping = 0.973;
     this.iterations = compact ? 5 : 6;
 
     this.geometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, this.cols, this.rows);
@@ -216,20 +210,6 @@
       }
     }
 
-    this.bottomLeft = this.rows * rowSize;
-    this.bottomRight = this.rows * rowSize + this.cols;
-    this.pinned[this.bottomLeft] = 1;
-    this.pinned[this.bottomRight] = 1;
-
-    this.tethers = [
-      { idx: this.bottomLeft + 1, k: 0.09 },
-      { idx: this.bottomLeft + 2, k: 0.06 },
-      { idx: this.bottomRight - 1, k: 0.09 },
-      { idx: this.bottomRight - 2, k: 0.06 },
-      { idx: this.bottomLeft - rowSize, k: 0.05 },
-      { idx: this.bottomRight - rowSize, k: 0.05 }
-    ];
-
     var self = this;
     function addConstraint(ia, ib) {
       var a3 = ia * 3;
@@ -258,12 +238,12 @@
       map: weaveTex,
       alphaMap: weaveTex,
       transparent: true,
-      opacity: compact ? 0.33 : 0.36,
+      opacity: compact ? 0.35 : 0.38,
       alphaTest: 0.02,
       roughness: 0.9,
       metalness: 0.01,
-      transmission: 0.04,
-      thickness: 0.34,
+      transmission: 0.025,
+      thickness: 0.4,
       side: THREE.DoubleSide
     });
 
@@ -289,10 +269,10 @@
     this.inkMaterial = new THREE.MeshBasicMaterial({
       map: this.inkTexture,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.98,
       side: THREE.DoubleSide,
       depthWrite: false,
-      blending: THREE.MultiplyBlending
+      blending: THREE.NormalBlending
     });
     this.inkMesh = new THREE.Mesh(this.geometry, this.inkMaterial);
     this.inkMesh.position.z = this.mesh.position.z + 0.003;
@@ -349,11 +329,11 @@
     var dx = e.clientX - p.lastX;
     var dy = e.clientY - p.lastY;
     var speed = Math.hypot(dx, dy) / dt;
-    var gust = Math.min(speed * 0.16, 1.1);
+    var gust = Math.min(speed * 0.1, 0.7);
 
-    p.targetWindX = dx * 0.00008 * (1 + gust * 0.45);
-    p.targetWindY = -dy * 0.00005 * (1 + gust * 0.35);
-    p.targetWindZ = gust * 0.00056;
+    p.targetWindX = dx * 0.000042 * (1 + gust * 0.28);
+    p.targetWindY = -dy * 0.000026 * (1 + gust * 0.2);
+    p.targetWindZ = gust * 0.00024;
 
     p.x = ((e.clientX / this.width) - 0.5) * this.clothWidth * 1.1;
     p.y = (0.5 - e.clientY / this.height) * this.clothHeight * 1.05 + 0.05;
@@ -382,21 +362,24 @@
     var self = this;
     var previousVisibility = this.layer.style.visibility;
     this.layer.style.visibility = 'hidden';
-    document.body.classList.remove('silk-ink-mode');
-    var rect = this.pageEl.getBoundingClientRect();
-    var scale = Math.min(window.devicePixelRatio || 1, 2);
+    var scale = Math.min((window.devicePixelRatio || 1) * 1.15, 2);
 
-    window.html2canvas(this.pageEl, {
+    window.html2canvas(document.body, {
       backgroundColor: null,
       logging: false,
       useCORS: true,
       scale: scale,
+      scrollX: -window.scrollX,
+      scrollY: -window.scrollY,
+      width: Math.floor(this.width),
+      height: Math.floor(this.height),
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
-      scrollX: 0,
-      scrollY: 0
+      ignoreElements: function (el) {
+        return !!(el && el.classList && el.classList.contains('silk-drape-layer'));
+      }
     }).then(function (canvas) {
-      self.updateInkMask(canvas, rect, scale);
+      self.updateInkMask(canvas);
       self.captureReady = true;
       document.body.classList.add('silk-ink-mode');
     }).catch(function () {
@@ -407,14 +390,12 @@
     });
   };
 
-  SilkDrape.prototype.updateInkMask = function (srcCanvas, rect, scale) {
-    if (!this.inkCtx || !srcCanvas || !rect) return;
+  SilkDrape.prototype.updateInkMask = function (srcCanvas) {
+    if (!this.inkCtx || !srcCanvas) return;
     var w = this.inkCanvas.width;
     var h = this.inkCanvas.height;
     this.inkCtx.clearRect(0, 0, w, h);
-    var drawX = Math.round(rect.left * (scale || 1));
-    var drawY = Math.round(rect.top * (scale || 1));
-    this.inkCtx.drawImage(srcCanvas, drawX, drawY);
+    this.inkCtx.drawImage(srcCanvas, 0, 0, w, h);
     this.inkTexture.needsUpdate = true;
   };
 
@@ -475,12 +456,12 @@
     var current = this.current;
     var previous = this.previous;
 
-    p.windX += (p.targetWindX - p.windX) * 0.08;
-    p.windY += (p.targetWindY - p.windY) * 0.08;
-    p.windZ += (p.targetWindZ - p.windZ) * 0.08;
-    p.targetWindX *= 0.94;
-    p.targetWindY *= 0.94;
-    p.targetWindZ *= 0.92;
+    p.windX += (p.targetWindX - p.windX) * 0.055;
+    p.windY += (p.targetWindY - p.windY) * 0.055;
+    p.windZ += (p.targetWindZ - p.windZ) * 0.055;
+    p.targetWindX *= 0.955;
+    p.targetWindY *= 0.955;
+    p.targetWindZ *= 0.94;
 
     var i;
     for (i = rowSize; i < rowSize * (rows + 1); i++) {
@@ -507,25 +488,25 @@
       var u = cx / cols;
       var v = cy / rows;
 
-      var sway = Math.sin(time * 0.5 + v * 4.4 + u * 2.2) * 0.00042;
-      var ripple = Math.cos(time * 0.96 + u * 4.9 - v * 5.6) * 0.00018;
+      var sway = Math.sin(time * 0.42 + v * 4.2 + u * 2.0) * 0.0003;
+      var ripple = Math.cos(time * 0.82 + u * 4.6 - v * 5.2) * 0.00011;
       var edge = Math.abs(u - 0.5) * 2;
 
-      current[j] = x + vx + sway * 0.45 + p.windX * 0.16;
-      current[j + 1] = y + vy - this.gravity + p.windY * 0.05;
-      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.48 + edge * edge * 0.00023 * Math.sin(time + v * 3.2);
+      current[j] = x + vx + sway * 0.34 + p.windX * 0.1;
+      current[j + 1] = y + vy - this.gravity + p.windY * 0.035;
+      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.33 + edge * edge * 0.00018 * Math.sin(time + v * 3.1);
 
       if (p.active) {
         var dx = x - p.x;
         var dy = y - p.y;
         var d2 = dx * dx + dy * dy;
-        if (d2 < 0.9) {
-          var influence = 1 - d2 / 0.9;
+        if (d2 < 0.72) {
+          var influence = 1 - d2 / 0.72;
           influence *= influence;
-          current[j] += p.windX * influence * 0.7;
-          current[j + 1] += p.windY * influence * 0.22;
+          current[j] += p.windX * influence * 0.42;
+          current[j + 1] += p.windY * influence * 0.12;
           var curlDir = dx >= 0 ? 1 : -1;
-          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.25;
+          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.12;
         }
       }
     }
@@ -533,10 +514,10 @@
     for (var ix = 0; ix <= cols; ix++) {
       var top = ix * 3;
       var uu = ix / cols;
-      var hanger = Math.sin(time * 0.42 + uu * 5.5) * 0.008;
+      var hanger = Math.sin(time * 0.34 + uu * 5.2) * 0.0056;
       current[top] = this.initial[top] + hanger;
       current[top + 1] = this.initial[top + 1];
-      current[top + 2] = this.initial[top + 2] + Math.cos(time * 0.36 + uu * 5.2) * 0.0033;
+      current[top + 2] = this.initial[top + 2] + Math.cos(time * 0.3 + uu * 5.0) * 0.0023;
       previous[top] = current[top];
       previous[top + 1] = current[top + 1];
       previous[top + 2] = current[top + 2];

@@ -91,26 +91,6 @@ body.silk-ink-mode .silk-drape-layer {
   opacity: 1;
 }
 
-.silk-nail {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #f5f1e9 0%, #c4b8a8 45%, #7a6f63 100%);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.55), 0 2px 6px rgba(0,0,0,0.35);
-  z-index: 3;
-  pointer-events: none;
-  bottom: 10px;
-}
-
-.silk-nail.left {
-  left: 11.5%;
-}
-
-.silk-nail.right {
-  right: 11.5%;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .silk-drape-layer {
     display: none !important;
