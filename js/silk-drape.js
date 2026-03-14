@@ -143,14 +143,14 @@
     var compact = window.innerWidth < 960;
     var mobile = window.innerWidth < 700;
 
-    this.cols = mobile ? 18 : (compact ? 24 : 34);
-    this.rows = mobile ? 30 : (compact ? 42 : 58);
+    this.cols = mobile ? 16 : (compact ? 20 : 28);
+    this.rows = mobile ? 24 : (compact ? 34 : 46);
     this.clothWidth = 3.0;
     this.clothHeight = 3.8;
     this.topY = 1.5;
-    this.gravity = mobile ? 0.00118 : 0.00106;
-    this.damping = mobile ? 0.968 : 0.973;
-    this.iterations = mobile ? 3 : (compact ? 5 : 6);
+    this.gravity = mobile ? 0.00114 : 0.00102;
+    this.damping = mobile ? 0.972 : 0.978;
+    this.iterations = mobile ? 3 : (compact ? 4 : 5);
 
     this.geometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, this.cols, this.rows);
     this.positionAttr = this.geometry.attributes.position;
@@ -243,7 +243,7 @@
     if (!this.withInkCapture) return;
     var THREE = this.THREE;
     var mobile = this.width < 700;
-    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.2, 1.6) : Math.min((window.devicePixelRatio || 1) * 1.4, 2.3);
+    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.55, 2.1) : Math.min((window.devicePixelRatio || 1) * 1.9, 3.0);
     this.inkCanvas = document.createElement('canvas');
     this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
     this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
@@ -253,6 +253,9 @@
     this.inkTexture.wrapT = THREE.ClampToEdgeWrapping;
     this.inkTexture.minFilter = THREE.LinearFilter;
     this.inkTexture.magFilter = THREE.LinearFilter;
+    if (this.renderer && this.renderer.capabilities && this.renderer.capabilities.getMaxAnisotropy) {
+      this.inkTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+    }
     this.inkTexture.needsUpdate = true;
 
     this.inkMaterial = new THREE.MeshBasicMaterial({
@@ -278,6 +281,9 @@
       self.scheduleCapture(200);
       self.scheduleCapture(900);
     };
+    this._onScroll = function () {
+      self.scheduleCapture(120);
+    };
 
     window.addEventListener('resize', this._onResize);
     window.addEventListener('pointermove', this._onPointerMove, { passive: true });
@@ -287,6 +293,7 @@
     if (this.withInkCapture) {
       var switchBtn = document.getElementById('langSwitch');
       if (switchBtn) switchBtn.addEventListener('click', this._onLangSwitch);
+      window.addEventListener('scroll', this._onScroll, { passive: true });
     }
   };
 
@@ -299,7 +306,7 @@
     this.renderer.setSize(this.width, this.height, false);
     if (this.withInkCapture && this.inkCanvas) {
       var mobile = this.width < 700;
-      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.2, 1.6) : Math.min((window.devicePixelRatio || 1) * 1.4, 2.3);
+      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.55, 2.1) : Math.min((window.devicePixelRatio || 1) * 1.9, 3.0);
       this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
       this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
       this.inkTexture.needsUpdate = true;
@@ -588,25 +595,25 @@
       var u = cx / cols;
       var v = cy / rows;
 
-      var sway = Math.sin(time * 0.42 + v * 4.2 + u * 2.0) * 0.0003;
-      var ripple = Math.cos(time * 0.82 + u * 4.6 - v * 5.2) * 0.00011;
+      var sway = Math.sin(time * 0.34 + v * 3.4 + u * 1.8) * 0.0002;
+      var ripple = Math.cos(time * 0.68 + u * 3.8 - v * 4.3) * 0.00008;
       var edge = Math.abs(u - 0.5) * 2;
 
-      current[j] = x + vx + sway * 0.34 + p.windX * 0.1;
-      current[j + 1] = y + vy - this.gravity + p.windY * 0.035;
-      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.33 + edge * edge * 0.00018 * Math.sin(time + v * 3.1);
+      current[j] = x + vx + sway * 0.28 + p.windX * 0.072;
+      current[j + 1] = y + vy - this.gravity + p.windY * 0.027;
+      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.24 + edge * edge * 0.00012 * Math.sin(time + v * 2.7);
 
       if (p.active) {
         var dx = x - p.x;
         var dy = y - p.y;
         var d2 = dx * dx + dy * dy;
-        if (d2 < 0.72) {
-          var influence = 1 - d2 / 0.72;
+        if (d2 < 0.6) {
+          var influence = 1 - d2 / 0.6;
           influence *= influence;
-          current[j] += p.windX * influence * 0.42;
-          current[j + 1] += p.windY * influence * 0.12;
+          current[j] += p.windX * influence * 0.28;
+          current[j + 1] += p.windY * influence * 0.08;
           var curlDir = dx >= 0 ? 1 : -1;
-          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.12;
+          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.07;
         }
       }
     }
