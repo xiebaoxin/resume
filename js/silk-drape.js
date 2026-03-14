@@ -8,7 +8,6 @@
   if (!window.requestAnimationFrame) return;
 
   var THREE_CDN = 'https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js';
-  var HTML2CANVAS_CDN = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
 
   function loadThree(done) {
     if (window.__silkThreeModule) {
@@ -21,23 +20,6 @@
     }).catch(function () {
       console.warn('[silk-drape] three.js failed to load.');
     });
-  }
-
-  function loadHtml2Canvas(done) {
-    if (window.html2canvas) {
-      done(true);
-      return;
-    }
-    var script = document.createElement('script');
-    script.src = HTML2CANVAS_CDN;
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    script.onload = function () { done(true); };
-    script.onerror = function () {
-      console.warn('[silk-drape] html2canvas failed to load.');
-      done(false);
-    };
-    document.head.appendChild(script);
   }
 
   function createClothTexture(THREE) {
@@ -74,7 +56,7 @@
     return t;
   }
 
-  function SilkDrape(THREE, withInkCapture) {
+  function SilkDrape(THREE) {
     this.THREE = THREE;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -98,7 +80,7 @@
 
     this.pageEl = document.querySelector('.page');
     if (this.pageEl) this.pageEl.style.transform = 'none';
-    this.withInkCapture = !!withInkCapture;
+    this.withInkCapture = true;
     this.captureBusy = false;
     this.captureTimer = null;
     this.captureReady = false;
@@ -357,72 +339,164 @@
     }, Math.max(40, delayMs || 120));
   };
 
+  SilkDrape.prototype.parsePx = function (value, fallback) {
+    var n = parseFloat(value);
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  SilkDrape.prototype.resolveInkColor = function (style) {
+    var color = style && style.color ? style.color : 'rgb(28,22,16)';
+    if (color.indexOf('rgb') !== 0) return 'rgba(30,24,18,0.98)';
+    var m = color.match(/\d+(\.\d+)?/g);
+    if (!m || m.length < 3) return 'rgba(30,24,18,0.98)';
+    var r = parseFloat(m[0]);
+    var g = parseFloat(m[1]);
+    var b = parseFloat(m[2]);
+    var v = (r + g + b) / 3;
+    if (v > 210) return 'rgba(48,40,32,0.92)';
+    return 'rgba(' + Math.max(16, r * 0.46).toFixed(0) + ',' + Math.max(14, g * 0.43).toFixed(0) + ',' + Math.max(12, b * 0.4).toFixed(0) + ',0.98)';
+  };
+
+  SilkDrape.prototype.drawWrappedText = function (ctx, text, x, y, maxWidth, lineHeight, textAlign) {
+    if (!text) return 0;
+    var linesDrawn = 0;
+    var paragraphs = text.split('\n');
+    var drawX = x;
+    if (textAlign === 'center') drawX = x + maxWidth * 0.5;
+    if (textAlign === 'right' || textAlign === 'end') drawX = x + maxWidth;
+
+    for (var p = 0; p < paragraphs.length; p++) {
+      var para = paragraphs[p].trim();
+      if (!para) {
+        y += lineHeight;
+        linesDrawn++;
+        continue;
+      }
+      var line = '';
+      for (var i = 0; i < para.length; i++) {
+        var ch = para.charAt(i);
+        var test = line + ch;
+        if (ctx.measureText(test).width > maxWidth && line) {
+          ctx.fillText(line, drawX, y);
+          y += lineHeight;
+          linesDrawn++;
+          line = ch;
+        } else {
+          line = test;
+        }
+      }
+      if (line) {
+        ctx.fillText(line, drawX, y);
+        y += lineHeight;
+        linesDrawn++;
+      }
+    }
+    return linesDrawn;
+  };
+
+  SilkDrape.prototype.renderTextInkFromDom = function () {
+    if (!this.pageEl || !this.inkCtx) return false;
+    var ctx = this.inkCtx;
+    var w = this.inkCanvas.width;
+    var h = this.inkCanvas.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.textBaseline = 'top';
+
+    var selectors = [
+      '.header-actions',
+      '.name',
+      '.basics-line',
+      '.target-role',
+      '.tagline',
+      '.contact',
+      '.section-title',
+      '.highlight .company',
+      '.highlight .period',
+      '.highlight .role',
+      '.products',
+      '.metrics',
+      '.chart-caption',
+      '.ai-note',
+      '.exp-item-company',
+      '.exp-item-period',
+      '.exp-item-role',
+      '.exp-item-summary',
+      '.skills-lead',
+      '.skills-tech',
+      '.skills-domain',
+      '.education-content',
+      '.attachments-links',
+      '.resume-footer .footer-note'
+    ].join(',');
+
+    var nodes = this.pageEl.querySelectorAll(selectors);
+    var written = 0;
+    for (var ni = 0; ni < nodes.length; ni++) {
+      var el = nodes[ni];
+      if (!el || !el.getBoundingClientRect) continue;
+      var rect = el.getBoundingClientRect();
+      if (rect.width < 4 || rect.height < 4) continue;
+      if (rect.bottom < 0 || rect.top > this.height) continue;
+
+      var style = window.getComputedStyle(el);
+      if (!style || style.visibility === 'hidden' || style.display === 'none') continue;
+
+      var text = (el.innerText || '')
+        .replace(/\u00a0/g, ' ')
+        .replace(/[ \t]+\n/g, '\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+      if (!text) continue;
+
+      var fontSize = this.parsePx(style.fontSize, 14);
+      var lineHeight = this.parsePx(style.lineHeight, fontSize * 1.45);
+      var weight = style.fontWeight || '400';
+      var family = style.fontFamily || 'Georgia, serif';
+      ctx.font = weight + ' ' + fontSize + 'px ' + family;
+      ctx.fillStyle = this.resolveInkColor(style);
+      ctx.textAlign = style.textAlign || 'left';
+      ctx.globalAlpha = Math.max(0.72, Math.min(1, this.parsePx(style.opacity, 1)));
+
+      var maxWidth = Math.max(8, rect.width);
+      written += this.drawWrappedText(ctx, text, rect.left, rect.top, maxWidth, lineHeight, ctx.textAlign);
+    }
+
+    if (written > 10) {
+      this.inkTexture.needsUpdate = true;
+      return true;
+    }
+    return false;
+  };
+
   SilkDrape.prototype.captureInk = function () {
-    if (!this.withInkCapture || this.captureBusy || !window.html2canvas) return;
+    if (!this.withInkCapture || this.captureBusy) return;
     if (!this.pageEl) return;
     this.captureBusy = true;
     var self = this;
     var hadInkMode = document.body.classList.contains('silk-ink-mode');
     if (hadInkMode) {
       document.body.classList.remove('silk-ink-mode');
-      // Force style flush so .main/.footer visibility is restored before capture.
       void this.pageEl.offsetHeight;
     }
-    var scale = Math.min((window.devicePixelRatio || 1) * 1.15, 2);
-    var rect = this.pageEl.getBoundingClientRect();
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        window.html2canvas(self.pageEl, {
-          backgroundColor: null,
-          logging: false,
-          useCORS: true,
-          scale: scale,
-          scrollX: 0,
-          scrollY: 0,
-          windowWidth: window.innerWidth,
-          windowHeight: window.innerHeight
-        }).then(function (canvas) {
-          var ok = self.updateInkMask(canvas, rect, scale);
+        try {
+          var ok = self.renderTextInkFromDom();
           if (ok) {
             self.captureReady = true;
             document.body.classList.add('silk-ink-mode');
           } else {
-            if (hadInkMode && self.captureReady) {
-              document.body.classList.add('silk-ink-mode');
-            }
-            self.scheduleCapture(420);
+            self.scheduleCapture(520);
+            if (hadInkMode) document.body.classList.add('silk-ink-mode');
           }
-        }).catch(function () {
-          console.warn('[silk-drape] capture failed.');
-          self.scheduleCapture(520);
-        }).finally(function () {
-          self.captureBusy = false;
-          if (!self.captureReady && hadInkMode) {
-            document.body.classList.remove('silk-ink-mode');
-          }
-        });
+        } catch (err) {
+          console.warn('[silk-drape] text ink render failed:', err);
+          self.scheduleCapture(800);
+          if (hadInkMode) document.body.classList.add('silk-ink-mode');
+        }
+        self.captureBusy = false;
       });
     });
-  };
-
-  SilkDrape.prototype.updateInkMask = function (srcCanvas, rect, scale) {
-    if (!this.inkCtx || !srcCanvas || !rect) return;
-    var w = this.inkCanvas.width;
-    var h = this.inkCanvas.height;
-    this.inkCtx.clearRect(0, 0, w, h);
-    var drawX = Math.round(rect.left * (scale || 1));
-    var drawY = Math.round(rect.top * (scale || 1));
-    this.inkCtx.drawImage(srcCanvas, drawX, drawY);
-    var probe = this.inkCtx.getImageData(0, 0, w, h).data;
-    var nonEmpty = 0;
-    for (var i = 3; i < probe.length; i += 32) {
-      if (probe[i] > 28) nonEmpty++;
-    }
-    if (nonEmpty < 120) {
-      return false;
-    }
-    this.inkTexture.needsUpdate = true;
-    return true;
   };
 
   SilkDrape.prototype.relaxConstraints = function () {
@@ -460,19 +534,6 @@
     }
   };
 
-  SilkDrape.prototype.applyTethers = function () {
-    if (!this.tethers || !this.tethers.length) return;
-    var current = this.current;
-    var initial = this.initial;
-    for (var i = 0; i < this.tethers.length; i++) {
-      var t = this.tethers[i];
-      var j = t.idx * 3;
-      var k = t.k;
-      current[j] += (initial[j] - current[j]) * k;
-      current[j + 1] += (initial[j + 1] - current[j + 1]) * k;
-      current[j + 2] += (initial[j + 2] - current[j + 2]) * k;
-    }
-  };
 
   SilkDrape.prototype.simulate = function (dt, time) {
     var p = this.pointer;
@@ -551,7 +612,6 @@
 
     for (var it = 0; it < this.iterations; it++) {
       this.relaxConstraints();
-      this.applyTethers();
     }
 
     this.positionAttr.array.set(current);
@@ -578,14 +638,12 @@
     if (window.innerWidth < 700) return;
     if (document.body.getAttribute('data-silk-page') !== '1') return;
     loadThree(function (THREE) {
-      loadHtml2Canvas(function (withInkCapture) {
-        try {
-          // eslint-disable-next-line no-new
-          new SilkDrape(THREE, withInkCapture);
-        } catch (err) {
-          console.warn('[silk-drape] init failed:', err);
-        }
-      });
+      try {
+        // eslint-disable-next-line no-new
+        new SilkDrape(THREE);
+      } catch (err) {
+        console.warn('[silk-drape] init failed:', err);
+      }
     });
   }
 
