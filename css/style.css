@@ -66,6 +66,15 @@ body::before {
   transform-origin: 50% 0;
 }
 
+body.silk-ink-mode .page {
+  opacity: 0.22;
+  transition: opacity 0.35s ease;
+}
+
+body.silk-ink-mode .silk-drape-layer {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .silk-drape-layer {
     display: none !important;

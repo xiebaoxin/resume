@@ -8,6 +8,7 @@
   if (!window.requestAnimationFrame) return;
 
   var THREE_CDN = 'https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js';
+  var HTML2CANVAS_CDN = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
 
   function loadThree(done) {
     if (window.__silkThreeModule) {
@@ -20,6 +21,23 @@
     }).catch(function () {
       console.warn('[silk-drape] three.js failed to load.');
     });
+  }
+
+  function loadHtml2Canvas(done) {
+    if (window.html2canvas) {
+      done(true);
+      return;
+    }
+    var script = document.createElement('script');
+    script.src = HTML2CANVAS_CDN;
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.onload = function () { done(true); };
+    script.onerror = function () {
+      console.warn('[silk-drape] html2canvas failed to load.');
+      done(false);
+    };
+    document.head.appendChild(script);
   }
 
   function createClothTexture(THREE) {
@@ -56,7 +74,7 @@
     return t;
   }
 
-  function SilkDrape(THREE) {
+  function SilkDrape(THREE, withInkCapture) {
     this.THREE = THREE;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -87,6 +105,10 @@
     if (this.pageEl) {
       this.pageEl.classList.add('silk-text-bound');
     }
+    this.withInkCapture = !!withInkCapture;
+    this.captureBusy = false;
+    this.captureTimer = null;
+    this.captureReady = false;
 
     this.layer = document.createElement('div');
     this.layer.className = 'silk-drape-layer';
@@ -111,8 +133,12 @@
 
     this.setupLights();
     this.setupCloth();
+    this.setupInkOverlay();
     this.bindEvents();
     this.onResize();
+    if (this.withInkCapture) {
+      this.scheduleCapture(420);
+    }
 
     this.clock = new THREE.Clock();
     this.animate = this.animate.bind(this);
@@ -233,18 +259,54 @@
     this.scene.add(this.mesh);
   };
 
+  SilkDrape.prototype.setupInkOverlay = function () {
+    if (!this.withInkCapture) return;
+    var THREE = this.THREE;
+    this.inkCanvas = document.createElement('canvas');
+    this.inkCanvas.width = Math.max(2, Math.floor(this.width));
+    this.inkCanvas.height = Math.max(2, Math.floor(this.height));
+    this.inkCtx = this.inkCanvas.getContext('2d', { willReadFrequently: true });
+    this.inkTexture = new THREE.CanvasTexture(this.inkCanvas);
+    this.inkTexture.wrapS = THREE.ClampToEdgeWrapping;
+    this.inkTexture.wrapT = THREE.ClampToEdgeWrapping;
+    this.inkTexture.minFilter = THREE.LinearFilter;
+    this.inkTexture.magFilter = THREE.LinearFilter;
+    this.inkTexture.needsUpdate = true;
+
+    this.inkMaterial = new THREE.MeshBasicMaterial({
+      map: this.inkTexture,
+      transparent: true,
+      opacity: 0.88,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+    this.inkMesh = new THREE.Mesh(this.geometry, this.inkMaterial);
+    this.inkMesh.position.z = this.mesh.position.z + 0.003;
+    this.scene.add(this.inkMesh);
+  };
+
   SilkDrape.prototype.bindEvents = function () {
     var self = this;
     this._onResize = function () { self.onResize(); };
     this._onPointerMove = function (e) { self.onPointerMove(e); };
     this._onLeave = function () { self.pointer.active = false; };
     this._onVisibility = function () { self.hidden = document.hidden; };
+    this._onScroll = function () { self.scheduleCapture(140); };
 
     window.addEventListener('resize', this._onResize);
     window.addEventListener('pointermove', this._onPointerMove, { passive: true });
     window.addEventListener('pointerleave', this._onLeave, { passive: true });
     window.addEventListener('blur', this._onLeave);
     document.addEventListener('visibilitychange', this._onVisibility);
+    if (this.withInkCapture) {
+      window.addEventListener('scroll', this._onScroll, { passive: true });
+      if (this.pageEl && window.MutationObserver) {
+        this._observer = new MutationObserver(function () {
+          self.scheduleCapture(180);
+        });
+        this._observer.observe(this.pageEl, { subtree: true, childList: true, characterData: true });
+      }
+    }
   };
 
   SilkDrape.prototype.onResize = function () {
@@ -253,6 +315,12 @@
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.width, this.height, false);
+    if (this.withInkCapture && this.inkCanvas) {
+      this.inkCanvas.width = Math.max(2, Math.floor(this.width));
+      this.inkCanvas.height = Math.max(2, Math.floor(this.height));
+      this.inkTexture.needsUpdate = true;
+      this.scheduleCapture(220);
+    }
   };
 
   SilkDrape.prototype.onPointerMove = function (e) {
@@ -279,6 +347,80 @@
     p.lastTs = ts;
     p.lastX = e.clientX;
     p.lastY = e.clientY;
+  };
+
+  SilkDrape.prototype.scheduleCapture = function (delayMs) {
+    if (!this.withInkCapture || this.hidden) return;
+    var self = this;
+    if (this.captureTimer) {
+      clearTimeout(this.captureTimer);
+    }
+    this.captureTimer = setTimeout(function () {
+      self.captureTimer = null;
+      self.captureInk();
+    }, Math.max(40, delayMs || 120));
+  };
+
+  SilkDrape.prototype.captureInk = function () {
+    if (!this.withInkCapture || this.captureBusy || !window.html2canvas) return;
+    this.captureBusy = true;
+    var self = this;
+    var previousVisibility = this.layer.style.visibility;
+    this.layer.style.visibility = 'hidden';
+    document.body.classList.remove('silk-ink-mode');
+
+    window.html2canvas(document.body, {
+      backgroundColor: null,
+      logging: false,
+      useCORS: true,
+      scale: 1,
+      scrollX: -window.scrollX,
+      scrollY: -window.scrollY,
+      width: Math.floor(this.width),
+      height: Math.floor(this.height),
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
+      ignoreElements: function (el) {
+        return !!(el && el.classList && el.classList.contains('silk-drape-layer'));
+      }
+    }).then(function (canvas) {
+      self.updateInkMask(canvas);
+      self.captureReady = true;
+      document.body.classList.add('silk-ink-mode');
+    }).catch(function () {
+      console.warn('[silk-drape] capture failed.');
+    }).finally(function () {
+      self.captureBusy = false;
+      self.layer.style.visibility = previousVisibility || '';
+    });
+  };
+
+  SilkDrape.prototype.updateInkMask = function (srcCanvas) {
+    if (!this.inkCtx || !srcCanvas) return;
+    var w = this.inkCanvas.width;
+    var h = this.inkCanvas.height;
+    this.inkCtx.clearRect(0, 0, w, h);
+    this.inkCtx.drawImage(srcCanvas, 0, 0, w, h);
+    var img = this.inkCtx.getImageData(0, 0, w, h);
+    var data = img.data;
+    for (var i = 0; i < data.length; i += 4) {
+      var r = data[i];
+      var g = data[i + 1];
+      var b = data[i + 2];
+      var lum = (r * 0.2126 + g * 0.7152 + b * 0.0722);
+      var alpha = lum > 238 ? 0 : Math.min(255, (238 - lum) * 2.7);
+      if (alpha > 0) {
+        var sepia = Math.min(255, lum * 0.58 + 45);
+        data[i] = sepia;
+        data[i + 1] = sepia * 0.95;
+        data[i + 2] = sepia * 0.88;
+        data[i + 3] = alpha;
+      } else {
+        data[i + 3] = 0;
+      }
+    }
+    this.inkCtx.putImageData(img, 0, 0);
+    this.inkTexture.needsUpdate = true;
   };
 
   SilkDrape.prototype.relaxConstraints = function () {
@@ -409,9 +551,9 @@
   SilkDrape.prototype.updatePageMotion = function (time) {
     if (!this.pageEl) return;
     var p = this.pointer;
-    var tX = Math.max(-4.2, Math.min(4.2, p.windX * 240 + Math.sin(time * 0.34) * 0.5));
-    var tY = Math.max(-2.8, Math.min(2.8, p.windY * 220 + Math.cos(time * 0.3) * 0.35));
-    var tRz = Math.max(-0.35, Math.min(0.35, p.windX * 14 + Math.sin(time * 0.24) * 0.07));
+    var tX = Math.max(-1.2, Math.min(1.2, p.windX * 70 + Math.sin(time * 0.24) * 0.15));
+    var tY = Math.max(-0.9, Math.min(0.9, p.windY * 68 + Math.cos(time * 0.21) * 0.12));
+    var tRz = Math.max(-0.08, Math.min(0.08, p.windX * 3.5 + Math.sin(time * 0.2) * 0.02));
 
     this.pageMotion.x += (tX - this.pageMotion.x) * 0.08;
     this.pageMotion.y += (tY - this.pageMotion.y) * 0.08;
@@ -435,12 +577,14 @@
     if (!document.body) return;
     if (window.innerWidth < 700) return;
     loadThree(function (THREE) {
-      try {
-        // eslint-disable-next-line no-new
-        new SilkDrape(THREE);
-      } catch (err) {
-        console.warn('[silk-drape] init failed:', err);
-      }
+      loadHtml2Canvas(function (withInkCapture) {
+        try {
+          // eslint-disable-next-line no-new
+          new SilkDrape(THREE, withInkCapture);
+        } catch (err) {
+          console.warn('[silk-drape] init failed:', err);
+        }
+      });
     });
   }
 
