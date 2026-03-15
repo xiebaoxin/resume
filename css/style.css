@@ -92,7 +92,109 @@ body.silk-ink-mode .silk-drape-layer {
 }
 
 body.silk-preparing .silk-drape-layer {
+  opacity: 1;
+}
+
+body.silk-preparing .page .main,
+body.silk-preparing .page .resume-footer,
+body.silk-preparing .page footer {
   opacity: 0;
+}
+
+body.silk-home-page {
+  overflow-y: auto;
+}
+
+body.silk-home-page .page {
+  max-width: 980px;
+  min-height: 100vh;
+  padding: 0.95rem 1.6rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.silk-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.silk-col {
+  min-width: 0;
+}
+
+body.silk-home-page .hero,
+body.silk-home-page .skills,
+body.silk-home-page .education,
+body.silk-home-page .highlight,
+body.silk-home-page .experience {
+  margin-bottom: 0.75rem;
+}
+
+body.silk-home-page .name {
+  font-size: clamp(1.5rem, 3vw, 1.85rem);
+}
+
+body.silk-home-page .tagline,
+body.silk-home-page .metric,
+body.silk-home-page .exp-item-summary,
+body.silk-home-page .skills-lead,
+body.silk-home-page .education-content {
+  font-size: 13px;
+  line-height: 1.42;
+}
+
+body.silk-home-page .highlight-card {
+  padding: 0.9rem 1.05rem;
+}
+
+body.silk-home-page .exp-list li {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+body.silk-home-page .exp-item-summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body.silk-home-page .section-title {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.3rem;
+}
+
+body.silk-home-page .resume-footer.silk-footer {
+  margin-top: 0.5rem;
+  padding-top: 0.7rem;
+}
+
+@media (max-width: 700px) {
+  body.silk-home-page .page {
+    padding: 0.75rem 0.75rem 0.65rem;
+  }
+
+  .silk-main {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  body.silk-home-page .section-title {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  body.silk-home-page .name {
+    font-size: 1.45rem;
+  }
+
+  body.silk-home-page .contact {
+    gap: 0.4rem 0.65rem;
+    font-size: 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

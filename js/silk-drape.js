@@ -478,7 +478,11 @@
       ctx.lineWidth = Math.max(0.35, fontSize * 0.035);
       ctx.lineJoin = 'round';
       ctx.textAlign = style.textAlign || 'left';
-      ctx.globalAlpha = Math.max(0.72, Math.min(1, this.parsePx(style.opacity, 1)));
+      var sourceAlpha = this.parsePx(style.opacity, 1);
+      if ((document.body.classList.contains('silk-ink-mode') || document.body.classList.contains('silk-preparing')) && sourceAlpha < 0.2) {
+        sourceAlpha = 1;
+      }
+      ctx.globalAlpha = Math.max(0.72, Math.min(1, sourceAlpha));
 
       var maxWidth = Math.max(8, rect.width);
       written += this.drawWrappedText(ctx, text, rect.left, rect.top, maxWidth, lineHeight, ctx.textAlign);
