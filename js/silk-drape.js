@@ -263,7 +263,7 @@
     if (!this.withInkCapture) return;
     var THREE = this.THREE;
     var mobile = this.width < 700;
-    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.85, 2.5) : Math.min((window.devicePixelRatio || 1) * 2.35, 3.8);
+    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.9, 2.6) : Math.min((window.devicePixelRatio || 1) * 2.45, 4.2);
     this.inkCanvas = document.createElement('canvas');
     this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
     this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
@@ -339,7 +339,7 @@
     this.renderer.setSize(this.width, this.height, false);
     if (this.withInkCapture && this.inkCanvas && this.inkSourceCanvas) {
       var mobile = this.width < 700;
-      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.85, 2.5) : Math.min((window.devicePixelRatio || 1) * 2.35, 3.8);
+      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.9, 2.6) : Math.min((window.devicePixelRatio || 1) * 2.45, 4.2);
       this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
       this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
       this.inkSourceCanvas.width = this.inkCanvas.width;
@@ -502,7 +502,6 @@
     ctx.imageSmoothingQuality = 'high';
 
     var selectors = [
-      '.header-actions',
       '.name',
       '.basics-line',
       '.target-role',
@@ -555,19 +554,19 @@
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(88,64,42,0.34)';
-      ctx.lineWidth = Math.max(0.3, fontSize * 0.028);
+      ctx.strokeStyle = 'rgba(82,58,36,0.38)';
+      ctx.lineWidth = Math.max(0.32, fontSize * 0.03);
       ctx.lineJoin = 'round';
-      ctx.shadowColor = 'rgba(255,248,236,0.28)';
-      ctx.shadowBlur = Math.max(0.28, fontSize * 0.024);
-      ctx.shadowOffsetX = 0.08;
+      ctx.shadowColor = 'rgba(255,248,236,0.24)';
+      ctx.shadowBlur = Math.max(0.2, fontSize * 0.018);
+      ctx.shadowOffsetX = 0.06;
       ctx.shadowOffsetY = 0.1;
       ctx.textAlign = style.textAlign || 'left';
       var sourceAlpha = this.parsePx(style.opacity, 1);
       if ((document.body.classList.contains('silk-ink-mode') || document.body.classList.contains('silk-preparing')) && sourceAlpha < 0.2) {
         sourceAlpha = 1;
       }
-      ctx.globalAlpha = Math.max(0.72, Math.min(1, sourceAlpha));
+      ctx.globalAlpha = Math.max(0.8, Math.min(1, sourceAlpha));
 
       var maxWidth = Math.max(8, rect.width);
       written += this.drawWrappedText(ctx, text, rect.left, rect.top + topOffset, maxWidth, lineHeight, ctx.textAlign);
