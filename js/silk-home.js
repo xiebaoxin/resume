@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-13';
+  var DATA_VERSION = '20260316-14';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -48,20 +48,70 @@
     if (el) el.innerHTML = value || '';
   }
 
-  function renderContactLine(data, lang) {
-    var contact = (data.basics && data.basics.contact) || {};
-    var items = [];
-    if (contact.phone) items.push((lang === 'en' ? 'Tel' : '电话') + '：' + contact.phone);
-    if (contact.email) items.push('Email：' + contact.email);
-    if (contact.resumeRepo) items.push((lang === 'en' ? 'Resume' : '简历') + '：' + contact.resumeRepo);
-    return '<p class="letter-contact">' + escapeHtml(items.join('  ·  ')) + '</p>';
+  function renderContactLine(data, lang, mobile) {
+    var basics = data.basics || {};
+    var contact = basics.contact || {};
+    var education = data.education || {};
+    var skills = data.skills || {};
+    var tech = Array.isArray(skills.tech) ? skills.tech.slice(0, mobile ? 3 : 5) : [];
+    var lines = [];
+
+    function pushLine(items) {
+      if (items.length) lines.push(items.join('  ·  '));
+    }
+
+    if (lang === 'en') {
+      var line1 = [];
+      if (contact.phone) line1.push('Tel: ' + contact.phone);
+      if (contact.email) line1.push('Email: ' + contact.email);
+      if (basics.location) line1.push('Location: ' + basics.location);
+      pushLine(line1);
+
+      var line2 = [];
+      if (basics.yearsExp) line2.push('Experience: ' + basics.yearsExp);
+      if (contact.wechat) line2.push('WeChat: ' + contact.wechat);
+      if (contact.resumeRepo) line2.push('Resume: ' + contact.resumeRepo);
+      pushLine(line2);
+
+      if (!mobile) {
+        var line3 = [];
+        var edu = [education.degree, education.school].filter(Boolean).join(' · ');
+        if (edu) line3.push('Education: ' + edu);
+        if (tech.length) line3.push('Stack: ' + tech.join(' / '));
+        pushLine(line3);
+      }
+    } else {
+      var zhLine1 = [];
+      if (contact.phone) zhLine1.push('电话：' + contact.phone);
+      if (contact.email) zhLine1.push('邮箱：' + contact.email);
+      if (basics.location) zhLine1.push('城市：' + basics.location);
+      pushLine(zhLine1);
+
+      var zhLine2 = [];
+      if (basics.yearsExp) zhLine2.push('经验：' + basics.yearsExp);
+      if (contact.wechat) zhLine2.push('微信：' + contact.wechat);
+      if (contact.resumeRepo) zhLine2.push('简历：' + contact.resumeRepo);
+      pushLine(zhLine2);
+
+      if (!mobile) {
+        var zhLine3 = [];
+        var zhEdu = [education.school, education.degree].filter(Boolean).join(' · ');
+        if (zhEdu) zhLine3.push('学历：' + zhEdu);
+        if (tech.length) zhLine3.push('技术栈：' + tech.join(' / '));
+        pushLine(zhLine3);
+      }
+    }
+
+    return lines.map(function (line) {
+      return '<p class="letter-contact">' + escapeHtml(line) + '</p>';
+    }).join('');
   }
 
   function buildNarrative(lang, mobile) {
     if (lang === 'en') {
       return {
         targetRole: 'AI Tech Lead / Engineering Manager',
-        tagline: 'AI-assisted full-stack delivery leader.',
+        tagline: 'AI-assisted full-stack delivery and technical management leader.',
         title: 'Recommendation',
         p1: mobile
           ? 'I strongly recommend Xie Baoxin for senior technical management interviews. He converts complex business goals into clear milestones, aligns product, engineering, QA, and operations around execution, and consistently delivers measurable outcomes with both speed and quality.'
@@ -73,7 +123,7 @@
     }
     return {
       targetRole: 'AI 技术负责人 / 工程管理',
-      tagline: 'AI 辅助研发与全栈交付负责人。',
+      tagline: 'AI 辅助研发、全栈交付与团队管理负责人。',
       title: '推荐意见',
       p1: mobile
         ? '建议将谢宝新列为高级技术管理岗优先面试人选。他能将复杂业务目标拆解为清晰里程碑，组织产品、研发、测试与运营高效协同，在兼顾效率与质量的前提下稳定产出可量化结果。'
@@ -96,7 +146,7 @@
     setText('basicsLine', [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · '));
     setText('targetRole', narrative.targetRole);
     setText('tagline', narrative.tagline);
-    setHTML('contact', renderContactLine(data, lang));
+    setHTML('contact', renderContactLine(data, lang, mobile));
 
     setText('highlightTitle', narrative.title);
     setText('highlightCompany', '');
