@@ -102,24 +102,24 @@ body.silk-preparing .page footer {
 }
 
 body.silk-home-page {
-  overflow-y: hidden;
+  overflow-y: auto;
+  font-family: "Kaiti SC", "STKaiti", "KaiTi", "BiauKai", "Noto Serif SC", Georgia, serif;
 }
 
 body.silk-home-page .page {
-  max-width: 960px;
-  height: 100vh;
-  padding: 1.02rem 1.2rem 0.52rem;
+  max-width: 880px;
+  min-height: 100vh;
+  height: auto;
+  padding: 1.2rem 1.35rem 1rem;
   display: flex;
   flex-direction: column;
+  color: #2f2923;
+  text-shadow: 0 0.35px 0 rgba(80, 63, 46, 0.18);
 }
 
 .silk-main {
-  display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: 0.85rem;
+  display: block;
   flex: 1;
-  min-height: 0;
-  overflow: hidden;
 }
 
 .silk-col {
@@ -131,17 +131,22 @@ body.silk-home-page .skills,
 body.silk-home-page .education,
 body.silk-home-page .highlight,
 body.silk-home-page .experience {
-  margin-bottom: 0.48rem;
+  margin-bottom: 1rem;
 }
 
 body.silk-home-page .name {
-  font-size: clamp(1.35rem, 2.8vw, 1.65rem);
+  font-size: clamp(2rem, 4.1vw, 2.5rem);
+  line-height: 1.12;
 }
 
-body.silk-home-page .basics-line,
+body.silk-home-page .basics-line {
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+
 body.silk-home-page .target-role {
-  font-size: 12px;
-  line-height: 1.3;
+  font-size: 1.16rem;
+  line-height: 1.4;
 }
 
 body.silk-home-page .tagline,
@@ -150,125 +155,115 @@ body.silk-home-page .exp-item-summary,
 body.silk-home-page .skills-lead,
 body.silk-home-page .education-content,
 body.silk-home-page .ai-note {
-  font-size: 11.5px;
-  line-height: 1.28;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
 }
 
 body.silk-home-page .highlight-card {
-  padding: 0.6rem 0.78rem;
+  padding: 1.05rem 1.2rem;
 }
 
 body.silk-home-page .exp-list li {
-  margin-bottom: 0.32rem;
-  padding-bottom: 0.32rem;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
 }
 
 body.silk-home-page .exp-item-summary {
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 body.silk-home-page .section-title {
-  margin-bottom: 0.32rem;
-  padding-bottom: 0.18rem;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-align: left;
-  justify-content: flex-start;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.42rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
 }
 
 body.silk-home-page .resume-footer.silk-footer {
-  margin-top: 0.22rem;
-  padding-top: 0.38rem;
-  font-size: 10px;
+  margin-top: 0.7rem;
+  padding-top: 0.75rem;
+  font-size: 0.95rem;
 }
 
 body.silk-home-page .header {
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.8rem;
 }
 
 body.silk-home-page .contact {
-  gap: 0.26rem 0.5rem;
-  font-size: 11px;
-  line-height: 1.25;
+  gap: 0.42rem 1rem;
+  font-size: 0.98rem;
+  line-height: 1.36;
 }
 
 body.silk-home-page .skills-tech .tag {
-  margin: 0.06rem 0.14rem 0.06rem 0;
-  padding: 0.12rem 0.34rem;
-  font-size: 10px;
+  margin: 0.14rem 0.25rem 0.14rem 0;
+  padding: 0.26rem 0.62rem;
+  font-size: 0.84rem;
 }
 
 body.silk-home-page .exp-item-company {
-  font-size: 12px;
+  font-size: 1.08rem;
 }
 
 body.silk-home-page .exp-item-period,
 body.silk-home-page .exp-item-role {
-  font-size: 11px;
+  font-size: 0.95rem;
+}
+
+body.silk-home-page .highlight-card .company {
+  font-size: 1.3rem;
+}
+
+body.silk-home-page .highlight-card .period {
+  font-size: 0.98rem;
+}
+
+body.silk-home-page .product {
+  font-size: 1rem;
+  line-height: 1.45;
 }
 
 body.silk-home-page .highlight-head,
 body.silk-home-page .exp-item-head {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 0.05rem;
-  margin-bottom: 0.12rem;
-}
-
-body.silk-home-page .highlight-card .period,
-body.silk-home-page .exp-item-period {
-  text-align: left;
-}
-
-body.silk-home-page.silk-fit-compact-1 .tagline,
-body.silk-home-page.silk-fit-compact-1 #metricAppstore,
-body.silk-home-page.silk-fit-compact-1 #aiNote {
-  display: none;
-}
-
-body.silk-home-page.silk-fit-compact-2 #skillsDomain,
-body.silk-home-page.silk-fit-compact-2 #educationTitle,
-body.silk-home-page.silk-fit-compact-2 #educationContent {
-  display: none;
+  align-items: baseline;
 }
 
 @media (max-width: 700px) {
   body.silk-home-page {
-    overflow-y: hidden;
+    overflow-y: auto;
   }
 
   body.silk-home-page .page {
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
     max-width: 100%;
-    padding: 0.72rem 0.45rem 0.32rem;
+    padding: 0.95rem 0.75rem 0.8rem;
   }
 
   .silk-main {
-    grid-template-columns: 0.98fr 1.02fr;
-    gap: 0.4rem;
+    display: block;
   }
 
   body.silk-home-page .section-title {
-    font-size: 8px;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.2rem;
-    padding-bottom: 0.1rem;
+    font-size: 0.92rem;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.45rem;
+    padding-bottom: 0.24rem;
   }
 
   body.silk-home-page .name {
-    font-size: 1.02rem;
-    margin-bottom: 0.14rem;
+    font-size: 1.8rem;
+    margin-bottom: 0.28rem;
   }
 
   body.silk-home-page .basics-line,
   body.silk-home-page .target-role {
-    font-size: 10px;
-    margin-bottom: 0.12rem;
+    font-size: 0.96rem;
+    margin-bottom: 0.22rem;
   }
 
   body.silk-home-page .tagline,
@@ -277,32 +272,32 @@ body.silk-home-page.silk-fit-compact-2 #educationContent {
   body.silk-home-page .skills-lead,
   body.silk-home-page .education-content,
   body.silk-home-page .ai-note {
-    font-size: 9px;
-    line-height: 1.18;
+    font-size: 0.92rem;
+    line-height: 1.38;
   }
 
   body.silk-home-page .contact {
-    gap: 0.14rem 0.24rem;
-    font-size: 9px;
+    gap: 0.25rem 0.65rem;
+    font-size: 0.88rem;
   }
 
   body.silk-home-page .exp-item-company {
-    font-size: 10px;
+    font-size: 1rem;
   }
 
   body.silk-home-page .exp-item-period,
   body.silk-home-page .exp-item-role {
-    font-size: 9px;
+    font-size: 0.86rem;
   }
 
   body.silk-home-page .skills-tech .tag {
-    margin: 0.02rem 0.08rem 0.02rem 0;
-    padding: 0.04rem 0.18rem;
-    font-size: 8px;
+    margin: 0.08rem 0.12rem 0.08rem 0;
+    padding: 0.12rem 0.32rem;
+    font-size: 0.76rem;
   }
 
   body.silk-home-page .highlight-card {
-    padding: 0.32rem 0.36rem;
+    padding: 0.72rem 0.85rem;
   }
 
   body.silk-home-page .hero,
@@ -310,22 +305,22 @@ body.silk-home-page.silk-fit-compact-2 #educationContent {
   body.silk-home-page .education,
   body.silk-home-page .highlight,
   body.silk-home-page .experience {
-    margin-bottom: 0.22rem;
+    margin-bottom: 0.72rem;
   }
 
   body.silk-home-page .exp-list li {
-    margin-bottom: 0.16rem;
-    padding-bottom: 0.16rem;
+    margin-bottom: 0.46rem;
+    padding-bottom: 0.46rem;
   }
 
   body.silk-home-page .resume-footer.silk-footer {
-    margin-top: 0.12rem;
-    padding-top: 0.2rem;
-    font-size: 8px;
+    margin-top: 0.45rem;
+    padding-top: 0.45rem;
+    font-size: 0.82rem;
   }
 
   body.silk-home-page .header {
-    margin-bottom: 0.22rem;
+    margin-bottom: 0.5rem;
   }
 }
 

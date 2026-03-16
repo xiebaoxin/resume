@@ -297,6 +297,9 @@
       self.scheduleCapture(80);
       self.scheduleCapture(420);
     };
+    this._onScroll = function () {
+      self.scheduleCapture(120);
+    };
 
     window.addEventListener('resize', this._onResize);
     window.addEventListener('pointermove', this._onPointerMove, { passive: true });
@@ -307,6 +310,7 @@
       var switchBtn = document.getElementById('langSwitch');
       if (switchBtn) switchBtn.addEventListener('click', this._onLangSwitch);
       document.addEventListener('silk-content-ready', this._onContentReady);
+      window.addEventListener('scroll', this._onScroll, { passive: true });
     }
   };
 

@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-2';
+  var DATA_VERSION = '20260316-3';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -22,41 +22,6 @@
 
   function isMobileViewport() {
     return window.innerWidth < 700;
-  }
-
-  function fitSingleSilkPage(done) {
-    var body = document.body;
-    var level = 0;
-    var maxLevel = 2;
-
-    function applyLevel(nextLevel) {
-      body.classList.remove('silk-fit-compact-1', 'silk-fit-compact-2');
-      if (nextLevel >= 1) body.classList.add('silk-fit-compact-1');
-      if (nextLevel >= 2) body.classList.add('silk-fit-compact-2');
-    }
-
-    function isOverflowing() {
-      var page = document.querySelector('.page');
-      var main = document.querySelector('.silk-main');
-      var viewportH = window.innerHeight;
-      var bodyOverflow = document.body.scrollHeight > viewportH + 2;
-      var pageOverflow = page && page.scrollHeight > page.clientHeight + 2;
-      var mainOverflow = main && main.scrollHeight > main.clientHeight + 2;
-      return !!(bodyOverflow || pageOverflow || mainOverflow);
-    }
-
-    function step() {
-      if (!isOverflowing() || level >= maxLevel) {
-        if (typeof done === 'function') done();
-        return;
-      }
-      level += 1;
-      applyLevel(level);
-      requestAnimationFrame(step);
-    }
-
-    applyLevel(0);
-    requestAnimationFrame(step);
   }
 
   function getLang() {
@@ -84,16 +49,19 @@
   function renderContact(data, isMobile) {
     var contact = data.basics.contact || {};
     var parts = [];
-    if (!isMobile && contact.phone) parts.push('<span>Tel: ' + escapeHtml(contact.phone) + '</span>');
+    if (contact.phone) parts.push('<span>Tel: ' + escapeHtml(contact.phone) + '</span>');
     if (contact.email) parts.push('<span>Email: ' + escapeHtml(contact.email) + '</span>');
     if (contact.wechat) parts.push('<span>WeChat: ' + escapeHtml(contact.wechat) + '</span>');
+    if (!isMobile && contact.resumeRepo && contact.resumeRepoLabel) {
+      parts.push('<span>' + escapeHtml(contact.resumeRepoLabel) + '：<a href="' + escapeHtml(contact.resumeRepo) + '" target="_blank" rel="noopener noreferrer" class="contact-link">' + escapeHtml(contact.resumeRepo) + '</a></span>');
+    }
     if (parts.length === 0 && contact.phone) parts.push('<span>Tel: ' + escapeHtml(contact.phone) + '</span>');
     return parts.join('');
   }
 
   function renderExperience(items, lang, isMobile) {
     if (!Array.isArray(items)) return '';
-    var limit = isMobile ? 1 : 2;
+    var limit = isMobile ? 2 : 3;
     return items.slice(0, limit).map(function (item) {
       return (
         '<li class="exp-item">' +
@@ -102,15 +70,24 @@
         '<span class="exp-item-period">' + escapeHtml(item.period) + '</span>' +
         '</div>' +
         '<div class="exp-item-role">' + escapeHtml(item.role) + '</div>' +
-        '<p class="exp-item-summary">' + escapeHtml(compactText(item.summary, lang, isMobile ? 30 : 38, isMobile ? 52 : 70)) + '</p>' +
+        '<p class="exp-item-summary">' + escapeHtml(compactText(item.summary, lang, isMobile ? 56 : 78, isMobile ? 112 : 170)) + '</p>' +
         '</li>'
       );
     }).join('');
   }
 
+  function renderProducts(items, lang, isMobile) {
+    if (!Array.isArray(items)) return '';
+    var limit = isMobile ? 1 : 2;
+    return items.slice(0, limit).map(function (p) {
+      var text = (p.name || '') + ' ' + compactText(p.desc || '', lang, isMobile ? 30 : 42, isMobile ? 58 : 90);
+      return '<div class="product">' + escapeHtml(text) + '</div>';
+    }).join('');
+  }
+
   function renderTech(tech, isMobile) {
     if (!Array.isArray(tech)) return '';
-    return tech.slice(0, isMobile ? 4 : 6).map(function (t) {
+    return tech.slice(0, isMobile ? 6 : 10).map(function (t) {
       return '<span class="tag">' + escapeHtml(t) + '</span>';
     }).join('');
   }
@@ -127,25 +104,26 @@
 
     d.getElementById('name').textContent = data.name || '';
     d.getElementById('basicsLine').textContent = [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · ');
-    d.getElementById('targetRole').textContent = compactText(basics.targetRole || '', lang, mobile ? 18 : 26, mobile ? 30 : 52);
-    d.getElementById('tagline').textContent = compactText(basics.tagline || '', lang, mobile ? 30 : 42, mobile ? 52 : 82);
+    d.getElementById('targetRole').textContent = compactText(basics.targetRole || '', lang, mobile ? 28 : 44, mobile ? 56 : 92);
+    d.getElementById('tagline').textContent = compactText(basics.tagline || '', lang, mobile ? 72 : 110, mobile ? 130 : 220);
     d.getElementById('contact').innerHTML = renderContact(data, mobile);
 
     d.getElementById('highlightTitle').textContent = highlight.title || '';
-    d.getElementById('highlightCompany').textContent = compactText(highlight.company || '', lang, mobile ? 14 : 22, mobile ? 24 : 38);
-    d.getElementById('highlightPeriod').textContent = compactText(highlight.period || '', lang, mobile ? 10 : 16, mobile ? 18 : 28);
-    d.getElementById('highlightRole').textContent = compactText(highlight.role || '', lang, mobile ? 20 : 30, mobile ? 38 : 56);
-    d.getElementById('metricPlay').textContent = compactText((highlight.metrics && highlight.metrics.play) || '', lang, mobile ? 20 : 26, mobile ? 34 : 58);
-    d.getElementById('metricAppstore').textContent = compactText((highlight.metrics && highlight.metrics.appstore) || '', lang, mobile ? 20 : 26, mobile ? 34 : 58);
-    d.getElementById('aiNote').textContent = compactText(highlight.aiNote || '', lang, mobile ? 24 : 34, mobile ? 42 : 66);
+    d.getElementById('highlightCompany').textContent = compactText(highlight.company || '', lang, mobile ? 20 : 36, mobile ? 38 : 72);
+    d.getElementById('highlightPeriod').textContent = compactText(highlight.period || '', lang, mobile ? 14 : 24, mobile ? 28 : 48);
+    d.getElementById('highlightRole').textContent = compactText(highlight.role || '', lang, mobile ? 24 : 40, mobile ? 48 : 88);
+    d.getElementById('highlightProducts').innerHTML = renderProducts(highlight.products || [], lang, mobile);
+    d.getElementById('metricPlay').textContent = compactText((highlight.metrics && highlight.metrics.play) || '', lang, mobile ? 34 : 52, mobile ? 66 : 118);
+    d.getElementById('metricAppstore').textContent = compactText((highlight.metrics && highlight.metrics.appstore) || '', lang, mobile ? 34 : 52, mobile ? 66 : 118);
+    d.getElementById('aiNote').textContent = compactText(highlight.aiNote || '', lang, mobile ? 30 : 44, mobile ? 60 : 100);
 
     d.getElementById('experienceTitle').textContent = (experience.title || '');
     d.getElementById('experienceList').innerHTML = renderExperience(experience.items || [], lang, mobile);
 
     d.getElementById('skillsTitle').textContent = skills.title || '';
-    d.getElementById('skillsLead').textContent = compactText(skills.lead || '', lang, mobile ? 34 : 46, mobile ? 62 : 88);
+    d.getElementById('skillsLead').textContent = compactText(skills.lead || '', lang, mobile ? 58 : 84, mobile ? 116 : 180);
     d.getElementById('skillsTech').innerHTML = renderTech(skills.tech || [], mobile);
-    d.getElementById('skillsDomain').textContent = compactText(skills.domain || '', lang, mobile ? 32 : 44, mobile ? 58 : 92);
+    d.getElementById('skillsDomain').textContent = compactText(skills.domain || '', lang, mobile ? 50 : 76, mobile ? 102 : 168);
 
     d.getElementById('educationTitle').textContent = education.title || '';
     d.getElementById('educationContent').textContent = [
@@ -153,7 +131,7 @@
       education.degree,
       education.major,
       education.period
-    ].filter(Boolean).join(mobile ? ' / ' : ' · ');
+    ].filter(Boolean).join(' · ');
 
     d.getElementById('langSwitch').textContent = lang === 'en' ? '中文' : 'English';
     var modeSwitch = d.querySelector('.mode-switch');
@@ -166,9 +144,9 @@
     if (data.meta && data.meta.lang) {
       d.documentElement.lang = data.meta.lang === 'en' ? 'en' : 'zh-CN';
     }
-    fitSingleSilkPage(function () {
+    setTimeout(function () {
       document.dispatchEvent(new CustomEvent('silk-content-ready'));
-    });
+    }, 30);
   }
 
   function loadLang(lang, callback) {
