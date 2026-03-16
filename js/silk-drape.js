@@ -151,7 +151,7 @@
     this.rows = mobile ? 24 : (compact ? 34 : 46);
     this.clothWidth = 3.0;
     this.clothHeight = 3.8;
-    this.topY = 1.5;
+    this.topY = mobile ? 1.24 : 1.3;
     this.gravity = mobile ? 0.00092 : 0.00082;
     this.damping = mobile ? 0.977 : 0.983;
     this.iterations = mobile ? 3 : (compact ? 4 : 4);
