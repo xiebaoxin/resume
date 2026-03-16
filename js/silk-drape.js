@@ -491,31 +491,43 @@
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
 
-    var selectors = [
-      '.name',
-      '.basics-line',
-      '.target-role',
-      '.tagline',
-      '.contact',
-      '.section-title',
-      '.highlight .company',
-      '.highlight .period',
-      '.highlight .role',
-      '.products',
-      '.metrics',
-      '.chart-caption',
-      '.ai-note',
-      '.exp-item-company',
-      '.exp-item-period',
-      '.exp-item-role',
-      '.exp-item-summary',
-      '.skills-lead',
-      '.skills-tech',
-      '.skills-domain',
-      '.education-content',
-      '.attachments-links',
-      '.resume-footer .footer-note'
-    ].join(',');
+    var isLetterMode = document.body.classList.contains('silk-letter-mode');
+    var selectors = (isLetterMode
+      ? [
+        '.name',
+        '.basics-line',
+        '.target-role',
+        '.tagline',
+        '.letter-contact',
+        '#highlightTitle',
+        '.letter-paragraph',
+        '.resume-footer .footer-note'
+      ]
+      : [
+        '.name',
+        '.basics-line',
+        '.target-role',
+        '.tagline',
+        '.contact',
+        '.section-title',
+        '.highlight .company',
+        '.highlight .period',
+        '.highlight .role',
+        '.products',
+        '.metrics',
+        '.chart-caption',
+        '.ai-note',
+        '.exp-item-company',
+        '.exp-item-period',
+        '.exp-item-role',
+        '.exp-item-summary',
+        '.skills-lead',
+        '.skills-tech',
+        '.skills-domain',
+        '.education-content',
+        '.attachments-links',
+        '.resume-footer .footer-note'
+      ]).join(',');
 
     var topOffset = this.height < 700 ? 8 : 12;
     var nodes = this.pageEl.querySelectorAll(selectors);

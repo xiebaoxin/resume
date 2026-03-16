@@ -156,6 +156,7 @@
 
   function init() {
     var lang = getLang();
+    document.body.classList.add('silk-letter-mode');
     var switchBtn = document.getElementById('langSwitch');
     switchBtn.addEventListener('click', function () {
       var next = lang === 'zh' ? 'en' : 'zh';
