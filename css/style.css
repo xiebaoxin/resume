@@ -208,7 +208,7 @@ body.silk-home-page .exp-list li {
 body.silk-home-page .exp-item-summary {
   display: block;
   overflow: visible;
-  line-height: 1.3;
+  line-height: 1.28;
 }
 
 body.silk-home-page .section-title {
@@ -245,7 +245,7 @@ body.silk-home-page .detail-grid {
   margin: 0;
   display: grid;
   width: 100%;
-  grid-template-columns: 4.6rem 1fr;
+  grid-template-columns: 4.2rem 1fr;
   row-gap: 0.1rem;
   column-gap: 0.38rem;
 }
@@ -258,16 +258,34 @@ body.silk-home-page .detail-label {
   margin: 0;
   color: rgba(70, 56, 42, 0.85);
   font-size: 0.76rem;
-  line-height: 1.24;
+  line-height: 1.2;
 }
 
 body.silk-home-page .detail-value {
   margin: 0;
   font-size: 0.82rem;
-  line-height: 1.22;
+  line-height: 1.2;
   min-width: 0;
   overflow-wrap: break-word;
   word-break: normal;
+}
+
+body.silk-home-page .letter-paragraph {
+  margin: 0 0 0.42rem;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+body.silk-home-page .letter-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+body.silk-home-page .metric:empty,
+body.silk-home-page .ai-note:empty,
+body.silk-home-page .exp-item-role:empty,
+body.silk-home-page .highlight-card .company:empty,
+body.silk-home-page .highlight-card .period:empty {
+  display: none;
 }
 
 body.silk-home-page .skills-tech .tag {
@@ -355,29 +373,35 @@ body.silk-home-page .exp-item-head {
   body.silk-home-page .skills-lead,
   body.silk-home-page .education-content,
   body.silk-home-page .ai-note {
-    font-size: 0.74rem;
-    line-height: 1.18;
+    font-size: 0.72rem;
+    line-height: 1.14;
   }
 
   body.silk-home-page .contact {
-    font-size: 0.72rem;
-    line-height: 1.16;
+    font-size: 0.7rem;
+    line-height: 1.12;
   }
 
   body.silk-home-page .detail-grid {
-    grid-template-columns: 3.05rem 1fr;
+    grid-template-columns: 2.7rem 1fr;
     row-gap: 0.1rem;
     column-gap: 0.22rem;
   }
 
   body.silk-home-page .detail-label {
-    font-size: 0.62rem;
-    line-height: 1.14;
+    font-size: 0.6rem;
+    line-height: 1.1;
   }
 
   body.silk-home-page .detail-value {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
+    line-height: 1.1;
+  }
+
+  body.silk-home-page .letter-paragraph {
+    font-size: 0.7rem;
     line-height: 1.14;
+    margin-bottom: 0.26rem;
   }
 
   body.silk-home-page .exp-item-company {
@@ -385,22 +409,22 @@ body.silk-home-page .exp-item-head {
   }
 
   body.silk-home-page .highlight-card .company {
-    font-size: 0.8rem;
+    font-size: 0.74rem;
   }
 
   body.silk-home-page .highlight-card .period {
-    font-size: 0.66rem;
+    font-size: 0.6rem;
   }
 
   body.silk-home-page .product {
-    font-size: 0.72rem;
-    line-height: 1.16;
+    font-size: 0.68rem;
+    line-height: 1.12;
   }
 
   body.silk-home-page .exp-item-period,
   body.silk-home-page .exp-item-role {
-    font-size: 0.62rem;
-    line-height: 1.1;
+    font-size: 0.58rem;
+    line-height: 1.06;
   }
 
   body.silk-home-page .skills-tech .tag {
@@ -418,7 +442,7 @@ body.silk-home-page .exp-item-head {
   body.silk-home-page .education,
   body.silk-home-page .highlight,
   body.silk-home-page .experience {
-    margin-bottom: 0.36rem;
+    margin-bottom: 0.28rem;
   }
 
   body.silk-home-page .exp-list li {

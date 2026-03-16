@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-8';
+  var DATA_VERSION = '20260316-9';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -124,25 +124,13 @@
         tagline: shortMobile
           ? 'AI-assisted full-stack delivery.'
           : 'AI-assisted full-stack delivery leader who turns business goals into measurable product outcomes.',
-        achievementTitle: 'Key Impact',
-        achievementRole: shortMobile ? 'Tech Lead (AI + Full Stack)' : 'Tech Lead (AI + Full Stack Delivery)',
-        products: shortMobile ? [
-          'Cross-border procurement app, from design to release.'
-        ] : (mobile ? [
-          'Cross-border procurement app, led delivery from architecture to release.'
-        ] : [
-          'Led factory procurement and warehouse management app end-to-end delivery.',
-          'Built cross-border purchase app and led release on major stores.'
-        ]),
-        metricPlay: shortMobile
-          ? 'Google Play users grew steadily.'
-          : 'Google Play: clear user growth with sustained trend.',
-        metricAppstore: shortMobile
-          ? 'App Store downloads improved steadily.'
-          : 'App Store: cumulative downloads kept increasing.',
-        aiNote: shortMobile
-          ? 'AI tools integrated into daily engineering flow.'
-          : 'Integrated Cursor and Claude into delivery workflow for speed and quality.',
+        achievementTitle: 'Recommendation Letter',
+        letterP1: shortMobile
+          ? 'I recommend Xie Baoxin for senior engineering leadership interviews.'
+          : 'I recommend Xie Baoxin as a strong senior technical management candidate. He consistently drives business goals into concrete milestones and ships stable outcomes under pressure.',
+        letterP2: shortMobile
+          ? 'He drives delivery with AI workflow and cross-functional execution.'
+          : 'He combines AI-enabled engineering workflow with practical execution: aligning product, engineering and operations, accelerating delivery cadence, and keeping quality standards measurable.',
         valueTitle: 'Leadership Value',
       valueBullets: shortMobile ? [
           'Business-first planning with stable milestone delivery.'
@@ -168,25 +156,13 @@
       tagline: shortMobile
         ? 'AI 辅助研发与全栈交付。'
         : 'AI 辅助研发与全栈交付负责人，擅长把复杂业务目标快速落地为可增长产品。',
-      achievementTitle: '代表成果',
-      achievementRole: shortMobile ? '技术负责人（AI + 全栈）' : '技术负责人（AI + 全栈交付）',
-      products: shortMobile ? [
-        '跨境采购 App，主导从方案到上线。'
-      ] : (mobile ? [
-        '跨境采购 App，主导从架构到上线交付。'
-      ] : [
-        '主导工厂采购与仓储管理 App 全链路交付。',
-        '主导跨境采购 App 开发并完成双端发布。'
-      ]),
-      metricPlay: shortMobile
-        ? 'Google Play 持续增长。'
-        : 'Google Play：用户增长趋势稳定。',
-      metricAppstore: shortMobile
-        ? 'App Store 下载持续提升。'
-        : 'App Store：累计下载持续提升。',
-      aiNote: shortMobile
-        ? '将 AI 工具融入日常研发流程。'
-        : '将 Cursor / Claude 融入交付流程，兼顾效率与质量。',
+      achievementTitle: '应聘推荐书',
+      letterP1: shortMobile
+        ? '建议将谢宝新作为高级技术管理岗重点面试人选。'
+        : '建议将谢宝新作为高级技术管理岗重点面试人选。他能把业务目标快速拆解为可执行里程碑，并在复杂约束下持续稳定交付结果。',
+      letterP2: shortMobile
+        ? '其 AI 工作流与跨团队推进能力突出。'
+        : '他将 Cursor / Claude 等 AI 工具融入工程流程，兼顾效率与质量；同时具备跨团队推进能力，能在产品、研发与运营之间建立高效协同。',
       valueTitle: '管理价值',
       valueBullets: shortMobile ? [
         '业务导向拆解目标，稳定推进里程碑。'
@@ -226,11 +202,19 @@
     setText('highlightTitle', narrative.achievementTitle);
     setText('highlightCompany', compactText(highlight.company || '', lang, shortMobile ? 10 : (mobile ? 14 : 24), shortMobile ? 18 : (mobile ? 24 : 50)));
     setText('highlightPeriod', compactText(highlight.period || '', lang, shortMobile ? 8 : (mobile ? 10 : 20), shortMobile ? 14 : (mobile ? 20 : 34)));
-    setText('highlightRole', narrative.achievementRole);
-    setHTML('highlightProducts', renderProducts(narrative.products || highlight.products || [], lang, mobile, shortMobile));
-    setText('metricPlay', narrative.metricPlay);
-    setText('metricAppstore', narrative.metricAppstore);
-    setText('aiNote', narrative.aiNote);
+    setText('highlightRole', '');
+    setHTML(
+      'highlightProducts',
+      '<p class="letter-paragraph">' + escapeHtml(narrative.letterP1 || '') + '</p>' +
+      '<p class="letter-paragraph">' + escapeHtml(narrative.letterP2 || '') + '</p>'
+    );
+    setText('metricPlay', '');
+    setText('metricAppstore', '');
+    setText('aiNote', '');
+    var highlightHead = d.querySelector('.highlight-head');
+    if (highlightHead) highlightHead.style.display = 'none';
+    var metrics = d.querySelector('.metrics');
+    if (metrics) metrics.style.display = 'none';
 
     setText('experienceTitle', narrative.valueTitle);
     setHTML('experienceList', renderValueBullets(narrative.valueBullets, mobile));

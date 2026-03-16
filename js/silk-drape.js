@@ -554,8 +554,8 @@
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(66,46,28,0.26)';
-      ctx.lineWidth = Math.max(0.2, fontSize * 0.018);
+      ctx.strokeStyle = 'rgba(66,46,28,0.2)';
+      ctx.lineWidth = Math.max(0.12, fontSize * 0.012);
       ctx.lineJoin = 'round';
       ctx.shadowColor = 'rgba(255,248,236,0.1)';
       ctx.shadowBlur = Math.max(0.04, fontSize * 0.004);
