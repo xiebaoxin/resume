@@ -426,11 +426,6 @@
         var ch = para.charAt(i);
         var test = line + ch;
         if (ctx.measureText(test).width > maxWidth && line) {
-          ctx.save();
-          ctx.lineWidth = Math.max(0.32, ctx.lineWidth * 1.55);
-          ctx.strokeStyle = 'rgba(255,249,239,0.32)';
-          ctx.strokeText(line, drawX - 0.12, y - 0.12);
-          ctx.restore();
           ctx.strokeText(line, drawX, y);
           ctx.fillText(line, drawX, y);
           y += lineHeight;
@@ -441,11 +436,6 @@
         }
       }
       if (line) {
-        ctx.save();
-        ctx.lineWidth = Math.max(0.32, ctx.lineWidth * 1.55);
-        ctx.strokeStyle = 'rgba(255,249,239,0.32)';
-        ctx.strokeText(line, drawX - 0.12, y - 0.12);
-        ctx.restore();
         ctx.strokeText(line, drawX, y);
         ctx.fillText(line, drawX, y);
         y += lineHeight;
@@ -559,24 +549,24 @@
 
       var fontSize = this.parsePx(style.fontSize, 14);
       var lineHeight = this.parsePx(style.lineHeight, fontSize * 1.45);
-      lineHeight = Math.max(fontSize * 1.06, Math.min(lineHeight, fontSize * 1.16));
+      lineHeight = Math.max(fontSize * 1.2, Math.min(lineHeight, fontSize * 1.5));
       var weight = style.fontWeight || '400';
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(66,46,28,0.46)';
-      ctx.lineWidth = Math.max(0.36, fontSize * 0.033);
+      ctx.strokeStyle = 'rgba(66,46,28,0.26)';
+      ctx.lineWidth = Math.max(0.2, fontSize * 0.018);
       ctx.lineJoin = 'round';
-      ctx.shadowColor = 'rgba(255,248,236,0.16)';
-      ctx.shadowBlur = Math.max(0.08, fontSize * 0.008);
-      ctx.shadowOffsetX = 0.04;
-      ctx.shadowOffsetY = 0.08;
+      ctx.shadowColor = 'rgba(255,248,236,0.1)';
+      ctx.shadowBlur = Math.max(0.04, fontSize * 0.004);
+      ctx.shadowOffsetX = 0.02;
+      ctx.shadowOffsetY = 0.04;
       ctx.textAlign = style.textAlign || 'left';
       var sourceAlpha = this.parsePx(style.opacity, 1);
       if ((document.body.classList.contains('silk-ink-mode') || document.body.classList.contains('silk-preparing')) && sourceAlpha < 0.2) {
         sourceAlpha = 1;
       }
-      ctx.globalAlpha = Math.max(0.9, Math.min(1, sourceAlpha));
+      ctx.globalAlpha = Math.max(0.96, Math.min(1, sourceAlpha));
 
       var maxWidth = Math.max(8, rect.width);
       written += this.drawWrappedText(ctx, text, rect.left, rect.top + topOffset, maxWidth, lineHeight, ctx.textAlign);

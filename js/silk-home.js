@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-6';
+  var DATA_VERSION = '20260316-8';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -15,9 +15,7 @@
   function compactText(text, lang, maxZh, maxEn) {
     if (!text) return '';
     var clean = String(text).replace(/\s+/g, ' ').trim();
-    var max = lang === 'en' ? maxEn : maxZh;
-    if (clean.length <= max) return clean;
-    return clean.slice(0, Math.max(1, max - 1)).trim() + '…';
+    return clean;
   }
 
   function isMobileViewport() {
