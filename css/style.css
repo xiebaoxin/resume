@@ -235,6 +235,13 @@ body.silk-home-page .contact {
   line-height: 1.16;
 }
 
+body.silk-home-page .letter-contact {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
 body.silk-home-page .hero .basics-line:empty,
 body.silk-home-page .hero .target-role:empty,
 body.silk-home-page .hero .tagline:empty {
@@ -273,7 +280,7 @@ body.silk-home-page .detail-value {
 body.silk-home-page .letter-paragraph {
   margin: 0 0 0.42rem;
   font-size: 0.88rem;
-  line-height: 1.3;
+  line-height: 1.34;
 }
 
 body.silk-home-page .letter-paragraph:last-child {
@@ -286,6 +293,17 @@ body.silk-home-page .exp-item-role:empty,
 body.silk-home-page .highlight-card .company:empty,
 body.silk-home-page .highlight-card .period:empty {
   display: none;
+}
+
+body.silk-home-page.silk-letter-mode #experience,
+body.silk-home-page.silk-letter-mode #skills,
+body.silk-home-page.silk-letter-mode #education {
+  display: none !important;
+}
+
+body.silk-home-page.silk-letter-mode .highlight-head,
+body.silk-home-page.silk-letter-mode .metrics {
+  display: none !important;
 }
 
 body.silk-home-page .skills-tech .tag {
@@ -382,6 +400,11 @@ body.silk-home-page .exp-item-head {
     line-height: 1.12;
   }
 
+  body.silk-home-page .letter-contact {
+    font-size: 0.66rem;
+    line-height: 1.08;
+  }
+
   body.silk-home-page .detail-grid {
     grid-template-columns: 2.7rem 1fr;
     row-gap: 0.1rem;
@@ -400,7 +423,7 @@ body.silk-home-page .exp-item-head {
 
   body.silk-home-page .letter-paragraph {
     font-size: 0.7rem;
-    line-height: 1.14;
+    line-height: 1.18;
     margin-bottom: 0.26rem;
   }
 

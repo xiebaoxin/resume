@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-9';
+  var DATA_VERSION = '20260316-10';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -10,12 +10,6 @@
     var div = document.createElement('div');
     div.textContent = s;
     return div.innerHTML;
-  }
-
-  function compactText(text, lang, maxZh, maxEn) {
-    if (!text) return '';
-    var clean = String(text).replace(/\s+/g, ' ').trim();
-    return clean;
   }
 
   function isMobileViewport() {
@@ -44,67 +38,6 @@
     }
   }
 
-  function renderContact(data, isMobile) {
-    var contact = data.basics.contact || {};
-    var parts = [];
-    if (contact.phone) parts.push('<span>Tel: ' + escapeHtml(contact.phone) + '</span>');
-    if (contact.email) parts.push('<span>Email: ' + escapeHtml(contact.email) + '</span>');
-    if (!isMobile && contact.wechat) parts.push('<span>WeChat: ' + escapeHtml(contact.wechat) + '</span>');
-    if (!isMobile && contact.resumeRepo && contact.resumeRepoLabel) {
-      parts.push('<span>' + escapeHtml(contact.resumeRepoLabel) + '：<a href="' + escapeHtml(contact.resumeRepo) + '" target="_blank" rel="noopener noreferrer" class="contact-link">' + escapeHtml(contact.resumeRepo) + '</a></span>');
-    }
-    if (parts.length === 0 && contact.phone) parts.push('<span>Tel: ' + escapeHtml(contact.phone) + '</span>');
-    return parts.join('');
-  }
-
-  function renderValueBullets(lines, isMobile) {
-    if (!Array.isArray(lines)) return '';
-    var limit = isMobile ? 2 : lines.length;
-    return lines.slice(0, limit).map(function (line) {
-      return '<li class="exp-item value-item"><p class="exp-item-summary">' + escapeHtml(line) + '</p></li>';
-    }).join('');
-  }
-
-  function renderProducts(items, lang, isMobile, isShortMobile) {
-    if (!Array.isArray(items)) return '';
-    var limit = isShortMobile ? 1 : (isMobile ? 1 : 2);
-    return items.slice(0, limit).map(function (p) {
-      var text = (p.name || '') + ' ' + compactText(p.desc || '', lang, isShortMobile ? 12 : (isMobile ? 18 : 42), isShortMobile ? 20 : (isMobile ? 34 : 90));
-      return '<div class="product">' + escapeHtml(text) + '</div>';
-    }).join('');
-  }
-
-  function renderTech(tech, isMobile, isShortMobile) {
-    if (!Array.isArray(tech)) return '';
-    return tech.slice(0, isShortMobile ? 3 : (isMobile ? 4 : 10)).map(function (t) {
-      return '<span class="tag">' + escapeHtml(t) + '</span>';
-    }).join('');
-  }
-
-  function renderProfileDetails(data, narrative, lang, isMobile) {
-    var basics = data.basics || {};
-    var contact = (basics && basics.contact) || {};
-    var rows = [
-      [lang === 'en' ? 'Profile' : '基本信息', [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · ')],
-      [lang === 'en' ? 'Target' : '求职意向', narrative.targetRole],
-      [lang === 'en' ? 'Summary' : '职业摘要', narrative.tagline],
-      ['Tel', contact.phone || ''],
-      ['Email', contact.email || '']
-    ];
-    if (!isMobile) rows.push(['WeChat', contact.wechat || '']);
-    if (contact.resumeRepo) {
-      rows.push([
-        lang === 'en' ? 'Resume' : '简历',
-        '<a href="' + escapeHtml(contact.resumeRepo) + '" target="_blank" rel="noopener noreferrer" class="contact-link">' + escapeHtml(contact.resumeRepo) + '</a>'
-      ]);
-    }
-    return '<dl class="detail-grid">' + rows.map(function (row) {
-      var value = row[1] || '';
-      var htmlVal = value.indexOf('<a ') === 0 ? value : escapeHtml(value);
-      return '<div class="detail-row"><dt class="detail-label">' + escapeHtml(row[0]) + '</dt><dd class="detail-value">' + htmlVal + '</dd></div>';
-    }).join('') + '</dl>';
-  }
-
   function setText(id, value) {
     var el = document.getElementById(id);
     if (el) el.textContent = value || '';
@@ -115,70 +48,39 @@
     if (el) el.innerHTML = value || '';
   }
 
-  function buildNarrative(lang, mobile, shortMobile) {
+  function renderContactLine(data, lang) {
+    var contact = (data.basics && data.basics.contact) || {};
+    var items = [];
+    if (contact.phone) items.push((lang === 'en' ? 'Tel' : '电话') + '：' + contact.phone);
+    if (contact.email) items.push('Email：' + contact.email);
+    if (contact.resumeRepo) items.push((lang === 'en' ? 'Resume' : '简历') + '：' + contact.resumeRepo);
+    return '<p class="letter-contact">' + escapeHtml(items.join('  ·  ')) + '</p>';
+  }
+
+  function buildNarrative(lang, mobile) {
     if (lang === 'en') {
       return {
-        targetRole: shortMobile
-          ? 'AI Tech Lead / Engineering Manager'
-          : 'AI Tech Lead / Engineering Manager (Delivery & Productivity)',
-        tagline: shortMobile
-          ? 'AI-assisted full-stack delivery.'
-          : 'AI-assisted full-stack delivery leader who turns business goals into measurable product outcomes.',
-        achievementTitle: 'Recommendation Letter',
-        letterP1: shortMobile
-          ? 'I recommend Xie Baoxin for senior engineering leadership interviews.'
-          : 'I recommend Xie Baoxin as a strong senior technical management candidate. He consistently drives business goals into concrete milestones and ships stable outcomes under pressure.',
-        letterP2: shortMobile
-          ? 'He drives delivery with AI workflow and cross-functional execution.'
-          : 'He combines AI-enabled engineering workflow with practical execution: aligning product, engineering and operations, accelerating delivery cadence, and keeping quality standards measurable.',
-        valueTitle: 'Leadership Value',
-      valueBullets: shortMobile ? [
-          'Business-first planning with stable milestone delivery.'
-        ] : (mobile ? [
-          'Business-first planning with stable milestone delivery.',
-          'AI workflow integration to shorten release cycle and reduce rework.'
-        ] : [
-          'Business-first planning: convert goals into clear, deliverable milestones.',
-          'AI workflow integration: accelerate delivery while keeping quality and engineering standards.'
-        ]),
-        skillsLead: shortMobile
-          ? 'Stack: Flutter · Java · Node · Python · Cursor/Claude'
-          : 'Stack: Flutter · Java · Node · Python · AI workflow (Cursor / Claude).',
-        skillsDomain: shortMobile
-          ? ''
-          : (mobile ? 'Domains: IoT · e-commerce · IM.' : 'Domains: IoT · e-commerce · IM · enterprise systems.')
+        targetRole: 'AI Tech Lead / Engineering Manager',
+        tagline: 'AI-assisted full-stack delivery leader.',
+        title: 'Application Recommendation',
+        p1: mobile
+          ? 'I recommend Xie Baoxin for senior technical management interviews. He can quickly decompose business targets into executable milestones and keep delivery stable under pressure.'
+          : 'I recommend Xie Baoxin as a strong senior technical management candidate. He can quickly decompose ambitious business targets into executable milestones, and he keeps delivery rhythm stable even under complex constraints.',
+        p2: mobile
+          ? 'He integrates Cursor / Claude into engineering workflow, balances quality with speed, and can align product, engineering and operations toward measurable outcomes.'
+          : 'He integrates Cursor / Claude into engineering workflow to improve delivery efficiency without compromising quality, and he is highly effective in aligning product, engineering and operations toward measurable outcomes.'
       };
     }
     return {
-      targetRole: shortMobile
-        ? 'AI 技术负责人 / 工程管理'
-        : 'AI 技术负责人 / 工程管理（交付与效率）',
-      tagline: shortMobile
-        ? 'AI 辅助研发与全栈交付。'
-        : 'AI 辅助研发与全栈交付负责人，擅长把复杂业务目标快速落地为可增长产品。',
-      achievementTitle: '应聘推荐书',
-      letterP1: shortMobile
-        ? '建议将谢宝新作为高级技术管理岗重点面试人选。'
-        : '建议将谢宝新作为高级技术管理岗重点面试人选。他能把业务目标快速拆解为可执行里程碑，并在复杂约束下持续稳定交付结果。',
-      letterP2: shortMobile
-        ? '其 AI 工作流与跨团队推进能力突出。'
-        : '他将 Cursor / Claude 等 AI 工具融入工程流程，兼顾效率与质量；同时具备跨团队推进能力，能在产品、研发与运营之间建立高效协同。',
-      valueTitle: '管理价值',
-      valueBullets: shortMobile ? [
-        '业务导向拆解目标，稳定推进里程碑。'
-      ] : (mobile ? [
-        '业务导向拆解目标，稳定推进里程碑。',
-        '把 AI 工具链融入研发流程，缩短交付周期并减少返工。'
-      ] : [
-        '业务导向：将目标拆解为可交付里程碑，保证节奏与质量。',
-        '效率导向：将 AI 工具链融入研发流程，缩短交付周期并降低返工成本。'
-      ]),
-      skillsLead: shortMobile
-        ? '技术栈：Flutter · Java · Node · Python · Cursor/Claude'
-        : '技术栈：Flutter · Java · Node · Python · AI 工作流（Cursor / Claude）。',
-      skillsDomain: shortMobile
-        ? ''
-        : (mobile ? '领域：IoT · 电商 · IM。' : '领域：IoT · 电商 · IM · 企业系统。')
+      targetRole: 'AI 技术负责人 / 工程管理',
+      tagline: 'AI 辅助研发与全栈交付负责人。',
+      title: '应聘推荐书',
+      p1: mobile
+        ? '建议将谢宝新作为高级技术管理岗重点面试人选。他能快速拆解业务目标并稳定推进里程碑交付，在复杂约束下仍保持高执行力。'
+        : '建议将谢宝新作为高级技术管理岗重点面试人选。他能够将复杂业务目标快速拆解为可执行里程碑，并在多约束环境下持续稳定推进交付，兼顾结果、节奏与质量。',
+      p2: mobile
+        ? '他善于将 Cursor / Claude 等 AI 工具融入工程流程，在效率与质量之间取得平衡，并能高效协同产品、研发与运营团队。'
+        : '他善于将 Cursor / Claude 等 AI 工具融入工程流程，在效率与质量之间取得平衡；同时具备跨团队推进能力，能在产品、研发与运营之间建立高效协同并形成可量化结果。'
     };
   }
 
@@ -186,52 +88,40 @@
     var d = document;
     var lang = (data.meta && data.meta.lang) === 'en' ? 'en' : 'zh';
     var mobile = isMobileViewport();
-    var shortMobile = mobile && window.innerHeight < 720;
-    var narrative = buildNarrative(lang, mobile, shortMobile);
     var basics = data.basics || {};
     var highlight = data.highlight || {};
-    var skills = data.skills || {};
-    var education = data.education || {};
+    var narrative = buildNarrative(lang, mobile);
 
     setText('name', data.name || '');
-    setText('basicsLine', '');
-    setText('targetRole', '');
-    setText('tagline', '');
-    setHTML('contact', renderProfileDetails(data, narrative, lang, mobile));
+    setText('basicsLine', [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · '));
+    setText('targetRole', narrative.targetRole);
+    setText('tagline', narrative.tagline);
+    setHTML('contact', renderContactLine(data, lang));
 
-    setText('highlightTitle', narrative.achievementTitle);
-    setText('highlightCompany', compactText(highlight.company || '', lang, shortMobile ? 10 : (mobile ? 14 : 24), shortMobile ? 18 : (mobile ? 24 : 50)));
-    setText('highlightPeriod', compactText(highlight.period || '', lang, shortMobile ? 8 : (mobile ? 10 : 20), shortMobile ? 14 : (mobile ? 20 : 34)));
+    setText('highlightTitle', narrative.title);
+    setText('highlightCompany', highlight.company || '');
+    setText('highlightPeriod', highlight.period || '');
     setText('highlightRole', '');
     setHTML(
       'highlightProducts',
-      '<p class="letter-paragraph">' + escapeHtml(narrative.letterP1 || '') + '</p>' +
-      '<p class="letter-paragraph">' + escapeHtml(narrative.letterP2 || '') + '</p>'
+      '<p class="letter-paragraph">' + escapeHtml(narrative.p1) + '</p>' +
+      '<p class="letter-paragraph">' + escapeHtml(narrative.p2) + '</p>'
     );
     setText('metricPlay', '');
     setText('metricAppstore', '');
     setText('aiNote', '');
+
     var highlightHead = d.querySelector('.highlight-head');
     if (highlightHead) highlightHead.style.display = 'none';
     var metrics = d.querySelector('.metrics');
     if (metrics) metrics.style.display = 'none';
 
-    setText('experienceTitle', narrative.valueTitle);
-    setHTML('experienceList', renderValueBullets(narrative.valueBullets, mobile));
+    ['experience', 'skills', 'education'].forEach(function (id) {
+      var sec = d.getElementById(id);
+      if (sec) sec.style.display = 'none';
+    });
 
-    setText('skillsTitle', skills.title || '');
-    setText('skillsLead', narrative.skillsLead);
-    setHTML('skillsTech', renderTech(skills.tech || [], mobile, shortMobile));
-    setText('skillsDomain', narrative.skillsDomain);
-
-    setText('educationTitle', education.title || '');
-    setText('educationContent', [
-      education.school,
-      education.degree,
-      education.major,
-      education.period
-    ].filter(Boolean).join(' · '));
-
+    d.body.classList.add('silk-letter-mode');
     d.getElementById('langSwitch').textContent = lang === 'en' ? '中文' : 'English';
     var modeSwitch = d.querySelector('.mode-switch');
     if (modeSwitch) {

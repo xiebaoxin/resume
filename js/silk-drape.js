@@ -549,13 +549,13 @@
 
       var fontSize = this.parsePx(style.fontSize, 14);
       var lineHeight = this.parsePx(style.lineHeight, fontSize * 1.45);
-      lineHeight = Math.max(fontSize * 1.2, Math.min(lineHeight, fontSize * 1.5));
+      lineHeight = Math.max(fontSize * 1.24, Math.min(lineHeight, fontSize * 1.55));
       var weight = style.fontWeight || '400';
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(66,46,28,0.2)';
-      ctx.lineWidth = Math.max(0.12, fontSize * 0.012);
+      ctx.strokeStyle = 'rgba(66,46,28,0.12)';
+      ctx.lineWidth = Math.max(0.06, fontSize * 0.008);
       ctx.lineJoin = 'round';
       ctx.shadowColor = 'rgba(255,248,236,0.1)';
       ctx.shadowBlur = Math.max(0.04, fontSize * 0.004);
