@@ -77,6 +77,41 @@ body::before {
   opacity: 0;
 }
 
+.silk-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s ease, visibility 0.32s ease;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.56) 0%, rgba(255, 255, 255, 0.3) 28%, rgba(255, 255, 255, 0) 62%);
+}
+
+.silk-loading.is-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.silk-loading-spinner {
+  width: clamp(28px, 4.4vw, 42px);
+  height: clamp(28px, 4.4vw, 42px);
+  border-radius: 50%;
+  border: 2.5px solid rgba(177, 146, 96, 0.22);
+  border-top-color: rgba(124, 85, 35, 0.82);
+  border-right-color: rgba(161, 121, 66, 0.62);
+  box-shadow: 0 10px 24px rgba(88, 62, 34, 0.08), inset 0 0 0 1px rgba(255, 250, 240, 0.42);
+  animation: silkLoadingSpin 0.9s linear infinite;
+}
+
+@keyframes silkLoadingSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .silk-text-bound {
   will-change: transform;
   transform-origin: 50% 0;
@@ -109,6 +144,11 @@ body.silk-ink-mode .silk-drape-layer {
 
 body.silk-preparing .silk-drape-layer {
   opacity: 1;
+}
+
+body.silk-preparing .silk-loading {
+  opacity: 1;
+  visibility: visible;
 }
 
 body.silk-preparing .page .main,

@@ -99,6 +99,10 @@
     this.revealActive = false;
     this.revealStart = 0;
     this.revealDuration = this.width < 700 ? 1400 : 1200;
+    this.instantReveal = true;
+    this.bootAt = performance.now();
+    this.readyShown = false;
+    this.readyTimer = null;
 
     this.layer = document.createElement('div');
     this.layer.className = 'silk-drape-layer';
@@ -111,6 +115,10 @@
     this.nailRight.className = 'silk-nail silk-nail-right';
     this.layer.appendChild(this.nailLeft);
     this.layer.appendChild(this.nailRight);
+    this.loadingEl = document.createElement('div');
+    this.loadingEl.className = 'silk-loading';
+    this.loadingEl.innerHTML = '<span class="silk-loading-spinner" aria-hidden="true"></span>';
+    this.layer.appendChild(this.loadingEl);
     document.body.appendChild(this.layer);
 
     this.renderer = new THREE.WebGLRenderer({
@@ -676,20 +684,29 @@
           var ok = self.renderTextInkFromDom();
           if (ok) {
             self.captureReady = true;
-            if (!self.modeEnabled) {
+            var firstReady = !self.modeEnabled;
+            if (firstReady) {
               self.modeEnabled = true;
-              self.revealProgress = 0;
-              self.revealStart = performance.now();
-              self.revealActive = true;
               document.body.classList.add('silk-ink-mode');
               document.body.classList.add('silk-preparing');
+              if (self.loadingEl) self.loadingEl.classList.remove('is-hidden');
+            }
+            if (self.instantReveal) {
+              self.revealActive = false;
+              self.revealProgress = 1;
+              self.blitRevealedInk();
+              self.finishLoadingState();
             } else {
-              if (!self.revealActive) {
+              if (firstReady) {
+                self.revealProgress = 0;
+                self.revealStart = performance.now();
+                self.revealActive = true;
+              } else if (!self.revealActive) {
                 self.revealProgress = 1;
                 document.body.classList.remove('silk-preparing');
               }
+              self.blitRevealedInk();
             }
-            self.blitRevealedInk();
           } else {
             self.scheduleCapture(520);
           }
@@ -700,6 +717,21 @@
         self.captureBusy = false;
       });
     });
+  };
+
+  SilkDrape.prototype.finishLoadingState = function () {
+    if (this.readyShown) return;
+    this.readyShown = true;
+    var self = this;
+    var minLoading = this.width < 700 ? 940 : 780;
+    var elapsed = performance.now() - this.bootAt;
+    var delay = Math.max(120, minLoading - elapsed);
+    if (this.readyTimer) clearTimeout(this.readyTimer);
+    this.readyTimer = setTimeout(function () {
+      document.body.classList.remove('silk-preparing');
+      if (self.loadingEl) self.loadingEl.classList.add('is-hidden');
+      self.readyTimer = null;
+    }, delay);
   };
 
   SilkDrape.prototype.relaxConstraints = function () {
@@ -884,6 +916,7 @@
   };
 
   SilkDrape.prototype.updateReveal = function () {
+    if (this.instantReveal) return;
     if (!this.revealActive) return;
     var elapsed = performance.now() - this.revealStart;
     var next = Math.max(0, Math.min(1, elapsed / this.revealDuration));
