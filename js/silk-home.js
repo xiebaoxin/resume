@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-11';
+  var DATA_VERSION = '20260316-13';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -64,9 +64,11 @@
         tagline: 'AI-assisted full-stack delivery leader.',
         title: 'Recommendation',
         p1: mobile
-          ? 'I recommend Xie Baoxin for senior technical management interviews. He translates complex business goals into executable plans, drives cross-functional delivery with strong ownership, and consistently lands measurable outcomes with both speed and quality.'
-          : 'I recommend Xie Baoxin as a high-confidence candidate for senior technical management roles. He translates complex business goals into executable plans, drives cross-functional delivery with strong ownership, and consistently lands measurable outcomes with both speed and quality.',
-        p2: ''
+          ? 'I strongly recommend Xie Baoxin for senior technical management interviews. He converts complex business goals into clear milestones, aligns product, engineering, QA, and operations around execution, and consistently delivers measurable outcomes with both speed and quality.'
+          : 'I strongly recommend Xie Baoxin as a high-confidence candidate for senior technical management roles. He converts complex business goals into clear milestones, aligns product, engineering, QA, and operations around execution, and consistently delivers measurable outcomes with both speed and quality while maintaining delivery predictability.',
+        p2: mobile
+          ? 'His standout value is the combination of AI-assisted engineering and end-to-end full-stack execution. He effectively applies tools such as Cursor and Claude to raise team productivity, and can independently drive delivery across Flutter, backend systems, and IoT/e-commerce/IM scenarios.'
+          : 'His standout value is the combination of AI-assisted engineering and end-to-end full-stack execution. He effectively applies tools such as Cursor and Claude to raise team productivity, and can independently drive delivery across Flutter clients, backend architecture, and IoT/e-commerce/IM scenarios. He is also strong at mentoring engineers, setting technical standards, and ensuring technical decisions remain tightly linked to business value.',
       };
     }
     return {
@@ -74,9 +76,11 @@
       tagline: 'AI 辅助研发与全栈交付负责人。',
       title: '推荐意见',
       p1: mobile
-        ? '建议将谢宝新列为高级技术管理岗优先面试人选：他能把复杂业务目标快速拆解为可执行计划，推动跨团队高效协同，并在效率与质量兼顾的前提下持续交付可量化结果。'
-        : '建议将谢宝新列为高级技术管理岗优先面试人选：他能把复杂业务目标快速拆解为可执行计划，推动跨团队高效协同，并在效率与质量兼顾的前提下持续交付可量化结果。',
-      p2: ''
+        ? '建议将谢宝新列为高级技术管理岗优先面试人选。他能将复杂业务目标拆解为清晰里程碑，组织产品、研发、测试与运营高效协同，在兼顾效率与质量的前提下稳定产出可量化结果。'
+        : '建议将谢宝新列为高级技术管理岗优先面试人选。他能将复杂业务目标拆解为清晰里程碑，组织产品、研发、测试与运营高效协同，在兼顾效率与质量的前提下稳定产出可量化结果，并持续提升团队交付确定性。',
+      p2: mobile
+        ? '其核心优势是“AI 辅助研发 + 全栈落地”双能力：熟练使用 Cursor、Claude 等工具提升团队产能，能够从 Flutter 客户端到后端架构，再到 IoT / 电商 / IM 场景完成端到端交付。'
+        : '其核心优势是“AI 辅助研发 + 全栈落地”双能力：熟练使用 Cursor、Claude 等工具提升团队产能，能够从 Flutter 客户端到后端架构，再到 IoT / 电商 / IM 场景完成端到端交付。同时，他在工程规范建设、人才培养与技术决策方面表现稳定，能将技术路线与业务目标持续对齐。',
     };
   }
 

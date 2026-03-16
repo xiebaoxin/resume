@@ -237,7 +237,7 @@ body.silk-home-page .contact {
 
 body.silk-home-page .letter-contact {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   line-height: 1.2;
   overflow-wrap: anywhere;
 }
@@ -278,9 +278,9 @@ body.silk-home-page .detail-value {
 }
 
 body.silk-home-page .letter-paragraph {
-  margin: 0 0 0.42rem;
-  font-size: 0.88rem;
-  line-height: 1.34;
+  margin: 0 0 0.34rem;
+  font-size: 0.95rem;
+  line-height: 1.32;
 }
 
 body.silk-home-page .letter-paragraph:last-child {
