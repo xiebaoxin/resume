@@ -140,7 +140,7 @@ body.silk-home-page .silk-drape-layer::before,
 body.silk-home-page .silk-drape-layer::after {
   content: "";
   position: absolute;
-  top: 54px;
+  top: 84px;
   width: 13px;
   height: 13px;
   border-radius: 50%;
@@ -198,7 +198,7 @@ body.silk-home-page .exp-item-summary,
 body.silk-home-page .skills-lead,
 body.silk-home-page .education-content,
 body.silk-home-page .ai-note {
-  font-size: 0.94rem;
+  font-size: 0.9rem;
   line-height: 1.3;
   letter-spacing: 0.01em;
 }
@@ -238,7 +238,7 @@ body.silk-home-page .header {
 
 body.silk-home-page .contact {
   gap: 0.42rem 1rem;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   line-height: 1.24;
 }
 
@@ -249,12 +249,12 @@ body.silk-home-page .skills-tech .tag {
 }
 
 body.silk-home-page .exp-item-company {
-  font-size: 1.02rem;
+  font-size: 0.98rem;
 }
 
 body.silk-home-page .exp-item-period,
 body.silk-home-page .exp-item-role {
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   line-height: 1.22;
 }
 
@@ -263,11 +263,11 @@ body.silk-home-page .highlight-card .company {
 }
 
 body.silk-home-page .highlight-card .period {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 body.silk-home-page .product {
-  font-size: 0.94rem;
+  font-size: 0.9rem;
   line-height: 1.3;
 }
 
@@ -290,7 +290,7 @@ body.silk-home-page .exp-item-head {
 
   body.silk-home-page .silk-drape-layer::before,
   body.silk-home-page .silk-drape-layer::after {
-    top: 40px;
+    top: 62px;
     width: 11px;
     height: 11px;
   }
@@ -333,23 +333,23 @@ body.silk-home-page .exp-item-head {
   body.silk-home-page .skills-lead,
   body.silk-home-page .education-content,
   body.silk-home-page .ai-note {
-    font-size: 0.86rem;
+    font-size: 0.82rem;
     line-height: 1.2;
   }
 
   body.silk-home-page .contact {
     gap: 0.25rem 0.65rem;
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     line-height: 1.18;
   }
 
   body.silk-home-page .exp-item-company {
-    font-size: 0.94rem;
+    font-size: 0.9rem;
   }
 
   body.silk-home-page .exp-item-period,
   body.silk-home-page .exp-item-role {
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     line-height: 1.16;
   }
 
