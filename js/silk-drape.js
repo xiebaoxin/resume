@@ -161,8 +161,8 @@
 
     this.cols = mobile ? 16 : (compact ? 20 : 28);
     this.rows = mobile ? 24 : (compact ? 34 : 46);
-    this.clothWidth = mobile ? 1.64 : (compact ? 2.16 : 2.28);
-    this.clothHeight = mobile ? 1.98 : (compact ? 2.62 : 2.78);
+    this.clothWidth = mobile ? 1.72 : (compact ? 2.28 : 2.42);
+    this.clothHeight = mobile ? 2.08 : (compact ? 2.76 : 2.94);
     this.topY = mobile ? 0.56 : 0.92;
     this.gravity = mobile ? 0.00078 : 0.00068;
     this.damping = mobile ? 0.973 : 0.978;
@@ -331,7 +331,7 @@
     this.height = window.innerHeight;
     this.revealDuration = this.width < 700 ? 1400 : 1200;
     this.camera.fov = this.width < 700 ? 38 : 32;
-    this.camera.position.set(0, this.width < 700 ? 0.03 : 0.03, this.width < 700 ? 5.78 : 4.95);
+    this.camera.position.set(0, this.width < 700 ? 0.03 : 0.03, this.width < 700 ? 6.02 : 5.1);
     this.camera.lookAt(0, this.width < 700 ? -0.26 : -0.2, 0);
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();

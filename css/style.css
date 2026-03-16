@@ -132,10 +132,10 @@ body.silk-home-page::before {
 }
 
 body.silk-home-page .page {
-  max-width: 880px;
+  max-width: 940px;
   min-height: 100vh;
   height: auto;
-  padding: 1.2rem 1.35rem 1rem;
+  padding: 1.08rem 1.12rem 0.94rem;
   display: flex;
   flex-direction: column;
   color: #2f2923;
@@ -237,7 +237,7 @@ body.silk-home-page .contact {
 
 body.silk-home-page .letter-contact {
   margin: 0;
-  font-size: 0.86rem;
+  font-size: 0.92rem;
   line-height: 1.22;
   overflow-wrap: anywhere;
 }
@@ -279,7 +279,7 @@ body.silk-home-page .detail-value {
 
 body.silk-home-page .letter-paragraph {
   margin: 0 0 0.34rem;
-  font-size: 1.04rem;
+  font-size: 1.12rem;
   line-height: 1.34;
 }
 
@@ -348,8 +348,8 @@ body.silk-home-page .exp-item-head {
   body.silk-home-page .page {
     min-height: 100vh;
     height: auto;
-    max-width: min(88vw, 360px);
-    padding: 0.64rem 0.4rem 0.5rem;
+    max-width: min(90vw, 376px);
+    padding: 0.6rem 0.36rem 0.48rem;
   }
 
   .silk-nail {
@@ -401,8 +401,8 @@ body.silk-home-page .exp-item-head {
   }
 
   body.silk-home-page .letter-contact {
-    font-size: 0.7rem;
-    line-height: 1.12;
+    font-size: 0.74rem;
+    line-height: 1.14;
   }
 
   body.silk-home-page .detail-grid {
@@ -422,8 +422,8 @@ body.silk-home-page .exp-item-head {
   }
 
   body.silk-home-page .letter-paragraph {
-    font-size: 0.74rem;
-    line-height: 1.2;
+    font-size: 0.8rem;
+    line-height: 1.22;
     margin-bottom: 0.26rem;
   }
 
