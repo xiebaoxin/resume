@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-1';
+  var DATA_VERSION = '20260316-2';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -18,6 +18,45 @@
     var max = lang === 'en' ? maxEn : maxZh;
     if (clean.length <= max) return clean;
     return clean.slice(0, Math.max(1, max - 1)).trim() + '…';
+  }
+
+  function isMobileViewport() {
+    return window.innerWidth < 700;
+  }
+
+  function fitSingleSilkPage(done) {
+    var body = document.body;
+    var level = 0;
+    var maxLevel = 2;
+
+    function applyLevel(nextLevel) {
+      body.classList.remove('silk-fit-compact-1', 'silk-fit-compact-2');
+      if (nextLevel >= 1) body.classList.add('silk-fit-compact-1');
+      if (nextLevel >= 2) body.classList.add('silk-fit-compact-2');
+    }
+
+    function isOverflowing() {
+      var page = document.querySelector('.page');
+      var main = document.querySelector('.silk-main');
+      var viewportH = window.innerHeight;
+      var bodyOverflow = document.body.scrollHeight > viewportH + 2;
+      var pageOverflow = page && page.scrollHeight > page.clientHeight + 2;
+      var mainOverflow = main && main.scrollHeight > main.clientHeight + 2;
+      return !!(bodyOverflow || pageOverflow || mainOverflow);
+    }
+
+    function step() {
+      if (!isOverflowing() || level >= maxLevel) {
+        if (typeof done === 'function') done();
+        return;
+      }
+      level += 1;
+      applyLevel(level);
+      requestAnimationFrame(step);
+    }
+
+    applyLevel(0);
+    requestAnimationFrame(step);
   }
 
   function getLang() {
@@ -42,19 +81,20 @@
     }
   }
 
-  function renderContact(data) {
+  function renderContact(data, isMobile) {
     var contact = data.basics.contact || {};
-    var parts = [
-      '<span>Tel: ' + escapeHtml(contact.phone || '') + '</span>',
-      '<span>Email: ' + escapeHtml(contact.email || '') + '</span>',
-      '<span>WeChat: ' + escapeHtml(contact.wechat || '') + '</span>'
-    ];
+    var parts = [];
+    if (!isMobile && contact.phone) parts.push('<span>Tel: ' + escapeHtml(contact.phone) + '</span>');
+    if (contact.email) parts.push('<span>Email: ' + escapeHtml(contact.email) + '</span>');
+    if (contact.wechat) parts.push('<span>WeChat: ' + escapeHtml(contact.wechat) + '</span>');
+    if (parts.length === 0 && contact.phone) parts.push('<span>Tel: ' + escapeHtml(contact.phone) + '</span>');
     return parts.join('');
   }
 
-  function renderExperience(items, lang) {
+  function renderExperience(items, lang, isMobile) {
     if (!Array.isArray(items)) return '';
-    return items.slice(0, 2).map(function (item) {
+    var limit = isMobile ? 1 : 2;
+    return items.slice(0, limit).map(function (item) {
       return (
         '<li class="exp-item">' +
         '<div class="exp-item-head">' +
@@ -62,15 +102,15 @@
         '<span class="exp-item-period">' + escapeHtml(item.period) + '</span>' +
         '</div>' +
         '<div class="exp-item-role">' + escapeHtml(item.role) + '</div>' +
-        '<p class="exp-item-summary">' + escapeHtml(compactText(item.summary, lang, 44, 88)) + '</p>' +
+        '<p class="exp-item-summary">' + escapeHtml(compactText(item.summary, lang, isMobile ? 30 : 38, isMobile ? 52 : 70)) + '</p>' +
         '</li>'
       );
     }).join('');
   }
 
-  function renderTech(tech) {
+  function renderTech(tech, isMobile) {
     if (!Array.isArray(tech)) return '';
-    return tech.slice(0, 8).map(function (t) {
+    return tech.slice(0, isMobile ? 4 : 6).map(function (t) {
       return '<span class="tag">' + escapeHtml(t) + '</span>';
     }).join('');
   }
@@ -78,6 +118,7 @@
   function applyData(data) {
     var d = document;
     var lang = (data.meta && data.meta.lang) === 'en' ? 'en' : 'zh';
+    var mobile = isMobileViewport();
     var basics = data.basics || {};
     var highlight = data.highlight || {};
     var skills = data.skills || {};
@@ -86,25 +127,25 @@
 
     d.getElementById('name').textContent = data.name || '';
     d.getElementById('basicsLine').textContent = [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · ');
-    d.getElementById('targetRole').textContent = basics.targetRole || '';
-    d.getElementById('tagline').textContent = compactText(basics.tagline || '', lang, 52, 120);
-    d.getElementById('contact').innerHTML = renderContact(data);
+    d.getElementById('targetRole').textContent = compactText(basics.targetRole || '', lang, mobile ? 18 : 26, mobile ? 30 : 52);
+    d.getElementById('tagline').textContent = compactText(basics.tagline || '', lang, mobile ? 30 : 42, mobile ? 52 : 82);
+    d.getElementById('contact').innerHTML = renderContact(data, mobile);
 
     d.getElementById('highlightTitle').textContent = highlight.title || '';
-    d.getElementById('highlightCompany').textContent = highlight.company || '';
-    d.getElementById('highlightPeriod').textContent = highlight.period || '';
-    d.getElementById('highlightRole').textContent = highlight.role || '';
-    d.getElementById('metricPlay').textContent = compactText((highlight.metrics && highlight.metrics.play) || '', lang, 34, 76);
-    d.getElementById('metricAppstore').textContent = compactText((highlight.metrics && highlight.metrics.appstore) || '', lang, 34, 76);
-    d.getElementById('aiNote').textContent = compactText(highlight.aiNote || '', lang, 44, 92);
+    d.getElementById('highlightCompany').textContent = compactText(highlight.company || '', lang, mobile ? 14 : 22, mobile ? 24 : 38);
+    d.getElementById('highlightPeriod').textContent = compactText(highlight.period || '', lang, mobile ? 10 : 16, mobile ? 18 : 28);
+    d.getElementById('highlightRole').textContent = compactText(highlight.role || '', lang, mobile ? 20 : 30, mobile ? 38 : 56);
+    d.getElementById('metricPlay').textContent = compactText((highlight.metrics && highlight.metrics.play) || '', lang, mobile ? 20 : 26, mobile ? 34 : 58);
+    d.getElementById('metricAppstore').textContent = compactText((highlight.metrics && highlight.metrics.appstore) || '', lang, mobile ? 20 : 26, mobile ? 34 : 58);
+    d.getElementById('aiNote').textContent = compactText(highlight.aiNote || '', lang, mobile ? 24 : 34, mobile ? 42 : 66);
 
     d.getElementById('experienceTitle').textContent = (experience.title || '');
-    d.getElementById('experienceList').innerHTML = renderExperience(experience.items || [], lang);
+    d.getElementById('experienceList').innerHTML = renderExperience(experience.items || [], lang, mobile);
 
     d.getElementById('skillsTitle').textContent = skills.title || '';
-    d.getElementById('skillsLead').textContent = compactText(skills.lead || '', lang, 58, 130);
-    d.getElementById('skillsTech').innerHTML = renderTech(skills.tech || []);
-    d.getElementById('skillsDomain').textContent = compactText(skills.domain || '', lang, 62, 140);
+    d.getElementById('skillsLead').textContent = compactText(skills.lead || '', lang, mobile ? 34 : 46, mobile ? 62 : 88);
+    d.getElementById('skillsTech').innerHTML = renderTech(skills.tech || [], mobile);
+    d.getElementById('skillsDomain').textContent = compactText(skills.domain || '', lang, mobile ? 32 : 44, mobile ? 58 : 92);
 
     d.getElementById('educationTitle').textContent = education.title || '';
     d.getElementById('educationContent').textContent = [
@@ -112,7 +153,7 @@
       education.degree,
       education.major,
       education.period
-    ].filter(Boolean).join(' · ');
+    ].filter(Boolean).join(mobile ? ' / ' : ' · ');
 
     d.getElementById('langSwitch').textContent = lang === 'en' ? '中文' : 'English';
     var modeSwitch = d.querySelector('.mode-switch');
@@ -125,7 +166,9 @@
     if (data.meta && data.meta.lang) {
       d.documentElement.lang = data.meta.lang === 'en' ? 'en' : 'zh-CN';
     }
-    document.dispatchEvent(new CustomEvent('silk-content-ready'));
+    fitSingleSilkPage(function () {
+      document.dispatchEvent(new CustomEvent('silk-content-ready'));
+    });
   }
 
   function loadLang(lang, callback) {

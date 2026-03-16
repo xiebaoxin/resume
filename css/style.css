@@ -108,7 +108,7 @@ body.silk-home-page {
 body.silk-home-page .page {
   max-width: 960px;
   height: 100vh;
-  padding: 0.9rem 1.4rem 0.8rem;
+  padding: 0.75rem 1.2rem 0.65rem;
   display: flex;
   flex-direction: column;
 }
@@ -131,11 +131,17 @@ body.silk-home-page .skills,
 body.silk-home-page .education,
 body.silk-home-page .highlight,
 body.silk-home-page .experience {
-  margin-bottom: 0.62rem;
+  margin-bottom: 0.48rem;
 }
 
 body.silk-home-page .name {
-  font-size: clamp(1.5rem, 3vw, 1.85rem);
+  font-size: clamp(1.35rem, 2.8vw, 1.65rem);
+}
+
+body.silk-home-page .basics-line,
+body.silk-home-page .target-role {
+  font-size: 12px;
+  line-height: 1.3;
 }
 
 body.silk-home-page .tagline,
@@ -144,17 +150,17 @@ body.silk-home-page .exp-item-summary,
 body.silk-home-page .skills-lead,
 body.silk-home-page .education-content,
 body.silk-home-page .ai-note {
-  font-size: 12.5px;
-  line-height: 1.36;
+  font-size: 11.5px;
+  line-height: 1.28;
 }
 
 body.silk-home-page .highlight-card {
-  padding: 0.72rem 0.92rem;
+  padding: 0.6rem 0.78rem;
 }
 
 body.silk-home-page .exp-list li {
-  margin-bottom: 0.42rem;
-  padding-bottom: 0.42rem;
+  margin-bottom: 0.32rem;
+  padding-bottom: 0.32rem;
 }
 
 body.silk-home-page .exp-item-summary {
@@ -165,53 +171,136 @@ body.silk-home-page .exp-item-summary {
 }
 
 body.silk-home-page .section-title {
-  margin-bottom: 0.4rem;
-  padding-bottom: 0.22rem;
+  margin-bottom: 0.32rem;
+  padding-bottom: 0.18rem;
+  font-size: 10px;
+  letter-spacing: 0.1em;
 }
 
 body.silk-home-page .resume-footer.silk-footer {
-  margin-top: 0.35rem;
-  padding-top: 0.55rem;
+  margin-top: 0.22rem;
+  padding-top: 0.38rem;
+  font-size: 10px;
 }
 
 body.silk-home-page .contact {
-  gap: 0.32rem 0.75rem;
-  font-size: 12px;
+  gap: 0.26rem 0.5rem;
+  font-size: 11px;
+  line-height: 1.25;
 }
 
 body.silk-home-page .skills-tech .tag {
-  margin: 0.08rem 0.18rem 0.08rem 0;
-  padding: 0.16rem 0.45rem;
+  margin: 0.06rem 0.14rem 0.06rem 0;
+  padding: 0.12rem 0.34rem;
+  font-size: 10px;
+}
+
+body.silk-home-page .exp-item-company {
+  font-size: 12px;
+}
+
+body.silk-home-page .exp-item-period,
+body.silk-home-page .exp-item-role {
   font-size: 11px;
+}
+
+body.silk-home-page.silk-fit-compact-1 .tagline,
+body.silk-home-page.silk-fit-compact-1 #metricAppstore,
+body.silk-home-page.silk-fit-compact-1 #aiNote {
+  display: none;
+}
+
+body.silk-home-page.silk-fit-compact-2 #skillsDomain,
+body.silk-home-page.silk-fit-compact-2 #educationTitle,
+body.silk-home-page.silk-fit-compact-2 #educationContent {
+  display: none;
 }
 
 @media (max-width: 700px) {
   body.silk-home-page {
-    overflow-y: auto;
+    overflow-y: hidden;
   }
 
   body.silk-home-page .page {
-    height: auto;
-    padding: 0.75rem 0.75rem 0.65rem;
+    height: 100vh;
+    max-width: 100%;
+    padding: 0.5rem 0.45rem 0.4rem;
   }
 
   .silk-main {
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
+    grid-template-columns: 0.98fr 1.02fr;
+    gap: 0.4rem;
   }
 
   body.silk-home-page .section-title {
-    font-size: 10px;
-    letter-spacing: 0.12em;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.2rem;
+    padding-bottom: 0.1rem;
   }
 
   body.silk-home-page .name {
-    font-size: 1.45rem;
+    font-size: 1.02rem;
+    margin-bottom: 0.14rem;
+  }
+
+  body.silk-home-page .basics-line,
+  body.silk-home-page .target-role {
+    font-size: 10px;
+    margin-bottom: 0.12rem;
+  }
+
+  body.silk-home-page .tagline,
+  body.silk-home-page .metric,
+  body.silk-home-page .exp-item-summary,
+  body.silk-home-page .skills-lead,
+  body.silk-home-page .education-content,
+  body.silk-home-page .ai-note {
+    font-size: 9px;
+    line-height: 1.18;
   }
 
   body.silk-home-page .contact {
-    gap: 0.4rem 0.65rem;
-    font-size: 12px;
+    gap: 0.14rem 0.24rem;
+    font-size: 9px;
+  }
+
+  body.silk-home-page .exp-item-company {
+    font-size: 10px;
+  }
+
+  body.silk-home-page .exp-item-period,
+  body.silk-home-page .exp-item-role {
+    font-size: 9px;
+  }
+
+  body.silk-home-page .skills-tech .tag {
+    margin: 0.02rem 0.08rem 0.02rem 0;
+    padding: 0.04rem 0.18rem;
+    font-size: 8px;
+  }
+
+  body.silk-home-page .highlight-card {
+    padding: 0.32rem 0.36rem;
+  }
+
+  body.silk-home-page .hero,
+  body.silk-home-page .skills,
+  body.silk-home-page .education,
+  body.silk-home-page .highlight,
+  body.silk-home-page .experience {
+    margin-bottom: 0.22rem;
+  }
+
+  body.silk-home-page .exp-list li {
+    margin-bottom: 0.16rem;
+    padding-bottom: 0.16rem;
+  }
+
+  body.silk-home-page .resume-footer.silk-footer {
+    margin-top: 0.12rem;
+    padding-top: 0.2rem;
+    font-size: 8px;
   }
 }
 
