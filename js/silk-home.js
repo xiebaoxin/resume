@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-15';
+  var DATA_VERSION = '20260316-16';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -110,27 +110,27 @@
   function buildNarrative(lang, mobile) {
     if (lang === 'en') {
       return {
-        targetRole: 'AI Tech Lead / Engineering Manager',
-        tagline: 'AI-assisted full-stack delivery and technical management leader.',
-        title: 'Profile Summary',
+        targetRole: '',
+        tagline: '',
+        title: 'Personal Pitch',
         p1: mobile
-          ? 'I am Xie Baoxin, with 22 years of engineering and delivery experience. I focus on AI-assisted engineering management and full-stack execution, turning complex business goals into practical milestones and leading cross-functional teams to deliver measurable outcomes with both speed and quality.'
-          : 'I am Xie Baoxin, with 22 years of engineering and delivery experience. I focus on AI-assisted engineering management and full-stack execution, turning complex business goals into practical milestones and leading product, engineering, QA, and operations teams to deliver measurable outcomes with both speed and quality.',
+          ? 'I focus on AI-assisted engineering management and full-stack delivery. I can rapidly convert business goals into executable milestones, coordinate cross-functional collaboration, and keep delivery speed and quality in balance to produce measurable outcomes.'
+          : 'I focus on AI-assisted engineering management and full-stack delivery. I can rapidly convert business goals into executable milestones, coordinate product, engineering, QA, and operations teams efficiently, and keep delivery speed and quality in balance to produce measurable outcomes.',
         p2: mobile
-          ? 'My core advantage is combining AI productivity with end-to-end delivery: I use Cursor and Claude to accelerate output, and can independently drive Flutter, backend, and IoT/e-commerce/IM projects from architecture to release with clear business impact.'
-          : 'My core advantage is combining AI productivity with end-to-end delivery: I use Cursor and Claude to accelerate output, and can independently drive Flutter clients, backend architecture, and IoT/e-commerce/IM projects from architecture to release. In recent projects, I delivered sustained growth in user and download metrics, while also building team standards and strengthening delivery predictability.',
+          ? 'My core advantage is the combination of AI productivity and end-to-end execution. I use tools like Cursor and Claude to improve team throughput, and can independently deliver Flutter clients, backend systems, and IoT / e-commerce / IM projects from architecture to production.'
+          : 'My core advantage is the combination of AI productivity and end-to-end execution. I use tools like Cursor and Claude to improve team throughput, and can independently deliver Flutter clients, backend systems, and IoT / e-commerce / IM projects from architecture to production. I also build engineering standards and team workflows that keep technical decisions aligned with business value.',
       };
     }
     return {
-      targetRole: 'AI 技术负责人 / 工程管理',
-      tagline: 'AI 辅助研发、全栈交付与团队管理负责人。',
-      title: '个人简介',
+      targetRole: '',
+      tagline: '',
+      title: '个人推介',
       p1: mobile
-        ? '我是谢宝新，22 年技术研发与交付管理经验，聚焦 AI 辅助研发管理与全栈落地。擅长把复杂业务目标拆解为可执行里程碑，带领产品、研发、测试、运营协同推进，在效率与质量并重的前提下稳定交付可量化结果。'
-        : '我是谢宝新，拥有 22 年技术研发与交付管理经验，聚焦 AI 辅助研发管理与全栈落地。擅长把复杂业务目标拆解为可执行里程碑，带领产品、研发、测试、运营高效协同，在效率与质量并重的前提下稳定交付可量化结果。',
+        ? '我聚焦 AI 辅助研发管理与全栈交付，能够将复杂业务目标快速拆解为可执行里程碑，推动跨团队高效协同，在效率与质量并重的前提下持续交付可量化结果。'
+        : '我聚焦 AI 辅助研发管理与全栈交付，能够将复杂业务目标快速拆解为可执行里程碑，组织产品、研发、测试、运营高效协同，在效率与质量并重的前提下持续交付可量化结果。',
       p2: mobile
-        ? '我的核心优势是“AI 提效 + 端到端交付”双能力：熟练使用 Cursor、Claude 等工具提升团队产能，能够从 Flutter 客户端、后端架构到 IoT / 电商 / IM 场景完成全链路落地，并让技术投入持续转化为业务结果。'
-        : '我的核心优势是“AI 提效 + 端到端交付”双能力：熟练使用 Cursor、Claude 等工具提升团队产能，能够从 Flutter 客户端、后端架构到 IoT / 电商 / IM 场景完成全链路落地。近期项目中，我主导的应用在用户与下载数据上实现持续增长；同时，我持续推动工程规范、人才培养与技术决策体系建设，让技术路线始终与业务目标对齐。',
+        ? '我的核心优势是“AI 提效 + 端到端落地”双能力：熟练运用 Cursor、Claude 等工具提升团队产能，可独立完成 Flutter 客户端、后端系统及 IoT / 电商 / IM 场景的全链路交付。'
+        : '我的核心优势是“AI 提效 + 端到端落地”双能力：熟练运用 Cursor、Claude 等工具提升团队产能，可独立完成 Flutter 客户端、后端系统及 IoT / 电商 / IM 场景的全链路交付。同时，我持续推动工程规范、团队协作机制与技术决策体系建设，让技术投入稳定转化为业务价值。',
     };
   }
 
@@ -138,15 +138,13 @@
     var d = document;
     var lang = (data.meta && data.meta.lang) === 'en' ? 'en' : 'zh';
     var mobile = isMobileViewport();
-    var basics = data.basics || {};
-    var highlight = data.highlight || {};
     var narrative = buildNarrative(lang, mobile);
 
     setText('name', data.name || '');
-    setText('basicsLine', [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · '));
+    setText('basicsLine', '');
     setText('targetRole', narrative.targetRole);
     setText('tagline', narrative.tagline);
-    setHTML('contact', renderContactLine(data, lang, mobile));
+    setHTML('contact', '');
 
     setText('highlightTitle', narrative.title);
     setText('highlightCompany', '');

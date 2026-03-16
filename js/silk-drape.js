@@ -263,7 +263,7 @@
     if (!this.withInkCapture) return;
     var THREE = this.THREE;
     var mobile = this.width < 700;
-    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 2.2, 3.1) : Math.min((window.devicePixelRatio || 1) * 2.9, 5.2);
+    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 2.35, 3.4) : Math.min((window.devicePixelRatio || 1) * 3.15, 5.6);
     this.inkCanvas = document.createElement('canvas');
     this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
     this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
@@ -339,7 +339,7 @@
     this.renderer.setSize(this.width, this.height, false);
     if (this.withInkCapture && this.inkCanvas && this.inkSourceCanvas) {
       var mobile = this.width < 700;
-      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 2.2, 3.1) : Math.min((window.devicePixelRatio || 1) * 2.9, 5.2);
+      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 2.35, 3.4) : Math.min((window.devicePixelRatio || 1) * 3.15, 5.6);
       this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
       this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
       this.inkSourceCanvas.width = this.inkCanvas.width;
@@ -395,15 +395,15 @@
 
   SilkDrape.prototype.resolveInkColor = function (style) {
     var color = style && style.color ? style.color : 'rgb(50,36,24)';
-    if (color.indexOf('rgb') !== 0) return 'rgba(56,38,22,1)';
+    if (color.indexOf('rgb') !== 0) return 'rgba(60,40,22,1)';
     var m = color.match(/\d+(\.\d+)?/g);
-    if (!m || m.length < 3) return 'rgba(56,38,22,1)';
+    if (!m || m.length < 3) return 'rgba(60,40,22,1)';
     var r = parseFloat(m[0]);
     var g = parseFloat(m[1]);
     var b = parseFloat(m[2]);
     var v = (r + g + b) / 3;
-    if (v > 210) return 'rgba(72,49,30,0.99)';
-    return 'rgba(' + Math.max(28, r * 0.74).toFixed(0) + ',' + Math.max(20, g * 0.69).toFixed(0) + ',' + Math.max(14, b * 0.64).toFixed(0) + ',1)';
+    if (v > 210) return 'rgba(78,52,31,1)';
+    return 'rgba(' + Math.max(32, r * 0.79).toFixed(0) + ',' + Math.max(22, g * 0.73).toFixed(0) + ',' + Math.max(15, b * 0.67).toFixed(0) + ',1)';
   };
 
   SilkDrape.prototype.drawWrappedText = function (ctx, text, x, y, maxWidth, lineHeight, textAlign) {
@@ -498,10 +498,8 @@
         '.basics-line',
         '.target-role',
         '.tagline',
-        '.letter-contact',
         '#highlightTitle',
-        '.letter-paragraph',
-        '.resume-footer .footer-note'
+        '.letter-paragraph'
       ]
       : [
         '.name',
@@ -564,19 +562,19 @@
       lineHeight = Math.max(fontSize * 1.24, Math.min(lineHeight, fontSize * 1.55));
       var weight = style.fontWeight || '400';
       var numericWeight = parseInt(weight, 10);
-      if (isLetterMode && (!Number.isFinite(numericWeight) || numericWeight < 500)) {
-        weight = '500';
+      if (isLetterMode && (!Number.isFinite(numericWeight) || numericWeight < 600)) {
+        weight = '600';
       }
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(58,37,22,0.24)';
-      ctx.lineWidth = Math.max(0.08, fontSize * 0.015);
+      ctx.strokeStyle = 'rgba(54,33,18,0.3)';
+      ctx.lineWidth = Math.max(0.1, fontSize * 0.018);
       ctx.lineJoin = 'round';
-      ctx.shadowColor = 'rgba(255,248,236,0.16)';
-      ctx.shadowBlur = Math.max(0.06, fontSize * 0.007);
-      ctx.shadowOffsetX = 0.025;
-      ctx.shadowOffsetY = 0.05;
+      ctx.shadowColor = 'rgba(255,248,236,0.2)';
+      ctx.shadowBlur = Math.max(0.08, fontSize * 0.008);
+      ctx.shadowOffsetX = 0.028;
+      ctx.shadowOffsetY = 0.055;
       ctx.textAlign = style.textAlign || 'left';
       var sourceAlpha = this.parsePx(style.opacity, 1);
       if ((document.body.classList.contains('silk-ink-mode') || document.body.classList.contains('silk-preparing')) && sourceAlpha < 0.2) {
