@@ -59,9 +59,10 @@
     return parts.join('');
   }
 
-  function renderValueBullets(lines) {
+  function renderValueBullets(lines, isMobile) {
     if (!Array.isArray(lines)) return '';
-    return lines.map(function (line) {
+    var limit = isMobile ? 2 : lines.length;
+    return lines.slice(0, limit).map(function (line) {
       return '<li class="exp-item value-item"><p class="exp-item-summary">' + escapeHtml(line) + '</p></li>';
     }).join('');
   }
@@ -145,15 +146,14 @@
           ? 'AI tools integrated into daily engineering flow.'
           : 'Integrated Cursor and Claude into delivery workflow for speed and quality.',
         valueTitle: 'Leadership Value',
-        valueBullets: shortMobile ? [
+      valueBullets: shortMobile ? [
           'Business-first planning with stable milestone delivery.'
         ] : (mobile ? [
           'Business-first planning with stable milestone delivery.',
           'AI workflow integration to shorten release cycle and reduce rework.'
         ] : [
           'Business-first planning: convert goals into clear, deliverable milestones.',
-          'AI workflow integration: accelerate delivery while keeping quality and engineering standards.',
-          'Cross-functional execution: align product, engineering and operations for predictable outcomes.'
+          'AI workflow integration: accelerate delivery while keeping quality and engineering standards.'
         ]),
         skillsLead: shortMobile
           ? 'Stack: Flutter · Java · Node · Python · Cursor/Claude'
@@ -197,8 +197,7 @@
         '把 AI 工具链融入研发流程，缩短交付周期并减少返工。'
       ] : [
         '业务导向：将目标拆解为可交付里程碑，保证节奏与质量。',
-        '效率导向：将 AI 工具链融入研发流程，缩短交付周期并降低返工成本。',
-        '协同导向：统一跨端与后端方案，提升跨团队协作效率。'
+        '效率导向：将 AI 工具链融入研发流程，缩短交付周期并降低返工成本。'
       ]),
       skillsLead: shortMobile
         ? '技术栈：Flutter · Java · Node · Python · Cursor/Claude'
@@ -236,7 +235,7 @@
     setText('aiNote', narrative.aiNote);
 
     setText('experienceTitle', narrative.valueTitle);
-    setHTML('experienceList', renderValueBullets(narrative.valueBullets));
+    setHTML('experienceList', renderValueBullets(narrative.valueBullets, mobile));
 
     setText('skillsTitle', skills.title || '');
     setText('skillsLead', narrative.skillsLead);
