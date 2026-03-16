@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-17';
+  var DATA_VERSION = '20260316-18';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -112,25 +112,25 @@
       return {
         targetRole: '',
         tagline: '',
-        title: 'A Talented Horse Awaits Its Rider',
+        title: 'Awaiting the Right Horizon',
         p1: mobile
-          ? 'I, Xie Baoxin, seek a stage where capability can be fully put to work. Like a talented horse seeking a true rider, I bring AI-assisted engineering management and full-stack execution to turn complex goals into clear milestones and practical outcomes.'
-          : 'I, Xie Baoxin, seek a stage where capability can be fully put to work. Like a talented horse seeking a true rider, I bring AI-assisted engineering management and full-stack execution to turn complex goals into clear milestones and measurable business outcomes.',
+          ? 'I, Xie Baoxin, seek a stage worthy of full commitment and real outcomes. With AI-assisted engineering leadership and full-stack execution, I turn complex goals into clear milestones and deliver practical results with speed and discipline.'
+          : 'I, Xie Baoxin, seek a stage worthy of full commitment and real outcomes. With AI-assisted engineering leadership and full-stack execution, I turn complex goals into clear milestones, align teams around delivery, and produce measurable business value.',
         p2: mobile
-          ? 'Like Jiang Ziya waiting for the wise sovereign, I value the right platform and mission. My core strength is combining AI productivity with end-to-end delivery across Flutter, backend, and IoT / e-commerce / IM scenarios, so technical effort steadily becomes business value.'
-          : 'Like Jiang Ziya waiting for the wise sovereign, I value the right platform and mission. My core strength is combining AI productivity with end-to-end delivery across Flutter, backend, and IoT / e-commerce / IM scenarios, while building engineering standards and team workflows that keep technical decisions aligned with business value.',
+          ? 'Like a steed awaiting a true rider, I value the right mission and long-term direction. My strength is combining AI productivity with end-to-end delivery across Flutter, backend, and IoT / e-commerce / IM scenarios, so technical effort reliably becomes business value.'
+          : 'Like a steed awaiting a true rider, I value the right mission and long-term direction. My strength is combining AI productivity with end-to-end delivery across Flutter, backend, and IoT / e-commerce / IM scenarios, while shaping engineering standards and team workflows that keep technical decisions aligned with business value.',
       };
     }
     return {
       targetRole: '',
       tagline: '',
-      title: '千里马待伯乐',
+      title: '待时乘风',
       p1: mobile
-        ? '我，谢宝新，所求的是能让能力尽展的舞台。正如千里马待伯乐，我愿以 AI 辅助研发管理与全栈交付能力，把复杂目标拆解为可执行里程碑，把想法稳稳落到结果。'
-        : '我，谢宝新，所求的是能让能力尽展的舞台。正如千里马待伯乐，我愿以 AI 辅助研发管理与全栈交付能力，把复杂目标拆解为可执行里程碑，推动团队高效协同，把想法稳稳落到结果。',
+        ? '我，谢宝新，愿求一方可尽展所长的天地。若千里马待伯乐，我愿执 AI 辅助研发管理与全栈交付之缰，将繁难目标化为清晰里程碑，以确定性交付回应期许。'
+        : '我，谢宝新，愿求一方可尽展所长的天地。若千里马待伯乐，我愿执 AI 辅助研发管理与全栈交付之缰，将繁难目标化为清晰里程碑，统筹协同、压实节奏，以确定性交付回应期许。',
       p2: mobile
-        ? '也如姜子牙待周公，重在遇见志同道合的方向。我的优势在于“AI 提效 + 端到端落地”并举：从 Flutter 客户端、后端系统到 IoT / 电商 / IM 场景，能够独立完成全链路交付，并让技术投入持续转化为业务价值。'
-        : '也如姜子牙待周公，重在遇见志同道合的方向。我的优势在于“AI 提效 + 端到端落地”并举：从 Flutter 客户端、后端系统到 IoT / 电商 / IM 场景，能够独立完成全链路交付；同时通过工程规范、协作机制与技术决策体系建设，让技术投入持续转化为业务价值。',
+        ? '亦如姜子牙待明主，所重者在同道同频。我的长处在“AI 提效 + 端到端落地”并进：自 Flutter 客户端至后端系统，再到 IoT / 电商 / IM 场景，皆可独立贯通，并使技术投入持续沉淀为业务增量。'
+        : '亦如姜子牙待明主，所重者在同道同频。我的长处在“AI 提效 + 端到端落地”并进：自 Flutter 客户端至后端系统，再到 IoT / 电商 / IM 场景，皆可独立贯通；并以工程规范、协作机制与技术决策体系，令技术投入持续沉淀为业务增量。',
     };
   }
 
