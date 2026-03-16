@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-5';
+  var DATA_VERSION = '20260316-6';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -82,6 +82,30 @@
     }).join('');
   }
 
+  function renderProfileDetails(data, narrative, lang, isMobile) {
+    var basics = data.basics || {};
+    var contact = (basics && basics.contact) || {};
+    var rows = [
+      [lang === 'en' ? 'Profile' : '基本信息', [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · ')],
+      [lang === 'en' ? 'Target' : '求职意向', narrative.targetRole],
+      [lang === 'en' ? 'Summary' : '职业摘要', narrative.tagline],
+      ['Tel', contact.phone || ''],
+      ['Email', contact.email || '']
+    ];
+    if (!isMobile) rows.push(['WeChat', contact.wechat || '']);
+    if (contact.resumeRepo) {
+      rows.push([
+        lang === 'en' ? 'Resume' : '简历',
+        '<a href="' + escapeHtml(contact.resumeRepo) + '" target="_blank" rel="noopener noreferrer" class="contact-link">' + escapeHtml(contact.resumeRepo) + '</a>'
+      ]);
+    }
+    return '<dl class="detail-grid">' + rows.map(function (row) {
+      var value = row[1] || '';
+      var htmlVal = value.indexOf('<a ') === 0 ? value : escapeHtml(value);
+      return '<div class="detail-row"><dt class="detail-label">' + escapeHtml(row[0]) + '</dt><dd class="detail-value">' + htmlVal + '</dd></div>';
+    }).join('') + '</dl>';
+  }
+
   function setText(id, value) {
     var el = document.getElementById(id);
     if (el) el.textContent = value || '';
@@ -96,16 +120,33 @@
     if (lang === 'en') {
       return {
         targetRole: shortMobile
-          ? 'Target: AI Tech Lead / Engineering Manager'
-          : 'Target: AI Tech Lead / Engineering Manager (Delivery & Productivity)',
+          ? 'AI Tech Lead / Engineering Manager'
+          : 'AI Tech Lead / Engineering Manager (Delivery & Productivity)',
         tagline: shortMobile
-          ? 'AI-assisted full-stack delivery lead.'
-          : 'AI-assisted full-stack delivery lead who turns complex business goals into shippable, measurable products.',
+          ? 'AI-assisted full-stack delivery.'
+          : 'AI-assisted full-stack delivery leader who turns business goals into measurable product outcomes.',
         achievementTitle: 'Key Impact',
         achievementRole: shortMobile ? 'Tech Lead (AI + Full Stack)' : 'Tech Lead (AI + Full Stack Delivery)',
+        products: shortMobile ? [
+          'Cross-border procurement app, from design to release.'
+        ] : (mobile ? [
+          'Cross-border procurement app, led delivery from architecture to release.'
+        ] : [
+          'Led factory procurement and warehouse management app end-to-end delivery.',
+          'Built cross-border purchase app and led release on major stores.'
+        ]),
+        metricPlay: shortMobile
+          ? 'Google Play users grew steadily.'
+          : 'Google Play: clear user growth with sustained trend.',
+        metricAppstore: shortMobile
+          ? 'App Store downloads improved steadily.'
+          : 'App Store: cumulative downloads kept increasing.',
+        aiNote: shortMobile
+          ? 'AI tools integrated into daily engineering flow.'
+          : 'Integrated Cursor and Claude into delivery workflow for speed and quality.',
         valueTitle: 'Leadership Value',
         valueBullets: shortMobile ? [
-          'Business-first planning, stable milestone delivery.'
+          'Business-first planning with stable milestone delivery.'
         ] : (mobile ? [
           'Business-first planning with stable milestone delivery.',
           'AI workflow integration to shorten release cycle and reduce rework.'
@@ -116,7 +157,7 @@
         ]),
         skillsLead: shortMobile
           ? 'Stack: Flutter · Java · Node · Python · Cursor/Claude'
-          : 'Stack: Flutter · Java · Node · Python · AI coding workflow (Cursor / Claude).',
+          : 'Stack: Flutter · Java · Node · Python · AI workflow (Cursor / Claude).',
         skillsDomain: shortMobile
           ? ''
           : (mobile ? 'Domains: IoT · e-commerce · IM.' : 'Domains: IoT · e-commerce · IM · enterprise systems.')
@@ -124,13 +165,30 @@
     }
     return {
       targetRole: shortMobile
-        ? '求职意向：AI 技术负责人 / 工程管理'
-        : '求职意向：AI 技术负责人 / 工程管理（交付与效率）',
+        ? 'AI 技术负责人 / 工程管理'
+        : 'AI 技术负责人 / 工程管理（交付与效率）',
       tagline: shortMobile
-        ? 'AI 辅助研发与全栈交付负责人。'
-        : 'AI 辅助研发与全栈交付负责人，擅长把复杂业务目标快速落地为可增长、可复用的产品。',
+        ? 'AI 辅助研发与全栈交付。'
+        : 'AI 辅助研发与全栈交付负责人，擅长把复杂业务目标快速落地为可增长产品。',
       achievementTitle: '代表成果',
       achievementRole: shortMobile ? '技术负责人（AI + 全栈）' : '技术负责人（AI + 全栈交付）',
+      products: shortMobile ? [
+        '跨境采购 App，主导从方案到上线。'
+      ] : (mobile ? [
+        '跨境采购 App，主导从架构到上线交付。'
+      ] : [
+        '主导工厂采购与仓储管理 App 全链路交付。',
+        '主导跨境采购 App 开发并完成双端发布。'
+      ]),
+      metricPlay: shortMobile
+        ? 'Google Play 持续增长。'
+        : 'Google Play：用户增长趋势稳定。',
+      metricAppstore: shortMobile
+        ? 'App Store 下载持续提升。'
+        : 'App Store：累计下载持续提升。',
+      aiNote: shortMobile
+        ? '将 AI 工具融入日常研发流程。'
+        : '将 Cursor / Claude 融入交付流程，兼顾效率与质量。',
       valueTitle: '管理价值',
       valueBullets: shortMobile ? [
         '业务导向拆解目标，稳定推进里程碑。'
@@ -144,7 +202,7 @@
       ]),
       skillsLead: shortMobile
         ? '技术栈：Flutter · Java · Node · Python · Cursor/Claude'
-        : '技术栈：Flutter · Java · Node · Python · AI 编码工作流（Cursor / Claude）。',
+        : '技术栈：Flutter · Java · Node · Python · AI 工作流（Cursor / Claude）。',
       skillsDomain: shortMobile
         ? ''
         : (mobile ? '领域：IoT · 电商 · IM。' : '领域：IoT · 电商 · IM · 企业系统。')
@@ -163,19 +221,19 @@
     var education = data.education || {};
 
     setText('name', data.name || '');
-    setText('basicsLine', [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · '));
-    setText('targetRole', narrative.targetRole);
-    setText('tagline', narrative.tagline);
-    setHTML('contact', renderContact(data, mobile));
+    setText('basicsLine', '');
+    setText('targetRole', '');
+    setText('tagline', '');
+    setHTML('contact', renderProfileDetails(data, narrative, lang, mobile));
 
     setText('highlightTitle', narrative.achievementTitle);
     setText('highlightCompany', compactText(highlight.company || '', lang, shortMobile ? 10 : (mobile ? 14 : 24), shortMobile ? 18 : (mobile ? 24 : 50)));
     setText('highlightPeriod', compactText(highlight.period || '', lang, shortMobile ? 8 : (mobile ? 10 : 20), shortMobile ? 14 : (mobile ? 20 : 34)));
     setText('highlightRole', narrative.achievementRole);
-    setHTML('highlightProducts', renderProducts(highlight.products || [], lang, mobile, shortMobile));
-    setText('metricPlay', compactText((highlight.metrics && highlight.metrics.play) || '', lang, shortMobile ? 12 : (mobile ? 16 : 34), shortMobile ? 20 : (mobile ? 28 : 72)));
-    setText('metricAppstore', compactText((highlight.metrics && highlight.metrics.appstore) || '', lang, shortMobile ? 12 : (mobile ? 16 : 34), shortMobile ? 20 : (mobile ? 28 : 72)));
-    setText('aiNote', compactText(highlight.aiNote || '', lang, shortMobile ? 10 : (mobile ? 14 : 24), shortMobile ? 18 : (mobile ? 28 : 56)));
+    setHTML('highlightProducts', renderProducts(narrative.products || highlight.products || [], lang, mobile, shortMobile));
+    setText('metricPlay', narrative.metricPlay);
+    setText('metricAppstore', narrative.metricAppstore);
+    setText('aiNote', narrative.aiNote);
 
     setText('experienceTitle', narrative.valueTitle);
     setHTML('experienceList', renderValueBullets(narrative.valueBullets));

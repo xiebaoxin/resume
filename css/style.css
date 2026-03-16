@@ -235,6 +235,39 @@ body.silk-home-page .contact {
   line-height: 1.24;
 }
 
+body.silk-home-page .hero .basics-line:empty,
+body.silk-home-page .hero .target-role:empty,
+body.silk-home-page .hero .tagline:empty {
+  display: none;
+}
+
+body.silk-home-page .detail-grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  row-gap: 0.22rem;
+  column-gap: 0.52rem;
+}
+
+body.silk-home-page .detail-row {
+  display: contents;
+}
+
+body.silk-home-page .detail-label {
+  margin: 0;
+  color: rgba(70, 56, 42, 0.85);
+  font-size: 0.84rem;
+  line-height: 1.2;
+}
+
+body.silk-home-page .detail-value {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 body.silk-home-page .skills-tech .tag {
   margin: 0.14rem 0.25rem 0.14rem 0;
   padding: 0.26rem 0.62rem;
@@ -330,6 +363,21 @@ body.silk-home-page .exp-item-head {
     line-height: 1.06;
   }
 
+  body.silk-home-page .detail-grid {
+    row-gap: 0.1rem;
+    column-gap: 0.26rem;
+  }
+
+  body.silk-home-page .detail-label {
+    font-size: 0.62rem;
+    line-height: 1.02;
+  }
+
+  body.silk-home-page .detail-value {
+    font-size: 0.68rem;
+    line-height: 1.04;
+  }
+
   body.silk-home-page .exp-item-company {
     font-size: 0.78rem;
   }
@@ -410,6 +458,14 @@ body.silk-home-page .exp-item-head {
     margin-top: 0.2rem;
     padding-top: 0.22rem;
     font-size: 0.72rem;
+  }
+
+  body.silk-home-page .detail-label {
+    font-size: 0.58rem;
+  }
+
+  body.silk-home-page .detail-value {
+    font-size: 0.64rem;
   }
 }
 

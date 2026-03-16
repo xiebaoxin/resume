@@ -161,9 +161,9 @@
 
     this.cols = mobile ? 16 : (compact ? 20 : 28);
     this.rows = mobile ? 24 : (compact ? 34 : 46);
-    this.clothWidth = mobile ? 2.02 : (compact ? 2.16 : 2.28);
-    this.clothHeight = mobile ? 2.45 : (compact ? 2.62 : 2.78);
-    this.topY = mobile ? 0.84 : 0.92;
+    this.clothWidth = mobile ? 1.64 : (compact ? 2.16 : 2.28);
+    this.clothHeight = mobile ? 1.98 : (compact ? 2.62 : 2.78);
+    this.topY = mobile ? 0.56 : 0.92;
     this.gravity = mobile ? 0.00078 : 0.00068;
     this.damping = mobile ? 0.973 : 0.978;
     this.iterations = mobile ? 3 : (compact ? 4 : 4);
@@ -330,9 +330,9 @@
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.revealDuration = this.width < 700 ? 1400 : 1200;
-    this.camera.fov = this.width < 700 ? 34 : 32;
-    this.camera.position.set(0, this.width < 700 ? 0.02 : 0.03, this.width < 700 ? 5.08 : 4.95);
-    this.camera.lookAt(0, this.width < 700 ? -0.18 : -0.2, 0);
+    this.camera.fov = this.width < 700 ? 38 : 32;
+    this.camera.position.set(0, this.width < 700 ? 0.03 : 0.03, this.width < 700 ? 5.78 : 4.95);
+    this.camera.lookAt(0, this.width < 700 ? -0.26 : -0.2, 0);
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.width < 700 ? 1.2 : 1.65));
