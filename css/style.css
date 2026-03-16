@@ -119,14 +119,14 @@ body.silk-preparing .page footer {
 
 @font-face {
   font-family: "WangXizhiKaishu";
-  src: local("WangXizhiKaishu"), local("WangXizhi Kai"), local("STKaiti"), local("KaiTi");
+  src: local("WangXizhiKaishu"), local("WangXizhi Kai"), local("FZWangXizhiKaishuS-R-GB"), local("HYWangXizhiShuFaW"), local("STKaiti"), local("KaiTi");
   font-display: swap;
 }
 
 body.silk-home-page {
   overflow-y: auto;
   background: #fff;
-  font-family: "WangXizhiKaishu", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
+  font-family: "WangXizhiKaishu", "FZWangXizhiKaishuS-R-GB", "HYWangXizhiShuFaW", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
   font-weight: 500;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -153,8 +153,13 @@ body.silk-home-page .section-title,
 body.silk-home-page .target-role,
 body.silk-home-page .exp-item-company,
 body.silk-home-page .highlight-card .company {
-  font-family: "WangXizhiKaishu", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
+  font-family: "WangXizhiKaishu", "FZWangXizhiKaishuS-R-GB", "HYWangXizhiShuFaW", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
   font-weight: 600;
+}
+
+body.silk-home-page .letter-paragraph,
+body.silk-home-page .letter-contact {
+  font-family: "WangXizhiKaishu", "FZWangXizhiKaishuS-R-GB", "HYWangXizhiShuFaW", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
 }
 
 .silk-main {

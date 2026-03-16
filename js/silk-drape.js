@@ -173,8 +173,8 @@
     this.clothWidth = mobile ? 1.72 : (compact ? 2.28 : 2.42);
     this.clothHeight = mobile ? 2.08 : (compact ? 2.76 : 2.94);
     this.topY = mobile ? 0.56 : 0.92;
-    this.gravity = mobile ? 0.00064 : 0.00054;
-    this.damping = mobile ? 0.976 : 0.982;
+    this.gravity = mobile ? 0.00056 : 0.00046;
+    this.damping = mobile ? 0.979 : 0.985;
     this.iterations = mobile ? 3 : (compact ? 4 : 4);
 
     this.geometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, this.cols, this.rows);
@@ -250,15 +250,15 @@
       map: weaveTex,
       alphaMap: weaveTex,
       transparent: true,
-      opacity: mobile ? 0.32 : (compact ? 0.34 : 0.36),
+      opacity: mobile ? 0.3 : (compact ? 0.32 : 0.34),
       alphaTest: 0.02,
-      roughness: 0.44,
+      roughness: 0.4,
       metalness: 0.02,
-      transmission: 0.25,
-      thickness: 0.13,
-      clearcoat: 0.66,
-      clearcoatRoughness: 0.14,
-      sheen: 0.48,
+      transmission: 0.29,
+      thickness: 0.11,
+      clearcoat: 0.7,
+      clearcoatRoughness: 0.12,
+      sheen: 0.56,
       sheenColor: new THREE.Color(0xf7f2e8),
       side: THREE.DoubleSide
     });
@@ -381,9 +381,9 @@
     var speed = Math.hypot(dx, dy) / dt;
     var gust = Math.min(speed * 0.16, 1.05);
 
-    p.targetWindX = dx * 0.000062 * (1 + gust * 0.35);
-    p.targetWindY = -dy * 0.000036 * (1 + gust * 0.26);
-    p.targetWindZ = gust * 0.00035;
+    p.targetWindX = dx * 0.000082 * (1 + gust * 0.48);
+    p.targetWindY = -dy * 0.000048 * (1 + gust * 0.34);
+    p.targetWindZ = gust * 0.00048;
 
     this.projectPointerToCloth(e.clientX, e.clientY);
     var pressing = (e.buttons & 1) === 1;
@@ -638,7 +638,7 @@
       }
       var family = style.fontFamily || 'Georgia, serif';
       if (isLetterMode) {
-        family = '"WangXizhiKaishu","STKaiti","Kaiti SC","KaiTi","KaiTi_GB2312","DFKai-SB","BiauKai","LXGW WenKai",serif';
+        family = '"WangXizhiKaishu","FZWangXizhiKaishuS-R-GB","HYWangXizhiShuFaW","STKaiti","Kaiti SC","KaiTi","KaiTi_GB2312","DFKai-SB","BiauKai","LXGW WenKai",serif';
       }
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
@@ -746,12 +746,12 @@
     var current = this.current;
     var previous = this.previous;
 
-    p.windX += (p.targetWindX - p.windX) * 0.068;
-    p.windY += (p.targetWindY - p.windY) * 0.068;
-    p.windZ += (p.targetWindZ - p.windZ) * 0.066;
-    p.targetWindX *= 0.946;
-    p.targetWindY *= 0.946;
-    p.targetWindZ *= 0.93;
+    p.windX += (p.targetWindX - p.windX) * 0.078;
+    p.windY += (p.targetWindY - p.windY) * 0.078;
+    p.windZ += (p.targetWindZ - p.windZ) * 0.074;
+    p.targetWindX *= 0.952;
+    p.targetWindY *= 0.952;
+    p.targetWindZ *= 0.936;
     p.stabVX *= 0.9;
     p.stabVY *= 0.9;
     if (p.stabActive) {
@@ -793,9 +793,9 @@
       var ripple = Math.cos(time * 0.76 + u * 3.7 - v * 4.1) * 0.00017;
       var edge = Math.abs(u - 0.5) * 2;
 
-      current[j] = x + vx + sway * 0.52 + p.windX * 0.11;
-      current[j + 1] = y + vy - this.gravity + p.windY * 0.042;
-      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.36 + edge * edge * 0.00023 * Math.sin(time + v * 2.7);
+      current[j] = x + vx + sway * 0.52 + p.windX * 0.14;
+      current[j + 1] = y + vy - this.gravity + p.windY * 0.052;
+      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.45 + edge * edge * 0.00026 * Math.sin(time + v * 2.7);
 
       if (p.active) {
         var dx = x - p.x;
@@ -804,10 +804,10 @@
         if (d2 < 0.6) {
           var influence = 1 - d2 / 0.6;
           influence *= influence;
-          current[j] += p.windX * influence * 0.34;
-          current[j + 1] += p.windY * influence * 0.11;
+          current[j] += p.windX * influence * 0.42;
+          current[j + 1] += p.windY * influence * 0.135;
           var curlDir = dx >= 0 ? 1 : -1;
-          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.092;
+          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.116;
         }
       }
 
