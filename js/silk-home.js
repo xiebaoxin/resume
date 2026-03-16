@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-16';
+  var DATA_VERSION = '20260316-17';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -112,25 +112,25 @@
       return {
         targetRole: '',
         tagline: '',
-        title: 'Personal Pitch',
+        title: 'A Talented Horse Awaits Its Rider',
         p1: mobile
-          ? 'I focus on AI-assisted engineering management and full-stack delivery. I can rapidly convert business goals into executable milestones, coordinate cross-functional collaboration, and keep delivery speed and quality in balance to produce measurable outcomes.'
-          : 'I focus on AI-assisted engineering management and full-stack delivery. I can rapidly convert business goals into executable milestones, coordinate product, engineering, QA, and operations teams efficiently, and keep delivery speed and quality in balance to produce measurable outcomes.',
+          ? 'I, Xie Baoxin, seek a stage where capability can be fully put to work. Like a talented horse seeking a true rider, I bring AI-assisted engineering management and full-stack execution to turn complex goals into clear milestones and practical outcomes.'
+          : 'I, Xie Baoxin, seek a stage where capability can be fully put to work. Like a talented horse seeking a true rider, I bring AI-assisted engineering management and full-stack execution to turn complex goals into clear milestones and measurable business outcomes.',
         p2: mobile
-          ? 'My core advantage is the combination of AI productivity and end-to-end execution. I use tools like Cursor and Claude to improve team throughput, and can independently deliver Flutter clients, backend systems, and IoT / e-commerce / IM projects from architecture to production.'
-          : 'My core advantage is the combination of AI productivity and end-to-end execution. I use tools like Cursor and Claude to improve team throughput, and can independently deliver Flutter clients, backend systems, and IoT / e-commerce / IM projects from architecture to production. I also build engineering standards and team workflows that keep technical decisions aligned with business value.',
+          ? 'Like Jiang Ziya waiting for the wise sovereign, I value the right platform and mission. My core strength is combining AI productivity with end-to-end delivery across Flutter, backend, and IoT / e-commerce / IM scenarios, so technical effort steadily becomes business value.'
+          : 'Like Jiang Ziya waiting for the wise sovereign, I value the right platform and mission. My core strength is combining AI productivity with end-to-end delivery across Flutter, backend, and IoT / e-commerce / IM scenarios, while building engineering standards and team workflows that keep technical decisions aligned with business value.',
       };
     }
     return {
       targetRole: '',
       tagline: '',
-      title: '个人推介',
+      title: '千里马待伯乐',
       p1: mobile
-        ? '我聚焦 AI 辅助研发管理与全栈交付，能够将复杂业务目标快速拆解为可执行里程碑，推动跨团队高效协同，在效率与质量并重的前提下持续交付可量化结果。'
-        : '我聚焦 AI 辅助研发管理与全栈交付，能够将复杂业务目标快速拆解为可执行里程碑，组织产品、研发、测试、运营高效协同，在效率与质量并重的前提下持续交付可量化结果。',
+        ? '我，谢宝新，所求的是能让能力尽展的舞台。正如千里马待伯乐，我愿以 AI 辅助研发管理与全栈交付能力，把复杂目标拆解为可执行里程碑，把想法稳稳落到结果。'
+        : '我，谢宝新，所求的是能让能力尽展的舞台。正如千里马待伯乐，我愿以 AI 辅助研发管理与全栈交付能力，把复杂目标拆解为可执行里程碑，推动团队高效协同，把想法稳稳落到结果。',
       p2: mobile
-        ? '我的核心优势是“AI 提效 + 端到端落地”双能力：熟练运用 Cursor、Claude 等工具提升团队产能，可独立完成 Flutter 客户端、后端系统及 IoT / 电商 / IM 场景的全链路交付。'
-        : '我的核心优势是“AI 提效 + 端到端落地”双能力：熟练运用 Cursor、Claude 等工具提升团队产能，可独立完成 Flutter 客户端、后端系统及 IoT / 电商 / IM 场景的全链路交付。同时，我持续推动工程规范、团队协作机制与技术决策体系建设，让技术投入稳定转化为业务价值。',
+        ? '也如姜子牙待周公，重在遇见志同道合的方向。我的优势在于“AI 提效 + 端到端落地”并举：从 Flutter 客户端、后端系统到 IoT / 电商 / IM 场景，能够独立完成全链路交付，并让技术投入持续转化为业务价值。'
+        : '也如姜子牙待周公，重在遇见志同道合的方向。我的优势在于“AI 提效 + 端到端落地”并举：从 Flutter 客户端、后端系统到 IoT / 电商 / IM 场景，能够独立完成全链路交付；同时通过工程规范、协作机制与技术决策体系建设，让技术投入持续转化为业务价值。',
     };
   }
 
@@ -140,7 +140,7 @@
     var mobile = isMobileViewport();
     var narrative = buildNarrative(lang, mobile);
 
-    setText('name', data.name || '');
+    setText('name', '');
     setText('basicsLine', '');
     setText('targetRole', narrative.targetRole);
     setText('tagline', narrative.tagline);

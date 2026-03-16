@@ -252,6 +252,10 @@ body.silk-home-page .hero .tagline:empty {
   display: none;
 }
 
+body.silk-home-page .hero .name:empty {
+  display: none;
+}
+
 body.silk-home-page .detail-grid {
   margin: 0;
   display: grid;
