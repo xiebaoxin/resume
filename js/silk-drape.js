@@ -263,7 +263,7 @@
     if (!this.withInkCapture) return;
     var THREE = this.THREE;
     var mobile = this.width < 700;
-    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.9, 2.6) : Math.min((window.devicePixelRatio || 1) * 2.45, 4.2);
+    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.95, 2.7) : Math.min((window.devicePixelRatio || 1) * 2.55, 4.4);
     this.inkCanvas = document.createElement('canvas');
     this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
     this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
@@ -278,7 +278,7 @@
     this.inkTexture.minFilter = THREE.LinearFilter;
     this.inkTexture.magFilter = THREE.LinearFilter;
     if (this.renderer && this.renderer.capabilities && this.renderer.capabilities.getMaxAnisotropy) {
-      this.inkTexture.anisotropy = Math.min(12, this.renderer.capabilities.getMaxAnisotropy());
+      this.inkTexture.anisotropy = Math.min(14, this.renderer.capabilities.getMaxAnisotropy());
     }
     this.inkTexture.needsUpdate = true;
 
@@ -339,7 +339,7 @@
     this.renderer.setSize(this.width, this.height, false);
     if (this.withInkCapture && this.inkCanvas && this.inkSourceCanvas) {
       var mobile = this.width < 700;
-      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.9, 2.6) : Math.min((window.devicePixelRatio || 1) * 2.45, 4.2);
+      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.95, 2.7) : Math.min((window.devicePixelRatio || 1) * 2.55, 4.4);
       this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
       this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
       this.inkSourceCanvas.width = this.inkCanvas.width;
@@ -395,15 +395,15 @@
 
   SilkDrape.prototype.resolveInkColor = function (style) {
     var color = style && style.color ? style.color : 'rgb(50,36,24)';
-    if (color.indexOf('rgb') !== 0) return 'rgba(58,40,24,0.98)';
+    if (color.indexOf('rgb') !== 0) return 'rgba(52,36,22,1)';
     var m = color.match(/\d+(\.\d+)?/g);
-    if (!m || m.length < 3) return 'rgba(58,40,24,0.98)';
+    if (!m || m.length < 3) return 'rgba(52,36,22,1)';
     var r = parseFloat(m[0]);
     var g = parseFloat(m[1]);
     var b = parseFloat(m[2]);
     var v = (r + g + b) / 3;
-    if (v > 210) return 'rgba(72,52,34,0.96)';
-    return 'rgba(' + Math.max(28, r * 0.66).toFixed(0) + ',' + Math.max(20, g * 0.61).toFixed(0) + ',' + Math.max(14, b * 0.56).toFixed(0) + ',0.98)';
+    if (v > 210) return 'rgba(66,46,30,0.98)';
+    return 'rgba(' + Math.max(24, r * 0.68).toFixed(0) + ',' + Math.max(18, g * 0.63).toFixed(0) + ',' + Math.max(12, b * 0.58).toFixed(0) + ',1)';
   };
 
   SilkDrape.prototype.drawWrappedText = function (ctx, text, x, y, maxWidth, lineHeight, textAlign) {
@@ -533,6 +533,7 @@
     for (var ni = 0; ni < nodes.length; ni++) {
       var el = nodes[ni];
       if (!el || !el.getBoundingClientRect) continue;
+      if ((el.closest && el.closest('.header')) || el.classList.contains('header-actions') || el.classList.contains('lang-switch') || el.classList.contains('mode-switch')) continue;
       var rect = el.getBoundingClientRect();
       if (rect.width < 4 || rect.height < 4) continue;
       if (rect.bottom < 0 || rect.top > this.height) continue;
@@ -546,6 +547,15 @@
         .replace(/\n{3,}/g, '\n\n')
         .trim();
       if (!text) continue;
+      var switchLike = text.replace(/\s+/g, '').toLowerCase();
+      if (rect.top < this.height * 0.26 && (
+        switchLike === 'classic中文' ||
+        switchLike === 'classicenglish' ||
+        switchLike === '普通版english' ||
+        switchLike === '普通版中文' ||
+        switchLike === 'silkenglish' ||
+        switchLike === 'silk中文'
+      )) continue;
 
       var fontSize = this.parsePx(style.fontSize, 14);
       var lineHeight = this.parsePx(style.lineHeight, fontSize * 1.45);
@@ -554,11 +564,11 @@
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(82,58,36,0.38)';
-      ctx.lineWidth = Math.max(0.32, fontSize * 0.03);
+      ctx.strokeStyle = 'rgba(74,52,32,0.42)';
+      ctx.lineWidth = Math.max(0.34, fontSize * 0.031);
       ctx.lineJoin = 'round';
-      ctx.shadowColor = 'rgba(255,248,236,0.24)';
-      ctx.shadowBlur = Math.max(0.2, fontSize * 0.018);
+      ctx.shadowColor = 'rgba(255,248,236,0.2)';
+      ctx.shadowBlur = Math.max(0.12, fontSize * 0.012);
       ctx.shadowOffsetX = 0.06;
       ctx.shadowOffsetY = 0.1;
       ctx.textAlign = style.textAlign || 'left';
@@ -566,7 +576,7 @@
       if ((document.body.classList.contains('silk-ink-mode') || document.body.classList.contains('silk-preparing')) && sourceAlpha < 0.2) {
         sourceAlpha = 1;
       }
-      ctx.globalAlpha = Math.max(0.8, Math.min(1, sourceAlpha));
+      ctx.globalAlpha = Math.max(0.85, Math.min(1, sourceAlpha));
 
       var maxWidth = Math.max(8, rect.width);
       written += this.drawWrappedText(ctx, text, rect.left, rect.top + topOffset, maxWidth, lineHeight, ctx.textAlign);
