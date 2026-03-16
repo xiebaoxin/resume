@@ -75,7 +75,16 @@
       windZ: 0,
       targetWindX: 0,
       targetWindY: 0,
-      targetWindZ: 0
+      targetWindZ: 0,
+      stabActive: false,
+      stabX: 0,
+      stabY: 0,
+      lastStabX: 0,
+      lastStabY: 0,
+      stabVX: 0,
+      stabVY: 0,
+      stabStrength: 0,
+      stabPulse: 0
     };
 
     this.pageEl = document.querySelector('.page');
@@ -164,8 +173,8 @@
     this.clothWidth = mobile ? 1.72 : (compact ? 2.28 : 2.42);
     this.clothHeight = mobile ? 2.08 : (compact ? 2.76 : 2.94);
     this.topY = mobile ? 0.56 : 0.92;
-    this.gravity = mobile ? 0.00078 : 0.00068;
-    this.damping = mobile ? 0.973 : 0.978;
+    this.gravity = mobile ? 0.00064 : 0.00054;
+    this.damping = mobile ? 0.976 : 0.982;
     this.iterations = mobile ? 3 : (compact ? 4 : 4);
 
     this.geometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, this.cols, this.rows);
@@ -241,15 +250,15 @@
       map: weaveTex,
       alphaMap: weaveTex,
       transparent: true,
-      opacity: mobile ? 0.34 : (compact ? 0.36 : 0.38),
+      opacity: mobile ? 0.32 : (compact ? 0.34 : 0.36),
       alphaTest: 0.02,
-      roughness: 0.48,
+      roughness: 0.44,
       metalness: 0.02,
-      transmission: 0.2,
-      thickness: 0.16,
-      clearcoat: 0.6,
+      transmission: 0.25,
+      thickness: 0.13,
+      clearcoat: 0.66,
       clearcoatRoughness: 0.14,
-      sheen: 0.42,
+      sheen: 0.48,
       sheenColor: new THREE.Color(0xf7f2e8),
       side: THREE.DoubleSide
     });
@@ -299,7 +308,12 @@
     var self = this;
     this._onResize = function () { self.onResize(); };
     this._onPointerMove = function (e) { self.onPointerMove(e); };
-    this._onLeave = function () { self.pointer.active = false; };
+    this._onPointerDown = function (e) { self.onPointerDown(e); };
+    this._onPointerUp = function () { self.onPointerUp(); };
+    this._onLeave = function () {
+      self.pointer.active = false;
+      self.pointer.stabActive = false;
+    };
     this._onVisibility = function () { self.hidden = document.hidden; };
     this._onLangSwitch = function () {
       self.scheduleCapture(200);
@@ -315,6 +329,9 @@
 
     window.addEventListener('resize', this._onResize);
     window.addEventListener('pointermove', this._onPointerMove, { passive: true });
+    window.addEventListener('pointerdown', this._onPointerDown, { passive: true });
+    window.addEventListener('pointerup', this._onPointerUp, { passive: true });
+    window.addEventListener('pointercancel', this._onPointerUp, { passive: true });
     window.addEventListener('pointerleave', this._onLeave, { passive: true });
     window.addEventListener('blur', this._onLeave);
     document.addEventListener('visibilitychange', this._onVisibility);
@@ -368,12 +385,66 @@
     p.targetWindY = -dy * 0.000036 * (1 + gust * 0.26);
     p.targetWindZ = gust * 0.00035;
 
-    p.x = ((e.clientX / this.width) - 0.5) * this.clothWidth * 1.1;
-    p.y = (0.5 - e.clientY / this.height) * this.clothHeight * 1.05 + 0.05;
+    this.projectPointerToCloth(e.clientX, e.clientY);
+    var pressing = (e.buttons & 1) === 1;
+    if (pressing && !p.stabActive) {
+      p.stabActive = true;
+      p.stabX = p.x;
+      p.stabY = p.y;
+      p.lastStabX = p.stabX;
+      p.lastStabY = p.stabY;
+      p.stabStrength = Math.max(p.stabStrength, 0.72);
+      p.stabPulse = Math.max(p.stabPulse, 0.52);
+    } else if (!pressing && p.stabActive) {
+      p.stabActive = false;
+    }
+
+    if (p.stabActive) {
+      var stabDx = p.x - p.lastStabX;
+      var stabDy = p.y - p.lastStabY;
+      p.stabVX = p.stabVX * 0.58 + stabDx * 0.54;
+      p.stabVY = p.stabVY * 0.58 + stabDy * 0.42;
+      p.stabX = p.x;
+      p.stabY = p.y;
+      p.lastStabX = p.stabX;
+      p.lastStabY = p.stabY;
+      p.stabStrength = Math.min(1.5, p.stabStrength + 0.11 + gust * 0.14);
+      p.stabPulse = Math.min(1.2, p.stabPulse + 0.04 + gust * 0.05);
+    }
+
     p.active = true;
     p.lastTs = ts;
     p.lastX = e.clientX;
     p.lastY = e.clientY;
+  };
+
+  SilkDrape.prototype.projectPointerToCloth = function (clientX, clientY) {
+    var p = this.pointer;
+    p.x = ((clientX / this.width) - 0.5) * this.clothWidth * 1.1;
+    p.y = (0.5 - clientY / this.height) * this.clothHeight * 1.05 + 0.05;
+  };
+
+  SilkDrape.prototype.onPointerDown = function (e) {
+    var p = this.pointer;
+    this.projectPointerToCloth(e.clientX, e.clientY);
+    p.active = true;
+    p.stabActive = true;
+    p.stabX = p.x;
+    p.stabY = p.y;
+    p.lastStabX = p.stabX;
+    p.lastStabY = p.stabY;
+    p.stabStrength = Math.min(1.55, Math.max(0.9, p.stabStrength + 0.78));
+    p.stabPulse = 1;
+    p.targetWindZ += 0.00028;
+    p.lastTs = performance.now();
+    p.lastX = e.clientX;
+    p.lastY = e.clientY;
+  };
+
+  SilkDrape.prototype.onPointerUp = function () {
+    var p = this.pointer;
+    p.stabActive = false;
+    p.stabPulse = Math.max(0.46, p.stabPulse * 0.82);
   };
 
   SilkDrape.prototype.scheduleCapture = function (delayMs) {
@@ -678,6 +749,17 @@
     p.targetWindX *= 0.946;
     p.targetWindY *= 0.946;
     p.targetWindZ *= 0.93;
+    p.stabVX *= 0.9;
+    p.stabVY *= 0.9;
+    if (p.stabActive) {
+      p.stabStrength = Math.min(1.5, p.stabStrength * 0.988 + 0.02);
+      p.stabPulse = Math.min(1.2, p.stabPulse * 0.94 + 0.01);
+    } else {
+      p.stabStrength *= 0.92;
+      p.stabPulse *= 0.84;
+    }
+    var stabRadius = this.width < 700 ? 0.11 : 0.135;
+    var stabR2 = stabRadius * stabRadius;
 
     var i;
     for (i = rowSize; i < rowSize * (rows + 1); i++) {
@@ -723,6 +805,21 @@
           current[j + 1] += p.windY * influence * 0.084;
           var curlDir = dx >= 0 ? 1 : -1;
           current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.068;
+        }
+      }
+
+      if (p.stabStrength > 0.008) {
+        var sdx = x - p.stabX;
+        var sdy = y - p.stabY;
+        var sd2 = sdx * sdx + sdy * sdy;
+        if (sd2 < stabR2) {
+          var pen = 1 - sd2 / stabR2;
+          pen *= pen;
+          var scratch = (Math.abs(p.stabVX) + Math.abs(p.stabVY)) * 0.5;
+          current[j] += p.stabVX * pen * 0.08;
+          current[j + 1] += p.stabVY * pen * 0.05;
+          var tilt = sdx >= 0 ? 1 : -1;
+          current[j + 2] += (-0.0085 * p.stabStrength - 0.006 * p.stabPulse + tilt * scratch * 0.3) * pen;
         }
       }
     }
