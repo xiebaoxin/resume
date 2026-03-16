@@ -433,9 +433,9 @@
     p.stabY = p.y;
     p.lastStabX = p.stabX;
     p.lastStabY = p.stabY;
-    p.stabStrength = Math.min(1.55, Math.max(0.9, p.stabStrength + 0.78));
-    p.stabPulse = 1;
-    p.targetWindZ += 0.00028;
+    p.stabStrength = Math.min(1.75, Math.max(1.08, p.stabStrength + 0.936));
+    p.stabPulse = 1.18;
+    p.targetWindZ += 0.00034;
     p.lastTs = performance.now();
     p.lastX = e.clientX;
     p.lastY = e.clientY;
@@ -752,11 +752,11 @@
     p.stabVX *= 0.9;
     p.stabVY *= 0.9;
     if (p.stabActive) {
-      p.stabStrength = Math.min(1.5, p.stabStrength * 0.988 + 0.02);
-      p.stabPulse = Math.min(1.2, p.stabPulse * 0.94 + 0.01);
+      p.stabStrength = Math.min(1.7, p.stabStrength * 0.989 + 0.024);
+      p.stabPulse = Math.min(1.32, p.stabPulse * 0.946 + 0.012);
     } else {
-      p.stabStrength *= 0.92;
-      p.stabPulse *= 0.84;
+      p.stabStrength *= 0.935;
+      p.stabPulse *= 0.87;
     }
     var stabRadius = this.width < 700 ? 0.11 : 0.135;
     var stabR2 = stabRadius * stabRadius;
@@ -786,13 +786,13 @@
       var u = cx / cols;
       var v = cy / rows;
 
-      var sway = Math.sin(time * 0.4 + v * 3.2 + u * 1.9) * 0.00028;
-      var ripple = Math.cos(time * 0.76 + u * 3.7 - v * 4.1) * 0.00011;
+      var sway = Math.sin(time * 0.4 + v * 3.2 + u * 1.9) * 0.00036;
+      var ripple = Math.cos(time * 0.76 + u * 3.7 - v * 4.1) * 0.00017;
       var edge = Math.abs(u - 0.5) * 2;
 
-      current[j] = x + vx + sway * 0.36 + p.windX * 0.09;
-      current[j + 1] = y + vy - this.gravity + p.windY * 0.034;
-      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.29 + edge * edge * 0.00015 * Math.sin(time + v * 2.7);
+      current[j] = x + vx + sway * 0.52 + p.windX * 0.11;
+      current[j + 1] = y + vy - this.gravity + p.windY * 0.042;
+      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.36 + edge * edge * 0.00023 * Math.sin(time + v * 2.7);
 
       if (p.active) {
         var dx = x - p.x;
@@ -801,10 +801,10 @@
         if (d2 < 0.6) {
           var influence = 1 - d2 / 0.6;
           influence *= influence;
-          current[j] += p.windX * influence * 0.28;
-          current[j + 1] += p.windY * influence * 0.084;
+          current[j] += p.windX * influence * 0.34;
+          current[j + 1] += p.windY * influence * 0.11;
           var curlDir = dx >= 0 ? 1 : -1;
-          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.068;
+          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.092;
         }
       }
 
@@ -816,10 +816,12 @@
           var pen = 1 - sd2 / stabR2;
           pen *= pen;
           var scratch = (Math.abs(p.stabVX) + Math.abs(p.stabVY)) * 0.5;
-          current[j] += p.stabVX * pen * 0.08;
-          current[j + 1] += p.stabVY * pen * 0.05;
+          current[j] += p.stabVX * pen * 0.11;
+          current[j + 1] += p.stabVY * pen * 0.065;
           var tilt = sdx >= 0 ? 1 : -1;
-          current[j + 2] += (-0.0085 * p.stabStrength - 0.006 * p.stabPulse + tilt * scratch * 0.3) * pen;
+          var fineJitter = Math.sin(time * 92 + (u + v) * 44) * 0.0018 * p.stabPulse * pen;
+          var creaseBand = Math.cos((sd2 / stabR2) * Math.PI * 4 + time * 26) * 0.0024 * p.stabStrength * pen;
+          current[j + 2] += (-0.0102 * p.stabStrength - 0.0072 * p.stabPulse + tilt * scratch * 0.42) * pen + fineJitter + creaseBand;
         }
       }
     }
