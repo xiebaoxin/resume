@@ -410,6 +410,11 @@
         var ch = para.charAt(i);
         var test = line + ch;
         if (ctx.measureText(test).width > maxWidth && line) {
+          ctx.save();
+          ctx.lineWidth = Math.max(0.35, ctx.lineWidth * 1.65);
+          ctx.strokeStyle = 'rgba(250,242,230,0.28)';
+          ctx.strokeText(line, drawX - 0.12, y - 0.12);
+          ctx.restore();
           ctx.strokeText(line, drawX, y);
           ctx.fillText(line, drawX, y);
           y += lineHeight;
@@ -420,6 +425,11 @@
         }
       }
       if (line) {
+        ctx.save();
+        ctx.lineWidth = Math.max(0.35, ctx.lineWidth * 1.65);
+        ctx.strokeStyle = 'rgba(250,242,230,0.28)';
+        ctx.strokeText(line, drawX - 0.12, y - 0.12);
+        ctx.restore();
         ctx.strokeText(line, drawX, y);
         ctx.fillText(line, drawX, y);
         y += lineHeight;
@@ -529,13 +539,13 @@
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(112,88,64,0.2)';
-      ctx.lineWidth = Math.max(0.22, fontSize * 0.022);
+      ctx.strokeStyle = 'rgba(108,82,58,0.24)';
+      ctx.lineWidth = Math.max(0.26, fontSize * 0.024);
       ctx.lineJoin = 'round';
-      ctx.shadowColor = 'rgba(252,244,232,0.24)';
-      ctx.shadowBlur = Math.max(0.4, fontSize * 0.045);
-      ctx.shadowOffsetX = 0.12;
-      ctx.shadowOffsetY = 0.16;
+      ctx.shadowColor = 'rgba(255,246,232,0.3)';
+      ctx.shadowBlur = Math.max(0.55, fontSize * 0.052);
+      ctx.shadowOffsetX = 0.14;
+      ctx.shadowOffsetY = 0.18;
       ctx.textAlign = style.textAlign || 'left';
       var sourceAlpha = this.parsePx(style.opacity, 1);
       if ((document.body.classList.contains('silk-ink-mode') || document.body.classList.contains('silk-preparing')) && sourceAlpha < 0.2) {

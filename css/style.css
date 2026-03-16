@@ -119,7 +119,16 @@ body.silk-home-page .page {
   display: flex;
   flex-direction: column;
   color: #2f2923;
-  text-shadow: 0 0.2px 0 rgba(74, 56, 40, 0.2), 0.4px 0.35px 0 rgba(252, 246, 238, 0.2);
+  text-shadow: 0 0.26px 0 rgba(82, 63, 44, 0.24), 0.55px 0.48px 0 rgba(255, 249, 240, 0.24);
+}
+
+body.silk-home-page .name,
+body.silk-home-page .section-title,
+body.silk-home-page .target-role,
+body.silk-home-page .exp-item-company,
+body.silk-home-page .highlight-card .company {
+  font-family: "LXGW WenKai Mono", "LXGW WenKai", "Kaiti SC", "STKaiti", "KaiTi", "Noto Serif SC", Georgia, serif;
+  font-weight: 500;
 }
 
 .silk-main {
@@ -153,6 +162,7 @@ body.silk-home-page .basics-line {
 body.silk-home-page .target-role {
   font-size: 1.16rem;
   line-height: 1.28;
+  letter-spacing: 0.015em;
 }
 
 body.silk-home-page .tagline,
@@ -162,7 +172,7 @@ body.silk-home-page .skills-lead,
 body.silk-home-page .education-content,
 body.silk-home-page .ai-note {
   font-size: 1rem;
-  line-height: 1.34;
+  line-height: 1.3;
   letter-spacing: 0.01em;
 }
 
@@ -231,7 +241,7 @@ body.silk-home-page .highlight-card .period {
 
 body.silk-home-page .product {
   font-size: 1rem;
-  line-height: 1.32;
+  line-height: 1.3;
 }
 
 body.silk-home-page .highlight-head,
@@ -282,7 +292,7 @@ body.silk-home-page .exp-item-head {
   body.silk-home-page .education-content,
   body.silk-home-page .ai-note {
     font-size: 0.92rem;
-    line-height: 1.24;
+    line-height: 1.2;
   }
 
   body.silk-home-page .contact {
