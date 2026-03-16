@@ -60,6 +60,7 @@ body::before {
   height: 100%;
   display: block;
   opacity: 0.95;
+  filter: drop-shadow(0 24px 26px rgba(24, 18, 10, 0.11));
 }
 
 .silk-nail {
@@ -70,7 +71,7 @@ body::before {
   transform: translate(-50%, -50%);
   background: radial-gradient(circle at 34% 30%, rgba(255, 249, 214, 0.98) 0 20%, rgba(246, 210, 114, 0.98) 21% 52%, rgba(206, 154, 40, 0.98) 53% 78%, rgba(156, 109, 24, 0.98) 79% 100%);
   border: 1px solid rgba(171, 123, 30, 0.92);
-  box-shadow: 0 2px 5px rgba(84, 56, 8, 0.32), inset 0 0.6px 1.2px rgba(255, 252, 236, 0.56);
+  box-shadow: 0 2px 5px rgba(84, 56, 8, 0.32), inset 0 0.6px 1.2px rgba(255, 252, 236, 0.56), 0 0 0 1px rgba(238, 206, 115, 0.2);
   z-index: 2;
   pointer-events: none;
   opacity: 0;
@@ -283,6 +284,10 @@ body.silk-home-page .exp-item-head {
   .silk-nail {
     width: 11px;
     height: 11px;
+  }
+
+  .silk-drape-canvas {
+    filter: drop-shadow(0 16px 18px rgba(24, 18, 10, 0.1));
   }
 
   .silk-main {

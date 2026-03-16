@@ -138,16 +138,20 @@
 
   SilkDrape.prototype.setupLights = function () {
     var THREE = this.THREE;
-    var hemi = new THREE.HemisphereLight(0xffffff, 0xe7ddd0, 0.92);
+    var hemi = new THREE.HemisphereLight(0xffffff, 0xefe4d3, 1.04);
     this.scene.add(hemi);
 
-    var key = new THREE.DirectionalLight(0xffffff, 0.42);
-    key.position.set(0.6, 1.2, 2.4);
+    var key = new THREE.DirectionalLight(0xffffff, 0.58);
+    key.position.set(0.45, 1.35, 2.7);
     this.scene.add(key);
 
-    var fill = new THREE.DirectionalLight(0xfff3df, 0.25);
-    fill.position.set(-1.4, 0.3, 2.0);
+    var fill = new THREE.DirectionalLight(0xfff3df, 0.34);
+    fill.position.set(-1.45, 0.36, 2.1);
     this.scene.add(fill);
+
+    var rim = new THREE.DirectionalLight(0xfff0d8, 0.2);
+    rim.position.set(0.1, -0.6, 2.35);
+    this.scene.add(rim);
   };
 
   SilkDrape.prototype.setupCloth = function () {
@@ -160,8 +164,8 @@
     this.clothWidth = mobile ? 2.02 : (compact ? 2.16 : 2.28);
     this.clothHeight = mobile ? 2.45 : (compact ? 2.62 : 2.78);
     this.topY = mobile ? 0.84 : 0.92;
-    this.gravity = mobile ? 0.00092 : 0.00082;
-    this.damping = mobile ? 0.977 : 0.983;
+    this.gravity = mobile ? 0.00078 : 0.00068;
+    this.damping = mobile ? 0.973 : 0.978;
     this.iterations = mobile ? 3 : (compact ? 4 : 4);
 
     this.geometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, this.cols, this.rows);
@@ -237,15 +241,15 @@
       map: weaveTex,
       alphaMap: weaveTex,
       transparent: true,
-      opacity: mobile ? 0.36 : (compact ? 0.38 : 0.4),
+      opacity: mobile ? 0.34 : (compact ? 0.36 : 0.38),
       alphaTest: 0.02,
-      roughness: 0.62,
+      roughness: 0.48,
       metalness: 0.02,
-      transmission: 0.14,
-      thickness: 0.22,
-      clearcoat: 0.42,
-      clearcoatRoughness: 0.18,
-      sheen: 0.28,
+      transmission: 0.2,
+      thickness: 0.16,
+      clearcoat: 0.6,
+      clearcoatRoughness: 0.14,
+      sheen: 0.42,
       sheenColor: new THREE.Color(0xf7f2e8),
       side: THREE.DoubleSide
     });
@@ -259,7 +263,7 @@
     if (!this.withInkCapture) return;
     var THREE = this.THREE;
     var mobile = this.width < 700;
-    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.7, 2.35) : Math.min((window.devicePixelRatio || 1) * 2.15, 3.4);
+    this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.85, 2.5) : Math.min((window.devicePixelRatio || 1) * 2.35, 3.8);
     this.inkCanvas = document.createElement('canvas');
     this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
     this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
@@ -274,7 +278,7 @@
     this.inkTexture.minFilter = THREE.LinearFilter;
     this.inkTexture.magFilter = THREE.LinearFilter;
     if (this.renderer && this.renderer.capabilities && this.renderer.capabilities.getMaxAnisotropy) {
-      this.inkTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+      this.inkTexture.anisotropy = Math.min(12, this.renderer.capabilities.getMaxAnisotropy());
     }
     this.inkTexture.needsUpdate = true;
 
@@ -335,7 +339,7 @@
     this.renderer.setSize(this.width, this.height, false);
     if (this.withInkCapture && this.inkCanvas && this.inkSourceCanvas) {
       var mobile = this.width < 700;
-      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.7, 2.35) : Math.min((window.devicePixelRatio || 1) * 2.15, 3.4);
+      this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.85, 2.5) : Math.min((window.devicePixelRatio || 1) * 2.35, 3.8);
       this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
       this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
       this.inkSourceCanvas.width = this.inkCanvas.width;
@@ -358,11 +362,11 @@
     var dx = e.clientX - p.lastX;
     var dy = e.clientY - p.lastY;
     var speed = Math.hypot(dx, dy) / dt;
-    var gust = Math.min(speed * 0.14, 0.95);
+    var gust = Math.min(speed * 0.16, 1.05);
 
-    p.targetWindX = dx * 0.000055 * (1 + gust * 0.32);
-    p.targetWindY = -dy * 0.000032 * (1 + gust * 0.24);
-    p.targetWindZ = gust * 0.0003;
+    p.targetWindX = dx * 0.000062 * (1 + gust * 0.35);
+    p.targetWindY = -dy * 0.000036 * (1 + gust * 0.26);
+    p.targetWindZ = gust * 0.00035;
 
     p.x = ((e.clientX / this.width) - 0.5) * this.clothWidth * 1.1;
     p.y = (0.5 - e.clientY / this.height) * this.clothHeight * 1.05 + 0.05;
@@ -391,15 +395,15 @@
 
   SilkDrape.prototype.resolveInkColor = function (style) {
     var color = style && style.color ? style.color : 'rgb(50,36,24)';
-    if (color.indexOf('rgb') !== 0) return 'rgba(64,46,30,0.97)';
+    if (color.indexOf('rgb') !== 0) return 'rgba(58,40,24,0.98)';
     var m = color.match(/\d+(\.\d+)?/g);
-    if (!m || m.length < 3) return 'rgba(64,46,30,0.97)';
+    if (!m || m.length < 3) return 'rgba(58,40,24,0.98)';
     var r = parseFloat(m[0]);
     var g = parseFloat(m[1]);
     var b = parseFloat(m[2]);
     var v = (r + g + b) / 3;
-    if (v > 210) return 'rgba(78,58,40,0.95)';
-    return 'rgba(' + Math.max(30, r * 0.62).toFixed(0) + ',' + Math.max(22, g * 0.58).toFixed(0) + ',' + Math.max(16, b * 0.54).toFixed(0) + ',0.97)';
+    if (v > 210) return 'rgba(72,52,34,0.96)';
+    return 'rgba(' + Math.max(28, r * 0.66).toFixed(0) + ',' + Math.max(20, g * 0.61).toFixed(0) + ',' + Math.max(14, b * 0.56).toFixed(0) + ',0.98)';
   };
 
   SilkDrape.prototype.drawWrappedText = function (ctx, text, x, y, maxWidth, lineHeight, textAlign) {
@@ -423,8 +427,8 @@
         var test = line + ch;
         if (ctx.measureText(test).width > maxWidth && line) {
           ctx.save();
-          ctx.lineWidth = Math.max(0.36, ctx.lineWidth * 1.92);
-          ctx.strokeStyle = 'rgba(255,248,236,0.36)';
+          ctx.lineWidth = Math.max(0.34, ctx.lineWidth * 1.7);
+          ctx.strokeStyle = 'rgba(255,248,236,0.34)';
           ctx.strokeText(line, drawX - 0.12, y - 0.12);
           ctx.restore();
           ctx.strokeText(line, drawX, y);
@@ -438,8 +442,8 @@
       }
       if (line) {
         ctx.save();
-        ctx.lineWidth = Math.max(0.36, ctx.lineWidth * 1.92);
-        ctx.strokeStyle = 'rgba(255,248,236,0.36)';
+        ctx.lineWidth = Math.max(0.34, ctx.lineWidth * 1.7);
+        ctx.strokeStyle = 'rgba(255,248,236,0.34)';
         ctx.strokeText(line, drawX - 0.12, y - 0.12);
         ctx.restore();
         ctx.strokeText(line, drawX, y);
@@ -546,18 +550,18 @@
 
       var fontSize = this.parsePx(style.fontSize, 14);
       var lineHeight = this.parsePx(style.lineHeight, fontSize * 1.45);
-      lineHeight = Math.max(fontSize * 1.14, Math.min(lineHeight, fontSize * 1.28));
+      lineHeight = Math.max(fontSize * 1.12, Math.min(lineHeight, fontSize * 1.24));
       var weight = style.fontWeight || '400';
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(96,72,50,0.3)';
-      ctx.lineWidth = Math.max(0.28, fontSize * 0.026);
+      ctx.strokeStyle = 'rgba(88,64,42,0.34)';
+      ctx.lineWidth = Math.max(0.3, fontSize * 0.028);
       ctx.lineJoin = 'round';
-      ctx.shadowColor = 'rgba(255,248,236,0.34)';
-      ctx.shadowBlur = Math.max(0.4, fontSize * 0.038);
-      ctx.shadowOffsetX = 0.1;
-      ctx.shadowOffsetY = 0.14;
+      ctx.shadowColor = 'rgba(255,248,236,0.28)';
+      ctx.shadowBlur = Math.max(0.28, fontSize * 0.024);
+      ctx.shadowOffsetX = 0.08;
+      ctx.shadowOffsetY = 0.1;
       ctx.textAlign = style.textAlign || 'left';
       var sourceAlpha = this.parsePx(style.opacity, 1);
       if ((document.body.classList.contains('silk-ink-mode') || document.body.classList.contains('silk-preparing')) && sourceAlpha < 0.2) {
@@ -654,12 +658,12 @@
     var current = this.current;
     var previous = this.previous;
 
-    p.windX += (p.targetWindX - p.windX) * 0.064;
-    p.windY += (p.targetWindY - p.windY) * 0.064;
-    p.windZ += (p.targetWindZ - p.windZ) * 0.062;
-    p.targetWindX *= 0.95;
-    p.targetWindY *= 0.95;
-    p.targetWindZ *= 0.935;
+    p.windX += (p.targetWindX - p.windX) * 0.068;
+    p.windY += (p.targetWindY - p.windY) * 0.068;
+    p.windZ += (p.targetWindZ - p.windZ) * 0.066;
+    p.targetWindX *= 0.946;
+    p.targetWindY *= 0.946;
+    p.targetWindZ *= 0.93;
 
     var i;
     for (i = rowSize; i < rowSize * (rows + 1); i++) {
@@ -690,9 +694,9 @@
       var ripple = Math.cos(time * 0.76 + u * 3.7 - v * 4.1) * 0.00011;
       var edge = Math.abs(u - 0.5) * 2;
 
-      current[j] = x + vx + sway * 0.34 + p.windX * 0.078;
-      current[j + 1] = y + vy - this.gravity + p.windY * 0.029;
-      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.25 + edge * edge * 0.00013 * Math.sin(time + v * 2.7);
+      current[j] = x + vx + sway * 0.36 + p.windX * 0.09;
+      current[j + 1] = y + vy - this.gravity + p.windY * 0.034;
+      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.29 + edge * edge * 0.00015 * Math.sin(time + v * 2.7);
 
       if (p.active) {
         var dx = x - p.x;
@@ -701,10 +705,10 @@
         if (d2 < 0.6) {
           var influence = 1 - d2 / 0.6;
           influence *= influence;
-          current[j] += p.windX * influence * 0.24;
-          current[j + 1] += p.windY * influence * 0.075;
+          current[j] += p.windX * influence * 0.28;
+          current[j + 1] += p.windY * influence * 0.084;
           var curlDir = dx >= 0 ? 1 : -1;
-          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.062;
+          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.068;
         }
       }
     }
