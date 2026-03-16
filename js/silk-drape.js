@@ -378,16 +378,16 @@
   };
 
   SilkDrape.prototype.resolveInkColor = function (style) {
-    var color = style && style.color ? style.color : 'rgb(28,22,16)';
-    if (color.indexOf('rgb') !== 0) return 'rgba(30,24,18,0.98)';
+    var color = style && style.color ? style.color : 'rgb(50,36,24)';
+    if (color.indexOf('rgb') !== 0) return 'rgba(74,56,39,0.95)';
     var m = color.match(/\d+(\.\d+)?/g);
-    if (!m || m.length < 3) return 'rgba(30,24,18,0.98)';
+    if (!m || m.length < 3) return 'rgba(74,56,39,0.95)';
     var r = parseFloat(m[0]);
     var g = parseFloat(m[1]);
     var b = parseFloat(m[2]);
     var v = (r + g + b) / 3;
-    if (v > 210) return 'rgba(48,40,32,0.92)';
-    return 'rgba(' + Math.max(16, r * 0.46).toFixed(0) + ',' + Math.max(14, g * 0.43).toFixed(0) + ',' + Math.max(12, b * 0.4).toFixed(0) + ',0.98)';
+    if (v > 210) return 'rgba(96,74,56,0.92)';
+    return 'rgba(' + Math.max(34, r * 0.58).toFixed(0) + ',' + Math.max(26, g * 0.54).toFixed(0) + ',' + Math.max(20, b * 0.5).toFixed(0) + ',0.96)';
   };
 
   SilkDrape.prototype.drawWrappedText = function (ctx, text, x, y, maxWidth, lineHeight, textAlign) {
@@ -524,13 +524,18 @@
 
       var fontSize = this.parsePx(style.fontSize, 14);
       var lineHeight = this.parsePx(style.lineHeight, fontSize * 1.45);
+      lineHeight = Math.max(fontSize * 1.16, Math.min(lineHeight, fontSize * 1.34));
       var weight = style.fontWeight || '400';
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
-      ctx.strokeStyle = 'rgba(20,16,12,0.22)';
-      ctx.lineWidth = Math.max(0.35, fontSize * 0.035);
+      ctx.strokeStyle = 'rgba(112,88,64,0.2)';
+      ctx.lineWidth = Math.max(0.22, fontSize * 0.022);
       ctx.lineJoin = 'round';
+      ctx.shadowColor = 'rgba(252,244,232,0.24)';
+      ctx.shadowBlur = Math.max(0.4, fontSize * 0.045);
+      ctx.shadowOffsetX = 0.12;
+      ctx.shadowOffsetY = 0.16;
       ctx.textAlign = style.textAlign || 'left';
       var sourceAlpha = this.parsePx(style.opacity, 1);
       if ((document.body.classList.contains('silk-ink-mode') || document.body.classList.contains('silk-preparing')) && sourceAlpha < 0.2) {
