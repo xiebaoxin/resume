@@ -86,6 +86,10 @@
     this.captureTimer = null;
     this.captureReady = false;
     this.modeEnabled = false;
+    this.revealProgress = 0;
+    this.revealActive = false;
+    this.revealStart = 0;
+    this.revealDuration = this.width < 700 ? 1400 : 1200;
 
     this.layer = document.createElement('div');
     this.layer.className = 'silk-drape-layer';
@@ -148,9 +152,9 @@
     this.clothWidth = 3.0;
     this.clothHeight = 3.8;
     this.topY = 1.5;
-    this.gravity = mobile ? 0.00114 : 0.00102;
-    this.damping = mobile ? 0.972 : 0.978;
-    this.iterations = mobile ? 3 : (compact ? 4 : 5);
+    this.gravity = mobile ? 0.00092 : 0.00082;
+    this.damping = mobile ? 0.977 : 0.983;
+    this.iterations = mobile ? 3 : (compact ? 4 : 4);
 
     this.geometry = new THREE.PlaneGeometry(this.clothWidth, this.clothHeight, this.cols, this.rows);
     this.positionAttr = this.geometry.attributes.position;
@@ -225,12 +229,16 @@
       map: weaveTex,
       alphaMap: weaveTex,
       transparent: true,
-      opacity: mobile ? 0.34 : (compact ? 0.35 : 0.38),
+      opacity: mobile ? 0.36 : (compact ? 0.38 : 0.4),
       alphaTest: 0.02,
-      roughness: 0.9,
-      metalness: 0.01,
-      transmission: 0.025,
-      thickness: 0.4,
+      roughness: 0.62,
+      metalness: 0.02,
+      transmission: 0.14,
+      thickness: 0.22,
+      clearcoat: 0.42,
+      clearcoatRoughness: 0.18,
+      sheen: 0.28,
+      sheenColor: new THREE.Color(0xf7f2e8),
       side: THREE.DoubleSide
     });
 
@@ -248,6 +256,10 @@
     this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
     this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
     this.inkCtx = this.inkCanvas.getContext('2d', { willReadFrequently: true });
+    this.inkSourceCanvas = document.createElement('canvas');
+    this.inkSourceCanvas.width = this.inkCanvas.width;
+    this.inkSourceCanvas.height = this.inkCanvas.height;
+    this.inkSourceCtx = this.inkSourceCanvas.getContext('2d', { willReadFrequently: true });
     this.inkTexture = new THREE.CanvasTexture(this.inkCanvas);
     this.inkTexture.wrapS = THREE.ClampToEdgeWrapping;
     this.inkTexture.wrapT = THREE.ClampToEdgeWrapping;
@@ -281,8 +293,9 @@
       self.scheduleCapture(200);
       self.scheduleCapture(900);
     };
-    this._onScroll = function () {
-      self.scheduleCapture(120);
+    this._onContentReady = function () {
+      self.scheduleCapture(80);
+      self.scheduleCapture(420);
     };
 
     window.addEventListener('resize', this._onResize);
@@ -293,22 +306,25 @@
     if (this.withInkCapture) {
       var switchBtn = document.getElementById('langSwitch');
       if (switchBtn) switchBtn.addEventListener('click', this._onLangSwitch);
-      window.addEventListener('scroll', this._onScroll, { passive: true });
+      document.addEventListener('silk-content-ready', this._onContentReady);
     }
   };
 
   SilkDrape.prototype.onResize = function () {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
+    this.revealDuration = this.width < 700 ? 1400 : 1200;
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.width < 700 ? 1.15 : 1.45));
     this.renderer.setSize(this.width, this.height, false);
-    if (this.withInkCapture && this.inkCanvas) {
+    if (this.withInkCapture && this.inkCanvas && this.inkSourceCanvas) {
       var mobile = this.width < 700;
       this.inkScale = mobile ? Math.min((window.devicePixelRatio || 1) * 1.55, 2.1) : Math.min((window.devicePixelRatio || 1) * 1.9, 3.0);
       this.inkCanvas.width = Math.max(2, Math.floor(this.width * this.inkScale));
       this.inkCanvas.height = Math.max(2, Math.floor(this.height * this.inkScale));
+      this.inkSourceCanvas.width = this.inkCanvas.width;
+      this.inkSourceCanvas.height = this.inkCanvas.height;
       this.inkTexture.needsUpdate = true;
       this.scheduleCapture(220);
     }
@@ -326,11 +342,11 @@
     var dx = e.clientX - p.lastX;
     var dy = e.clientY - p.lastY;
     var speed = Math.hypot(dx, dy) / dt;
-    var gust = Math.min(speed * 0.1, 0.7);
+    var gust = Math.min(speed * 0.14, 0.95);
 
-    p.targetWindX = dx * 0.000042 * (1 + gust * 0.28);
-    p.targetWindY = -dy * 0.000026 * (1 + gust * 0.2);
-    p.targetWindZ = gust * 0.00024;
+    p.targetWindX = dx * 0.000055 * (1 + gust * 0.32);
+    p.targetWindY = -dy * 0.000032 * (1 + gust * 0.24);
+    p.targetWindZ = gust * 0.0003;
 
     p.x = ((e.clientX / this.width) - 0.5) * this.clothWidth * 1.1;
     p.y = (0.5 - e.clientY / this.height) * this.clothHeight * 1.05 + 0.05;
@@ -409,11 +425,44 @@
     return linesDrawn;
   };
 
-  SilkDrape.prototype.renderTextInkFromDom = function () {
-    if (!this.pageEl || !this.inkCtx) return false;
+  SilkDrape.prototype.blitRevealedInk = function () {
+    if (!this.inkCtx || !this.inkCanvas || !this.inkSourceCanvas) return;
     var ctx = this.inkCtx;
+    var source = this.inkSourceCanvas;
     var w = this.inkCanvas.width;
     var h = this.inkCanvas.height;
+    var revealHeight = Math.max(0, Math.min(h, Math.round(h * this.revealProgress)));
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    if (revealHeight <= 0) {
+      this.inkTexture.needsUpdate = true;
+      return;
+    }
+
+    ctx.drawImage(source, 0, 0, w, revealHeight, 0, 0, w, revealHeight);
+    if (revealHeight < h) {
+      var feather = Math.min(64, revealHeight);
+      if (feather > 8) {
+        var y0 = revealHeight - feather;
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-out';
+        var g = ctx.createLinearGradient(0, y0, 0, revealHeight);
+        g.addColorStop(0, 'rgba(255,255,255,0)');
+        g.addColorStop(1, 'rgba(255,255,255,1)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, y0, w, feather);
+        ctx.restore();
+      }
+    }
+    this.inkTexture.needsUpdate = true;
+  };
+
+  SilkDrape.prototype.renderTextInkFromDom = function () {
+    if (!this.pageEl || !this.inkSourceCtx || !this.inkSourceCanvas) return false;
+    var ctx = this.inkSourceCtx;
+    var w = this.inkSourceCanvas.width;
+    var h = this.inkSourceCanvas.height;
     var s = this.inkScale || 1;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, w, h);
@@ -488,10 +537,7 @@
       written += this.drawWrappedText(ctx, text, rect.left, rect.top, maxWidth, lineHeight, ctx.textAlign);
     }
 
-    if (written > 10) {
-      this.inkTexture.needsUpdate = true;
-      return true;
-    }
+    if (written > 10) return true;
     return false;
   };
 
@@ -507,10 +553,19 @@
           if (ok) {
             self.captureReady = true;
             if (!self.modeEnabled) {
-              document.body.classList.add('silk-ink-mode');
-              document.body.classList.remove('silk-preparing');
               self.modeEnabled = true;
+              self.revealProgress = 0;
+              self.revealStart = performance.now();
+              self.revealActive = true;
+              document.body.classList.add('silk-ink-mode');
+              document.body.classList.add('silk-preparing');
+            } else {
+              if (!self.revealActive) {
+                self.revealProgress = 1;
+                document.body.classList.remove('silk-preparing');
+              }
             }
+            self.blitRevealedInk();
           } else {
             self.scheduleCapture(520);
           }
@@ -567,12 +622,12 @@
     var current = this.current;
     var previous = this.previous;
 
-    p.windX += (p.targetWindX - p.windX) * 0.055;
-    p.windY += (p.targetWindY - p.windY) * 0.055;
-    p.windZ += (p.targetWindZ - p.windZ) * 0.055;
-    p.targetWindX *= 0.955;
-    p.targetWindY *= 0.955;
-    p.targetWindZ *= 0.94;
+    p.windX += (p.targetWindX - p.windX) * 0.064;
+    p.windY += (p.targetWindY - p.windY) * 0.064;
+    p.windZ += (p.targetWindZ - p.windZ) * 0.062;
+    p.targetWindX *= 0.95;
+    p.targetWindY *= 0.95;
+    p.targetWindZ *= 0.935;
 
     var i;
     for (i = rowSize; i < rowSize * (rows + 1); i++) {
@@ -599,13 +654,13 @@
       var u = cx / cols;
       var v = cy / rows;
 
-      var sway = Math.sin(time * 0.34 + v * 3.4 + u * 1.8) * 0.0002;
-      var ripple = Math.cos(time * 0.68 + u * 3.8 - v * 4.3) * 0.00008;
+      var sway = Math.sin(time * 0.4 + v * 3.2 + u * 1.9) * 0.00028;
+      var ripple = Math.cos(time * 0.76 + u * 3.7 - v * 4.1) * 0.00011;
       var edge = Math.abs(u - 0.5) * 2;
 
-      current[j] = x + vx + sway * 0.28 + p.windX * 0.072;
-      current[j + 1] = y + vy - this.gravity + p.windY * 0.027;
-      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.24 + edge * edge * 0.00012 * Math.sin(time + v * 2.7);
+      current[j] = x + vx + sway * 0.34 + p.windX * 0.09;
+      current[j + 1] = y + vy - this.gravity + p.windY * 0.032;
+      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.28 + edge * edge * 0.00015 * Math.sin(time + v * 2.7);
 
       if (p.active) {
         var dx = x - p.x;
@@ -614,10 +669,10 @@
         if (d2 < 0.6) {
           var influence = 1 - d2 / 0.6;
           influence *= influence;
-          current[j] += p.windX * influence * 0.28;
-          current[j + 1] += p.windY * influence * 0.08;
+          current[j] += p.windX * influence * 0.24;
+          current[j + 1] += p.windY * influence * 0.075;
           var curlDir = dx >= 0 ? 1 : -1;
-          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.07;
+          current[j + 2] += curlDir * (Math.abs(p.windX) + Math.abs(p.windY) + Math.abs(p.windZ)) * influence * 0.062;
         }
       }
     }
@@ -625,10 +680,10 @@
     for (var ix = 0; ix <= cols; ix++) {
       var top = ix * 3;
       var uu = ix / cols;
-      var hanger = Math.sin(time * 0.34 + uu * 5.2) * 0.0056;
+      var hanger = Math.sin(time * 0.4 + uu * 5.2) * 0.0066;
       current[top] = this.initial[top] + hanger;
       current[top + 1] = this.initial[top + 1];
-      current[top + 2] = this.initial[top + 2] + Math.cos(time * 0.3 + uu * 5.0) * 0.0023;
+      current[top + 2] = this.initial[top + 2] + Math.cos(time * 0.34 + uu * 5.0) * 0.0031;
       previous[top] = current[top];
       previous[top + 1] = current[top + 1];
       previous[top + 2] = current[top + 2];
@@ -648,10 +703,25 @@
 
   };
 
+  SilkDrape.prototype.updateReveal = function () {
+    if (!this.revealActive) return;
+    var elapsed = performance.now() - this.revealStart;
+    var next = Math.max(0, Math.min(1, elapsed / this.revealDuration));
+    if (next > this.revealProgress + 0.004 || next >= 1) {
+      this.revealProgress = next;
+      this.blitRevealedInk();
+    }
+    if (next >= 1) {
+      this.revealActive = false;
+      document.body.classList.remove('silk-preparing');
+    }
+  };
+
   SilkDrape.prototype.animate = function () {
     if (!this.hidden) {
       var dt = Math.min(this.clock.getDelta(), 0.033);
       this.simulate(dt, this.clock.elapsedTime);
+      this.updateReveal();
       this.renderer.render(this.scene, this.camera);
     }
     this._raf = requestAnimationFrame(this.animate);
@@ -666,6 +736,8 @@
         new SilkDrape(THREE);
       } catch (err) {
         console.warn('[silk-drape] init failed:', err);
+        document.body.classList.remove('silk-preparing');
+        document.body.classList.remove('silk-ink-mode');
       }
     });
   }

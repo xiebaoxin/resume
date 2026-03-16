@@ -102,23 +102,24 @@ body.silk-preparing .page footer {
 }
 
 body.silk-home-page {
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 body.silk-home-page .page {
-  max-width: 980px;
-  min-height: 100vh;
-  padding: 0.95rem 1.6rem 0.9rem;
+  max-width: 960px;
+  height: 100vh;
+  padding: 0.9rem 1.4rem 0.8rem;
   display: flex;
   flex-direction: column;
 }
 
 .silk-main {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 0.85rem;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 }
 
 .silk-col {
@@ -130,7 +131,7 @@ body.silk-home-page .skills,
 body.silk-home-page .education,
 body.silk-home-page .highlight,
 body.silk-home-page .experience {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.62rem;
 }
 
 body.silk-home-page .name {
@@ -141,18 +142,19 @@ body.silk-home-page .tagline,
 body.silk-home-page .metric,
 body.silk-home-page .exp-item-summary,
 body.silk-home-page .skills-lead,
-body.silk-home-page .education-content {
-  font-size: 13px;
-  line-height: 1.42;
+body.silk-home-page .education-content,
+body.silk-home-page .ai-note {
+  font-size: 12.5px;
+  line-height: 1.36;
 }
 
 body.silk-home-page .highlight-card {
-  padding: 0.9rem 1.05rem;
+  padding: 0.72rem 0.92rem;
 }
 
 body.silk-home-page .exp-list li {
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
+  margin-bottom: 0.42rem;
+  padding-bottom: 0.42rem;
 }
 
 body.silk-home-page .exp-item-summary {
@@ -163,17 +165,33 @@ body.silk-home-page .exp-item-summary {
 }
 
 body.silk-home-page .section-title {
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.3rem;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.22rem;
 }
 
 body.silk-home-page .resume-footer.silk-footer {
-  margin-top: 0.5rem;
-  padding-top: 0.7rem;
+  margin-top: 0.35rem;
+  padding-top: 0.55rem;
+}
+
+body.silk-home-page .contact {
+  gap: 0.32rem 0.75rem;
+  font-size: 12px;
+}
+
+body.silk-home-page .skills-tech .tag {
+  margin: 0.08rem 0.18rem 0.08rem 0;
+  padding: 0.16rem 0.45rem;
+  font-size: 11px;
 }
 
 @media (max-width: 700px) {
+  body.silk-home-page {
+    overflow-y: auto;
+  }
+
   body.silk-home-page .page {
+    height: auto;
     padding: 0.75rem 0.75rem 0.65rem;
   }
 

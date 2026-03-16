@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260314-1';
+  var DATA_VERSION = '20260316-1';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -10,6 +10,14 @@
     var div = document.createElement('div');
     div.textContent = s;
     return div.innerHTML;
+  }
+
+  function compactText(text, lang, maxZh, maxEn) {
+    if (!text) return '';
+    var clean = String(text).replace(/\s+/g, ' ').trim();
+    var max = lang === 'en' ? maxEn : maxZh;
+    if (clean.length <= max) return clean;
+    return clean.slice(0, Math.max(1, max - 1)).trim() + '…';
   }
 
   function getLang() {
@@ -41,15 +49,12 @@
       '<span>Email: ' + escapeHtml(contact.email || '') + '</span>',
       '<span>WeChat: ' + escapeHtml(contact.wechat || '') + '</span>'
     ];
-    if (contact.resumeRepo && contact.resumeRepoLabel) {
-      parts.push('<span>' + escapeHtml(contact.resumeRepoLabel) + '：' + escapeHtml(contact.resumeRepo) + '</span>');
-    }
     return parts.join('');
   }
 
-  function renderExperience(items) {
+  function renderExperience(items, lang) {
     if (!Array.isArray(items)) return '';
-    return items.slice(0, 3).map(function (item) {
+    return items.slice(0, 2).map(function (item) {
       return (
         '<li class="exp-item">' +
         '<div class="exp-item-head">' +
@@ -57,7 +62,7 @@
         '<span class="exp-item-period">' + escapeHtml(item.period) + '</span>' +
         '</div>' +
         '<div class="exp-item-role">' + escapeHtml(item.role) + '</div>' +
-        '<p class="exp-item-summary">' + escapeHtml(item.summary) + '</p>' +
+        '<p class="exp-item-summary">' + escapeHtml(compactText(item.summary, lang, 44, 88)) + '</p>' +
         '</li>'
       );
     }).join('');
@@ -72,6 +77,7 @@
 
   function applyData(data) {
     var d = document;
+    var lang = (data.meta && data.meta.lang) === 'en' ? 'en' : 'zh';
     var basics = data.basics || {};
     var highlight = data.highlight || {};
     var skills = data.skills || {};
@@ -81,24 +87,24 @@
     d.getElementById('name').textContent = data.name || '';
     d.getElementById('basicsLine').textContent = [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · ');
     d.getElementById('targetRole').textContent = basics.targetRole || '';
-    d.getElementById('tagline').textContent = basics.tagline || '';
+    d.getElementById('tagline').textContent = compactText(basics.tagline || '', lang, 52, 120);
     d.getElementById('contact').innerHTML = renderContact(data);
 
     d.getElementById('highlightTitle').textContent = highlight.title || '';
     d.getElementById('highlightCompany').textContent = highlight.company || '';
     d.getElementById('highlightPeriod').textContent = highlight.period || '';
     d.getElementById('highlightRole').textContent = highlight.role || '';
-    d.getElementById('metricPlay').textContent = (highlight.metrics && highlight.metrics.play) || '';
-    d.getElementById('metricAppstore').textContent = (highlight.metrics && highlight.metrics.appstore) || '';
-    d.getElementById('aiNote').textContent = highlight.aiNote || '';
+    d.getElementById('metricPlay').textContent = compactText((highlight.metrics && highlight.metrics.play) || '', lang, 34, 76);
+    d.getElementById('metricAppstore').textContent = compactText((highlight.metrics && highlight.metrics.appstore) || '', lang, 34, 76);
+    d.getElementById('aiNote').textContent = compactText(highlight.aiNote || '', lang, 44, 92);
 
     d.getElementById('experienceTitle').textContent = (experience.title || '');
-    d.getElementById('experienceList').innerHTML = renderExperience(experience.items || []);
+    d.getElementById('experienceList').innerHTML = renderExperience(experience.items || [], lang);
 
     d.getElementById('skillsTitle').textContent = skills.title || '';
-    d.getElementById('skillsLead').textContent = skills.lead || '';
+    d.getElementById('skillsLead').textContent = compactText(skills.lead || '', lang, 58, 130);
     d.getElementById('skillsTech').innerHTML = renderTech(skills.tech || []);
-    d.getElementById('skillsDomain').textContent = skills.domain || '';
+    d.getElementById('skillsDomain').textContent = compactText(skills.domain || '', lang, 62, 140);
 
     d.getElementById('educationTitle').textContent = education.title || '';
     d.getElementById('educationContent').textContent = [
@@ -108,17 +114,18 @@
       education.period
     ].filter(Boolean).join(' · ');
 
-    d.getElementById('langSwitch').textContent = ((data.meta && data.meta.lang) === 'en') ? '中文' : 'English';
+    d.getElementById('langSwitch').textContent = lang === 'en' ? '中文' : 'English';
     var modeSwitch = d.querySelector('.mode-switch');
     if (modeSwitch) {
-      modeSwitch.textContent = ((data.meta && data.meta.lang) === 'en') ? 'Classic' : '普通版';
+      modeSwitch.textContent = lang === 'en' ? 'Classic' : '普通版';
     }
     if (data.meta && data.meta.title) {
-      d.title = data.meta.title + (((data.meta.lang) === 'en') ? ' (Silk)' : '（丝绸版）');
+      d.title = data.meta.title + (lang === 'en' ? ' (Silk)' : '（丝绸版）');
     }
     if (data.meta && data.meta.lang) {
       d.documentElement.lang = data.meta.lang === 'en' ? 'en' : 'zh-CN';
     }
+    document.dispatchEvent(new CustomEvent('silk-content-ready'));
   }
 
   function loadLang(lang, callback) {
