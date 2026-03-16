@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-10';
+  var DATA_VERSION = '20260316-11';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -62,25 +62,21 @@
       return {
         targetRole: 'AI Tech Lead / Engineering Manager',
         tagline: 'AI-assisted full-stack delivery leader.',
-        title: 'Application Recommendation',
+        title: 'Recommendation',
         p1: mobile
-          ? 'I recommend Xie Baoxin for senior technical management interviews. He can quickly decompose business targets into executable milestones and keep delivery stable under pressure.'
-          : 'I recommend Xie Baoxin as a strong senior technical management candidate. He can quickly decompose ambitious business targets into executable milestones, and he keeps delivery rhythm stable even under complex constraints.',
-        p2: mobile
-          ? 'He integrates Cursor / Claude into engineering workflow, balances quality with speed, and can align product, engineering and operations toward measurable outcomes.'
-          : 'He integrates Cursor / Claude into engineering workflow to improve delivery efficiency without compromising quality, and he is highly effective in aligning product, engineering and operations toward measurable outcomes.'
+          ? 'I recommend Xie Baoxin for senior technical management interviews. He translates complex business goals into executable plans, drives cross-functional delivery with strong ownership, and consistently lands measurable outcomes with both speed and quality.'
+          : 'I recommend Xie Baoxin as a high-confidence candidate for senior technical management roles. He translates complex business goals into executable plans, drives cross-functional delivery with strong ownership, and consistently lands measurable outcomes with both speed and quality.',
+        p2: ''
       };
     }
     return {
       targetRole: 'AI 技术负责人 / 工程管理',
       tagline: 'AI 辅助研发与全栈交付负责人。',
-      title: '应聘推荐书',
+      title: '推荐意见',
       p1: mobile
-        ? '建议将谢宝新作为高级技术管理岗重点面试人选。他能快速拆解业务目标并稳定推进里程碑交付，在复杂约束下仍保持高执行力。'
-        : '建议将谢宝新作为高级技术管理岗重点面试人选。他能够将复杂业务目标快速拆解为可执行里程碑，并在多约束环境下持续稳定推进交付，兼顾结果、节奏与质量。',
-      p2: mobile
-        ? '他善于将 Cursor / Claude 等 AI 工具融入工程流程，在效率与质量之间取得平衡，并能高效协同产品、研发与运营团队。'
-        : '他善于将 Cursor / Claude 等 AI 工具融入工程流程，在效率与质量之间取得平衡；同时具备跨团队推进能力，能在产品、研发与运营之间建立高效协同并形成可量化结果。'
+        ? '建议将谢宝新列为高级技术管理岗优先面试人选：他能把复杂业务目标快速拆解为可执行计划，推动跨团队高效协同，并在效率与质量兼顾的前提下持续交付可量化结果。'
+        : '建议将谢宝新列为高级技术管理岗优先面试人选：他能把复杂业务目标快速拆解为可执行计划，推动跨团队高效协同，并在效率与质量兼顾的前提下持续交付可量化结果。',
+      p2: ''
     };
   }
 
@@ -99,13 +95,13 @@
     setHTML('contact', renderContactLine(data, lang));
 
     setText('highlightTitle', narrative.title);
-    setText('highlightCompany', highlight.company || '');
-    setText('highlightPeriod', highlight.period || '');
+    setText('highlightCompany', '');
+    setText('highlightPeriod', '');
     setText('highlightRole', '');
     setHTML(
       'highlightProducts',
       '<p class="letter-paragraph">' + escapeHtml(narrative.p1) + '</p>' +
-      '<p class="letter-paragraph">' + escapeHtml(narrative.p2) + '</p>'
+      (narrative.p2 ? '<p class="letter-paragraph">' + escapeHtml(narrative.p2) + '</p>' : '')
     );
     setText('metricPlay', '');
     setText('metricAppstore', '');
