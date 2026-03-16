@@ -498,6 +498,7 @@
       '.resume-footer .footer-note'
     ].join(',');
 
+    var topOffset = this.height < 700 ? 8 : 12;
     var nodes = this.pageEl.querySelectorAll(selectors);
     var written = 0;
     for (var ni = 0; ni < nodes.length; ni++) {
@@ -534,7 +535,7 @@
       ctx.globalAlpha = Math.max(0.72, Math.min(1, sourceAlpha));
 
       var maxWidth = Math.max(8, rect.width);
-      written += this.drawWrappedText(ctx, text, rect.left, rect.top, maxWidth, lineHeight, ctx.textAlign);
+      written += this.drawWrappedText(ctx, text, rect.left, rect.top + topOffset, maxWidth, lineHeight, ctx.textAlign);
     }
 
     if (written > 10) return true;

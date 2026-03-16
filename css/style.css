@@ -108,7 +108,7 @@ body.silk-home-page {
 body.silk-home-page .page {
   max-width: 960px;
   height: 100vh;
-  padding: 0.75rem 1.2rem 0.65rem;
+  padding: 1.02rem 1.2rem 0.52rem;
   display: flex;
   flex-direction: column;
 }
@@ -175,12 +175,18 @@ body.silk-home-page .section-title {
   padding-bottom: 0.18rem;
   font-size: 10px;
   letter-spacing: 0.1em;
+  text-align: left;
+  justify-content: flex-start;
 }
 
 body.silk-home-page .resume-footer.silk-footer {
   margin-top: 0.22rem;
   padding-top: 0.38rem;
   font-size: 10px;
+}
+
+body.silk-home-page .header {
+  margin-bottom: 0.35rem;
 }
 
 body.silk-home-page .contact {
@@ -204,6 +210,21 @@ body.silk-home-page .exp-item-role {
   font-size: 11px;
 }
 
+body.silk-home-page .highlight-head,
+body.silk-home-page .exp-item-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.05rem;
+  margin-bottom: 0.12rem;
+}
+
+body.silk-home-page .highlight-card .period,
+body.silk-home-page .exp-item-period {
+  text-align: left;
+}
+
 body.silk-home-page.silk-fit-compact-1 .tagline,
 body.silk-home-page.silk-fit-compact-1 #metricAppstore,
 body.silk-home-page.silk-fit-compact-1 #aiNote {
@@ -224,7 +245,7 @@ body.silk-home-page.silk-fit-compact-2 #educationContent {
   body.silk-home-page .page {
     height: 100vh;
     max-width: 100%;
-    padding: 0.5rem 0.45rem 0.4rem;
+    padding: 0.72rem 0.45rem 0.32rem;
   }
 
   .silk-main {
@@ -301,6 +322,10 @@ body.silk-home-page.silk-fit-compact-2 #educationContent {
     margin-top: 0.12rem;
     padding-top: 0.2rem;
     font-size: 8px;
+  }
+
+  body.silk-home-page .header {
+    margin-bottom: 0.22rem;
   }
 }
 
