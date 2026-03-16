@@ -584,7 +584,8 @@
       written += this.drawWrappedText(ctx, text, rect.left, rect.top + topOffset, maxWidth, lineHeight, ctx.textAlign);
     }
 
-    if (written > 10) return true;
+    var minLines = document.body.classList.contains('silk-letter-mode') ? 2 : 10;
+    if (written >= minLines) return true;
     return false;
   };
 
