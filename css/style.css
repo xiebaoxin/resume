@@ -62,6 +62,20 @@ body::before {
   opacity: 0.95;
 }
 
+.silk-nail {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 34% 30%, rgba(255, 249, 214, 0.98) 0 20%, rgba(246, 210, 114, 0.98) 21% 52%, rgba(206, 154, 40, 0.98) 53% 78%, rgba(156, 109, 24, 0.98) 79% 100%);
+  border: 1px solid rgba(171, 123, 30, 0.92);
+  box-shadow: 0 2px 5px rgba(84, 56, 8, 0.32), inset 0 0.6px 1.2px rgba(255, 252, 236, 0.56);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+}
+
 .silk-text-bound {
   will-change: transform;
   transform-origin: 50% 0;
@@ -134,28 +148,6 @@ body.silk-home-page .exp-item-company,
 body.silk-home-page .highlight-card .company {
   font-family: "LXGW WenKai Mono", "LXGW WenKai", "Kaiti SC", "STKaiti", "KaiTi", "Noto Serif SC", Georgia, serif;
   font-weight: 500;
-}
-
-body.silk-home-page .silk-drape-layer::before,
-body.silk-home-page .silk-drape-layer::after {
-  content: "";
-  position: absolute;
-  top: 84px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 32%, rgba(255, 255, 255, 0.98) 0 20%, rgba(223, 223, 223, 0.95) 21% 48%, rgba(150, 150, 150, 0.96) 49% 74%, rgba(112, 112, 112, 0.98) 75% 100%);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
-  pointer-events: none;
-}
-
-body.silk-home-page .silk-drape-layer::before {
-  left: max(16px, calc(50% - 360px));
-}
-
-body.silk-home-page .silk-drape-layer::after {
-  right: max(16px, calc(50% - 360px));
 }
 
 .silk-main {
@@ -288,19 +280,9 @@ body.silk-home-page .exp-item-head {
     padding: 0.95rem 0.75rem 0.8rem;
   }
 
-  body.silk-home-page .silk-drape-layer::before,
-  body.silk-home-page .silk-drape-layer::after {
-    top: 62px;
+  .silk-nail {
     width: 11px;
     height: 11px;
-  }
-
-  body.silk-home-page .silk-drape-layer::before {
-    left: max(12px, calc(50% - 170px));
-  }
-
-  body.silk-home-page .silk-drape-layer::after {
-    right: max(12px, calc(50% - 170px));
   }
 
   .silk-main {

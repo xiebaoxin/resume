@@ -96,6 +96,12 @@
     this.canvas = document.createElement('canvas');
     this.canvas.className = 'silk-drape-canvas';
     this.layer.appendChild(this.canvas);
+    this.nailLeft = document.createElement('span');
+    this.nailLeft.className = 'silk-nail silk-nail-left';
+    this.nailRight = document.createElement('span');
+    this.nailRight.className = 'silk-nail silk-nail-right';
+    this.layer.appendChild(this.nailLeft);
+    this.layer.appendChild(this.nailRight);
     document.body.appendChild(this.layer);
 
     this.renderer = new THREE.WebGLRenderer({
@@ -108,9 +114,11 @@
     this.renderer.setClearColor(0x000000, 0);
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(27, this.width / this.height, 0.1, 20);
-    this.camera.position.set(0, 0.08, 4.7);
-    this.camera.lookAt(0, -0.15, 0);
+    this.camera = new THREE.PerspectiveCamera(32, this.width / this.height, 0.1, 20);
+    this.camera.position.set(0, 0.03, 4.95);
+    this.camera.lookAt(0, -0.2, 0);
+    this._nailVecL = new THREE.Vector3();
+    this._nailVecR = new THREE.Vector3();
 
     this.setupLights();
     this.setupCloth();
@@ -149,9 +157,9 @@
 
     this.cols = mobile ? 16 : (compact ? 20 : 28);
     this.rows = mobile ? 24 : (compact ? 34 : 46);
-    this.clothWidth = 3.0;
-    this.clothHeight = 3.8;
-    this.topY = mobile ? 1.06 : 1.14;
+    this.clothWidth = mobile ? 2.02 : (compact ? 2.16 : 2.28);
+    this.clothHeight = mobile ? 2.45 : (compact ? 2.62 : 2.78);
+    this.topY = mobile ? 0.84 : 0.92;
     this.gravity = mobile ? 0.00092 : 0.00082;
     this.damping = mobile ? 0.977 : 0.983;
     this.iterations = mobile ? 3 : (compact ? 4 : 4);
@@ -318,6 +326,9 @@
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.revealDuration = this.width < 700 ? 1400 : 1200;
+    this.camera.fov = this.width < 700 ? 34 : 32;
+    this.camera.position.set(0, this.width < 700 ? 0.02 : 0.03, this.width < 700 ? 5.08 : 4.95);
+    this.camera.lookAt(0, this.width < 700 ? -0.18 : -0.2, 0);
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.width < 700 ? 1.2 : 1.65));
@@ -332,6 +343,7 @@
       this.inkTexture.needsUpdate = true;
       this.scheduleCapture(220);
     }
+    this.updateNails();
   };
 
   SilkDrape.prototype.onPointerMove = function (e) {
@@ -678,9 +690,9 @@
       var ripple = Math.cos(time * 0.76 + u * 3.7 - v * 4.1) * 0.00011;
       var edge = Math.abs(u - 0.5) * 2;
 
-      current[j] = x + vx + sway * 0.34 + p.windX * 0.09;
-      current[j + 1] = y + vy - this.gravity + p.windY * 0.032;
-      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.28 + edge * edge * 0.00015 * Math.sin(time + v * 2.7);
+      current[j] = x + vx + sway * 0.34 + p.windX * 0.078;
+      current[j + 1] = y + vy - this.gravity + p.windY * 0.029;
+      current[j + 2] = z + vz + sway + ripple + p.windZ * 0.25 + edge * edge * 0.00013 * Math.sin(time + v * 2.7);
 
       if (p.active) {
         var dx = x - p.x;
@@ -700,10 +712,10 @@
     for (var ix = 0; ix <= cols; ix++) {
       var top = ix * 3;
       var uu = ix / cols;
-      var hanger = Math.sin(time * 0.4 + uu * 5.2) * 0.0066;
+      var hanger = Math.sin(time * 0.4 + uu * 5.2) * 0.0042;
       current[top] = this.initial[top] + hanger;
       current[top + 1] = this.initial[top + 1];
-      current[top + 2] = this.initial[top + 2] + Math.cos(time * 0.34 + uu * 5.0) * 0.0031;
+      current[top + 2] = this.initial[top + 2] + Math.cos(time * 0.34 + uu * 5.0) * 0.0022;
       previous[top] = current[top];
       previous[top + 1] = current[top + 1];
       previous[top + 2] = current[top + 2];
@@ -721,6 +733,34 @@
       this.geometry.computeVertexNormals();
     }
 
+  };
+
+  SilkDrape.prototype.updateNails = function () {
+    if (!this.nailLeft || !this.nailRight || !this.current || !this.mesh || !this.camera) return;
+    var left = 0;
+    var right = this.cols;
+    var l3 = left * 3;
+    var r3 = right * 3;
+
+    this.mesh.updateMatrixWorld(true);
+    this._nailVecL.set(this.current[l3], this.current[l3 + 1], this.current[l3 + 2]);
+    this._nailVecR.set(this.current[r3], this.current[r3 + 1], this.current[r3 + 2]);
+    this.mesh.localToWorld(this._nailVecL);
+    this.mesh.localToWorld(this._nailVecR);
+    this._nailVecL.project(this.camera);
+    this._nailVecR.project(this.camera);
+
+    var lx = (this._nailVecL.x * 0.5 + 0.5) * this.width;
+    var ly = (-this._nailVecL.y * 0.5 + 0.5) * this.height;
+    var rx = (this._nailVecR.x * 0.5 + 0.5) * this.width;
+    var ry = (-this._nailVecR.y * 0.5 + 0.5) * this.height;
+
+    this.nailLeft.style.left = lx.toFixed(2) + 'px';
+    this.nailLeft.style.top = ly.toFixed(2) + 'px';
+    this.nailRight.style.left = rx.toFixed(2) + 'px';
+    this.nailRight.style.top = ry.toFixed(2) + 'px';
+    this.nailLeft.style.opacity = '1';
+    this.nailRight.style.opacity = '1';
   };
 
   SilkDrape.prototype.updateReveal = function () {
@@ -741,6 +781,7 @@
     if (!this.hidden) {
       var dt = Math.min(this.clock.getDelta(), 0.033);
       this.simulate(dt, this.clock.elapsedTime);
+      this.updateNails();
       this.updateReveal();
       this.renderer.render(this.scene, this.camera);
     }
