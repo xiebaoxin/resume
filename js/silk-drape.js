@@ -598,7 +598,7 @@
         '.resume-footer .footer-note'
       ]).join(',');
 
-    var topOffset = this.height < 700 ? 8 : 12;
+    var topOffset = this.height < 700 ? 18 : 30;
     var nodes = this.pageEl.querySelectorAll(selectors);
     var written = 0;
     for (var ni = 0; ni < nodes.length; ni++) {
@@ -637,6 +637,9 @@
         weight = '600';
       }
       var family = style.fontFamily || 'Georgia, serif';
+      if (isLetterMode) {
+        family = '"WangXizhiKaishu","STKaiti","Kaiti SC","KaiTi","KaiTi_GB2312","DFKai-SB","BiauKai","LXGW WenKai",serif';
+      }
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
       ctx.fillStyle = this.resolveInkColor(style);
       ctx.strokeStyle = 'rgba(54,33,18,0.3)';

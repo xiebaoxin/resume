@@ -117,11 +117,17 @@ body.silk-preparing .page footer {
   opacity: 0;
 }
 
+@font-face {
+  font-family: "WangXizhiKaishu";
+  src: local("WangXizhiKaishu"), local("WangXizhi Kai"), local("STKaiti"), local("KaiTi");
+  font-display: swap;
+}
+
 body.silk-home-page {
   overflow-y: auto;
   background: #fff;
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
-  font-weight: 400;
+  font-family: "WangXizhiKaishu", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
+  font-weight: 500;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -147,13 +153,14 @@ body.silk-home-page .section-title,
 body.silk-home-page .target-role,
 body.silk-home-page .exp-item-company,
 body.silk-home-page .highlight-card .company {
-  font-family: "Kaiti SC", "STKaiti", "KaiTi", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
+  font-family: "WangXizhiKaishu", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
   font-weight: 600;
 }
 
 .silk-main {
   display: block;
   flex: 1;
+  padding-top: 0.52rem;
 }
 
 .silk-col {
@@ -212,10 +219,21 @@ body.silk-home-page .exp-item-summary {
 }
 
 body.silk-home-page .section-title {
-  margin-bottom: 0.38rem;
-  padding-bottom: 0.22rem;
-  font-size: 1.18rem;
-  letter-spacing: 0.08em;
+  margin: 0 auto 0.52rem;
+  padding-bottom: 0;
+  font-size: 1.34rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+body.silk-home-page .section-title::after {
+  display: none;
+}
+
+body.silk-home-page.silk-letter-mode .highlight {
+  margin-top: 0.56rem;
 }
 
 body.silk-home-page .resume-footer.silk-footer {
@@ -371,13 +389,14 @@ body.silk-home-page .exp-item-head {
 
   .silk-main {
     display: block;
+    padding-top: 0.42rem;
   }
 
   body.silk-home-page .section-title {
-    font-size: 0.98rem;
+    font-size: 1.08rem;
     letter-spacing: 0.07em;
-    margin-bottom: 0.2rem;
-    padding-bottom: 0.1rem;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0;
   }
 
   body.silk-home-page .name {
@@ -466,6 +485,10 @@ body.silk-home-page .exp-item-head {
 
   body.silk-home-page .highlight-card {
     padding: 0.34rem 0.36rem;
+  }
+
+  body.silk-home-page.silk-letter-mode .highlight {
+    margin-top: 0.4rem;
   }
 
   body.silk-home-page .hero,
