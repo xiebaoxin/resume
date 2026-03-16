@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-4';
+  var DATA_VERSION = '20260316-5';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -51,7 +51,7 @@
     var parts = [];
     if (contact.phone) parts.push('<span>Tel: ' + escapeHtml(contact.phone) + '</span>');
     if (contact.email) parts.push('<span>Email: ' + escapeHtml(contact.email) + '</span>');
-    if (contact.wechat) parts.push('<span>WeChat: ' + escapeHtml(contact.wechat) + '</span>');
+    if (!isMobile && contact.wechat) parts.push('<span>WeChat: ' + escapeHtml(contact.wechat) + '</span>');
     if (!isMobile && contact.resumeRepo && contact.resumeRepoLabel) {
       parts.push('<span>' + escapeHtml(contact.resumeRepoLabel) + '：<a href="' + escapeHtml(contact.resumeRepo) + '" target="_blank" rel="noopener noreferrer" class="contact-link">' + escapeHtml(contact.resumeRepo) + '</a></span>');
     }
@@ -59,20 +59,10 @@
     return parts.join('');
   }
 
-  function renderExperience(items, lang, isMobile, isShortMobile) {
-    if (!Array.isArray(items)) return '';
-    var limit = isShortMobile ? 1 : (isMobile ? 1 : 3);
-    return items.slice(0, limit).map(function (item) {
-      return (
-        '<li class="exp-item">' +
-        '<div class="exp-item-head">' +
-        '<span class="exp-item-company">' + escapeHtml(item.company) + '</span>' +
-        '<span class="exp-item-period">' + escapeHtml(item.period) + '</span>' +
-        '</div>' +
-        '<div class="exp-item-role">' + escapeHtml(item.role) + '</div>' +
-        '<p class="exp-item-summary">' + escapeHtml(compactText(item.summary, lang, isShortMobile ? 24 : (isMobile ? 34 : 78), isShortMobile ? 46 : (isMobile ? 64 : 170))) + '</p>' +
-        '</li>'
-      );
+  function renderValueBullets(lines) {
+    if (!Array.isArray(lines)) return '';
+    return lines.map(function (line) {
+      return '<li class="exp-item value-item"><p class="exp-item-summary">' + escapeHtml(line) + '</p></li>';
     }).join('');
   }
 
@@ -92,47 +82,116 @@
     }).join('');
   }
 
+  function setText(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value || '';
+  }
+
+  function setHTML(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = value || '';
+  }
+
+  function buildNarrative(lang, mobile, shortMobile) {
+    if (lang === 'en') {
+      return {
+        targetRole: shortMobile
+          ? 'Target: AI Tech Lead / Engineering Manager'
+          : 'Target: AI Tech Lead / Engineering Manager (Delivery & Productivity)',
+        tagline: shortMobile
+          ? 'AI-assisted full-stack delivery lead.'
+          : 'AI-assisted full-stack delivery lead who turns complex business goals into shippable, measurable products.',
+        achievementTitle: 'Key Impact',
+        achievementRole: shortMobile ? 'Tech Lead (AI + Full Stack)' : 'Tech Lead (AI + Full Stack Delivery)',
+        valueTitle: 'Leadership Value',
+        valueBullets: shortMobile ? [
+          'Business-first planning, stable milestone delivery.'
+        ] : (mobile ? [
+          'Business-first planning with stable milestone delivery.',
+          'AI workflow integration to shorten release cycle and reduce rework.'
+        ] : [
+          'Business-first planning: convert goals into clear, deliverable milestones.',
+          'AI workflow integration: accelerate delivery while keeping quality and engineering standards.',
+          'Cross-functional execution: align product, engineering and operations for predictable outcomes.'
+        ]),
+        skillsLead: shortMobile
+          ? 'Stack: Flutter · Java · Node · Python · Cursor/Claude'
+          : 'Stack: Flutter · Java · Node · Python · AI coding workflow (Cursor / Claude).',
+        skillsDomain: shortMobile
+          ? ''
+          : (mobile ? 'Domains: IoT · e-commerce · IM.' : 'Domains: IoT · e-commerce · IM · enterprise systems.')
+      };
+    }
+    return {
+      targetRole: shortMobile
+        ? '求职意向：AI 技术负责人 / 工程管理'
+        : '求职意向：AI 技术负责人 / 工程管理（交付与效率）',
+      tagline: shortMobile
+        ? 'AI 辅助研发与全栈交付负责人。'
+        : 'AI 辅助研发与全栈交付负责人，擅长把复杂业务目标快速落地为可增长、可复用的产品。',
+      achievementTitle: '代表成果',
+      achievementRole: shortMobile ? '技术负责人（AI + 全栈）' : '技术负责人（AI + 全栈交付）',
+      valueTitle: '管理价值',
+      valueBullets: shortMobile ? [
+        '业务导向拆解目标，稳定推进里程碑。'
+      ] : (mobile ? [
+        '业务导向拆解目标，稳定推进里程碑。',
+        '把 AI 工具链融入研发流程，缩短交付周期并减少返工。'
+      ] : [
+        '业务导向：将目标拆解为可交付里程碑，保证节奏与质量。',
+        '效率导向：将 AI 工具链融入研发流程，缩短交付周期并降低返工成本。',
+        '协同导向：统一跨端与后端方案，提升跨团队协作效率。'
+      ]),
+      skillsLead: shortMobile
+        ? '技术栈：Flutter · Java · Node · Python · Cursor/Claude'
+        : '技术栈：Flutter · Java · Node · Python · AI 编码工作流（Cursor / Claude）。',
+      skillsDomain: shortMobile
+        ? ''
+        : (mobile ? '领域：IoT · 电商 · IM。' : '领域：IoT · 电商 · IM · 企业系统。')
+    };
+  }
+
   function applyData(data) {
     var d = document;
     var lang = (data.meta && data.meta.lang) === 'en' ? 'en' : 'zh';
     var mobile = isMobileViewport();
     var shortMobile = mobile && window.innerHeight < 720;
+    var narrative = buildNarrative(lang, mobile, shortMobile);
     var basics = data.basics || {};
     var highlight = data.highlight || {};
     var skills = data.skills || {};
     var education = data.education || {};
-    var experience = data.experience || {};
 
-    d.getElementById('name').textContent = data.name || '';
-    d.getElementById('basicsLine').textContent = [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · ');
-    d.getElementById('targetRole').textContent = compactText(basics.targetRole || '', lang, shortMobile ? 16 : (mobile ? 22 : 44), shortMobile ? 28 : (mobile ? 42 : 92));
-    d.getElementById('tagline').textContent = compactText(basics.tagline || '', lang, shortMobile ? 24 : (mobile ? 40 : 110), shortMobile ? 40 : (mobile ? 72 : 220));
-    d.getElementById('contact').innerHTML = renderContact(data, mobile);
+    setText('name', data.name || '');
+    setText('basicsLine', [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · '));
+    setText('targetRole', narrative.targetRole);
+    setText('tagline', narrative.tagline);
+    setHTML('contact', renderContact(data, mobile));
 
-    d.getElementById('highlightTitle').textContent = highlight.title || '';
-    d.getElementById('highlightCompany').textContent = compactText(highlight.company || '', lang, shortMobile ? 10 : (mobile ? 14 : 36), shortMobile ? 18 : (mobile ? 24 : 72));
-    d.getElementById('highlightPeriod').textContent = compactText(highlight.period || '', lang, shortMobile ? 8 : (mobile ? 10 : 24), shortMobile ? 14 : (mobile ? 20 : 48));
-    d.getElementById('highlightRole').textContent = compactText(highlight.role || '', lang, shortMobile ? 12 : (mobile ? 16 : 40), shortMobile ? 22 : (mobile ? 32 : 88));
-    d.getElementById('highlightProducts').innerHTML = renderProducts(highlight.products || [], lang, mobile, shortMobile);
-    d.getElementById('metricPlay').textContent = compactText((highlight.metrics && highlight.metrics.play) || '', lang, shortMobile ? 14 : (mobile ? 20 : 52), shortMobile ? 24 : (mobile ? 34 : 118));
-    d.getElementById('metricAppstore').textContent = compactText((highlight.metrics && highlight.metrics.appstore) || '', lang, shortMobile ? 14 : (mobile ? 20 : 52), shortMobile ? 24 : (mobile ? 34 : 118));
-    d.getElementById('aiNote').textContent = compactText(highlight.aiNote || '', lang, shortMobile ? 10 : (mobile ? 18 : 44), shortMobile ? 18 : (mobile ? 34 : 100));
+    setText('highlightTitle', narrative.achievementTitle);
+    setText('highlightCompany', compactText(highlight.company || '', lang, shortMobile ? 10 : (mobile ? 14 : 24), shortMobile ? 18 : (mobile ? 24 : 50)));
+    setText('highlightPeriod', compactText(highlight.period || '', lang, shortMobile ? 8 : (mobile ? 10 : 20), shortMobile ? 14 : (mobile ? 20 : 34)));
+    setText('highlightRole', narrative.achievementRole);
+    setHTML('highlightProducts', renderProducts(highlight.products || [], lang, mobile, shortMobile));
+    setText('metricPlay', compactText((highlight.metrics && highlight.metrics.play) || '', lang, shortMobile ? 12 : (mobile ? 16 : 34), shortMobile ? 20 : (mobile ? 28 : 72)));
+    setText('metricAppstore', compactText((highlight.metrics && highlight.metrics.appstore) || '', lang, shortMobile ? 12 : (mobile ? 16 : 34), shortMobile ? 20 : (mobile ? 28 : 72)));
+    setText('aiNote', compactText(highlight.aiNote || '', lang, shortMobile ? 10 : (mobile ? 14 : 24), shortMobile ? 18 : (mobile ? 28 : 56)));
 
-    d.getElementById('experienceTitle').textContent = (experience.title || '');
-    d.getElementById('experienceList').innerHTML = renderExperience(experience.items || [], lang, mobile, shortMobile);
+    setText('experienceTitle', narrative.valueTitle);
+    setHTML('experienceList', renderValueBullets(narrative.valueBullets));
 
-    d.getElementById('skillsTitle').textContent = skills.title || '';
-    d.getElementById('skillsLead').textContent = compactText(skills.lead || '', lang, shortMobile ? 16 : (mobile ? 28 : 84), shortMobile ? 30 : (mobile ? 56 : 180));
-    d.getElementById('skillsTech').innerHTML = renderTech(skills.tech || [], mobile, shortMobile);
-    d.getElementById('skillsDomain').textContent = shortMobile ? '' : compactText(skills.domain || '', lang, mobile ? 24 : 76, mobile ? 52 : 168);
+    setText('skillsTitle', skills.title || '');
+    setText('skillsLead', narrative.skillsLead);
+    setHTML('skillsTech', renderTech(skills.tech || [], mobile, shortMobile));
+    setText('skillsDomain', narrative.skillsDomain);
 
-    d.getElementById('educationTitle').textContent = education.title || '';
-    d.getElementById('educationContent').textContent = [
+    setText('educationTitle', education.title || '');
+    setText('educationContent', [
       education.school,
       education.degree,
       education.major,
       education.period
-    ].filter(Boolean).join(' · ');
+    ].filter(Boolean).join(' · '));
 
     d.getElementById('langSwitch').textContent = lang === 'en' ? '中文' : 'English';
     var modeSwitch = d.querySelector('.mode-switch');

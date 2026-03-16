@@ -559,7 +559,7 @@
 
       var fontSize = this.parsePx(style.fontSize, 14);
       var lineHeight = this.parsePx(style.lineHeight, fontSize * 1.45);
-      lineHeight = Math.max(fontSize * 1.08, Math.min(lineHeight, fontSize * 1.2));
+      lineHeight = Math.max(fontSize * 1.06, Math.min(lineHeight, fontSize * 1.16));
       var weight = style.fontWeight || '400';
       var family = style.fontFamily || 'Georgia, serif';
       ctx.font = weight + ' ' + fontSize + 'px ' + family;
