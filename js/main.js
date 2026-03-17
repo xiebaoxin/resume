@@ -1,7 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
-  const DATA_VERSION = '20260311-1';
+  const DATA_VERSION = '20260317-2';
 
   function getLang() {
     const hash = (window.location.hash || '').toLowerCase();

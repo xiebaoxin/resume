@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-23';
+  var DATA_VERSION = '20260316-24';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -171,6 +171,9 @@
       ethereum: 'Ethereum',
       solana: 'Solana',
       nosql: 'NoSql',
+      websocket: 'WebSocket',
+      bluetooth: 'Bluetooth',
+      mqtt: 'MQTT',
       java: 'Java',
       python: 'Python',
       mysql: 'MySQL',
@@ -196,6 +199,9 @@
       ethereum: 'assets/tech-logos/ethereum.svg',
       solana: 'assets/tech-logos/solana.svg',
       nosql: 'assets/tech-logos/mongodb.svg',
+      websocket: 'assets/tech-logos/websocket.svg',
+      bluetooth: 'assets/tech-logos/bluetooth.svg',
+      mqtt: 'assets/tech-logos/mqtt.svg',
       java: 'assets/tech-logos/java.svg',
       python: 'assets/tech-logos/python.svg',
       mysql: 'assets/tech-logos/mysql.svg',
