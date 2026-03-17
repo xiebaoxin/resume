@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-20';
+  var DATA_VERSION = '20260316-21';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -183,23 +183,23 @@
   function resolveTechLogoUrl(name) {
     var key = normalizeTechKey(name);
     var map = {
-      cursor: 'https://www.cursor.com/favicon.ico',
-      claudecode: 'https://api.iconify.design/logos:claude-icon.svg',
-      flutter: 'https://api.iconify.design/logos:flutter.svg',
-      php: 'https://api.iconify.design/logos:php.svg',
-      javascript: 'https://api.iconify.design/logos:javascript.svg',
-      ffmpeg: 'https://api.iconify.design/logos:ffmpeg.svg',
-      webrtc: 'https://api.iconify.design/logos:webrtc.svg',
-      rust: 'https://api.iconify.design/logos:rust.svg',
-      electron: 'https://api.iconify.design/logos:electron.svg',
-      canvas: 'https://api.iconify.design/logos:html-5.svg',
-      ethereum: 'https://api.iconify.design/cryptocurrency-color:eth.svg',
-      solana: 'https://api.iconify.design/cryptocurrency-color:sol.svg',
-      nosql: 'https://api.iconify.design/logos:mongodb.svg',
-      java: 'https://api.iconify.design/logos:java.svg',
-      python: 'https://api.iconify.design/logos:python.svg',
-      mysql: 'https://api.iconify.design/logos:mysql.svg',
-      webaudio: 'https://api.iconify.design/logos:html-5.svg'
+      cursor: 'assets/tech-logos/cursor.svg',
+      claudecode: 'assets/tech-logos/claude.svg',
+      flutter: 'assets/tech-logos/flutter.svg',
+      php: 'assets/tech-logos/php.svg',
+      javascript: 'assets/tech-logos/javascript.svg',
+      ffmpeg: 'assets/tech-logos/ffmpeg.svg',
+      webrtc: 'assets/tech-logos/webrtc.svg',
+      rust: 'assets/tech-logos/rust.svg',
+      electron: 'assets/tech-logos/electron.svg',
+      canvas: 'assets/tech-logos/html5.svg',
+      ethereum: 'assets/tech-logos/ethereum.svg',
+      solana: 'assets/tech-logos/solana.svg',
+      nosql: 'assets/tech-logos/mongodb.svg',
+      java: 'assets/tech-logos/java.svg',
+      python: 'assets/tech-logos/python.svg',
+      mysql: 'assets/tech-logos/mysql.svg',
+      webaudio: 'assets/tech-logos/html5.svg'
     };
     return map[key] || '';
   }
