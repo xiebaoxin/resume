@@ -417,9 +417,9 @@
       p.stabY = p.y;
       p.lastStabX = p.stabX;
       p.lastStabY = p.stabY;
-      p.stabStrength = Math.min(1.5, p.stabStrength + 0.11 + gust * 0.14);
-      p.stabPulse = Math.min(1.2, p.stabPulse + 0.04 + gust * 0.05);
-      p.stabBurst = Math.min(1.85, p.stabBurst + 0.05 + gust * 0.06);
+      p.stabStrength = Math.min(1.55, p.stabStrength + 0.09 + gust * 0.1);
+      p.stabPulse = Math.min(1.24, p.stabPulse + 0.035 + gust * 0.04);
+      p.stabBurst = Math.min(1.5, p.stabBurst + 0.03 + gust * 0.035);
     }
 
     p.active = true;
@@ -443,11 +443,11 @@
     p.stabY = p.y;
     p.lastStabX = p.stabX;
     p.lastStabY = p.stabY;
-    p.stabStrength = Math.min(1.75, Math.max(1.08, p.stabStrength + 0.936));
-    p.stabPulse = 1.18;
-    p.stabBurst = Math.min(1.9, p.stabBurst + 1.2);
-    p.targetWindZ += 0.00046;
-    p.windZ += 0.00018;
+    p.stabStrength = Math.min(1.62, Math.max(0.96, p.stabStrength + 0.72));
+    p.stabPulse = 1.08;
+    p.stabBurst = Math.min(1.42, p.stabBurst + 0.92);
+    p.targetWindZ += 0.00038;
+    p.windZ += 0.00014;
     p.lastTs = performance.now();
     p.lastX = e.clientX;
     p.lastY = e.clientY;
@@ -456,8 +456,8 @@
   SilkDrape.prototype.onPointerUp = function () {
     var p = this.pointer;
     p.stabActive = false;
-    p.stabPulse = Math.max(0.46, p.stabPulse * 0.82);
-    p.stabBurst = Math.max(0.52, p.stabBurst * 0.86);
+    p.stabPulse = Math.max(0.38, p.stabPulse * 0.8);
+    p.stabBurst = Math.max(0.34, p.stabBurst * 0.78);
   };
 
   SilkDrape.prototype.scheduleCapture = function (delayMs) {
@@ -792,13 +792,13 @@
     p.stabVX *= 0.9;
     p.stabVY *= 0.9;
     if (p.stabActive) {
-      p.stabStrength = Math.min(1.7, p.stabStrength * 0.989 + 0.024);
-      p.stabPulse = Math.min(1.32, p.stabPulse * 0.946 + 0.012);
-      p.stabBurst = Math.min(1.9, p.stabBurst * 0.95 + 0.03);
+      p.stabStrength = Math.min(1.62, p.stabStrength * 0.988 + 0.017);
+      p.stabPulse = Math.min(1.22, p.stabPulse * 0.94 + 0.009);
+      p.stabBurst = Math.min(1.46, p.stabBurst * 0.93 + 0.015);
     } else {
-      p.stabStrength *= 0.935;
-      p.stabPulse *= 0.87;
-      p.stabBurst *= 0.86;
+      p.stabStrength *= 0.91;
+      p.stabPulse *= 0.82;
+      p.stabBurst *= 0.78;
     }
     var stabRadius = this.width < 700 ? 0.11 : 0.135;
     var stabR2 = stabRadius * stabRadius;
@@ -863,14 +863,20 @@
           var ring = Math.exp(-Math.pow(distNorm - 0.58, 2) / 0.018);
           var burst = p.stabBurst;
           var scratch = (Math.abs(p.stabVX) + Math.abs(p.stabVY)) * 0.5;
-          current[j] += p.stabVX * pen * 0.11 + sdx * centerLift * burst * 0.085;
-          current[j + 1] += p.stabVY * pen * 0.065 + sdy * centerLift * burst * 0.052;
-          var tilt = sdx >= 0 ? 1 : -1;
-          var pokeOut = (0.0094 * p.stabStrength + 0.0062 * p.stabPulse) * centerLift * (0.45 + burst * 0.55);
-          var ringBack = (0.0053 + 0.0024 * burst) * ring * p.stabStrength;
-          var fineJitter = Math.sin(time * 92 + (u + v) * 44) * 0.0017 * p.stabPulse * pen * (0.7 + burst * 0.6);
-          var creaseBand = Math.cos((sd2 / stabR2) * Math.PI * 4 + time * 26) * 0.0022 * p.stabStrength * pen;
-          current[j + 2] += (pokeOut - ringBack + tilt * scratch * 0.26) * pen + fineJitter + creaseBand;
+          var vlen = Math.hypot(p.stabVX, p.stabVY) + 1e-6;
+          var vnx = p.stabVX / vlen;
+          var vny = p.stabVY / vlen;
+          var along = (sdx * vnx + sdy * vny) / (stabRadius + 1e-6);
+          var across = (-sdx * vny + sdy * vnx) / (stabRadius + 1e-6);
+          var trail = Math.exp(-Math.pow(along + 0.32, 2) / 0.085) * Math.exp(-Math.pow(across, 2) / 0.22);
+          current[j] += p.stabVX * pen * 0.18 - sdx * centerLift * burst * 0.12;
+          current[j + 1] += p.stabVY * pen * 0.11 - sdy * centerLift * burst * 0.076;
+          var pressDown = -(0.012 * p.stabStrength + 0.008 * p.stabPulse) * centerLift * (0.52 + burst * 0.58);
+          var rimWrinkle = (0.0046 + 0.002 * burst) * ring * p.stabStrength;
+          var trailWrinkle = (0.0038 + 0.0022 * burst) * trail * (0.6 + Math.min(1.3, scratch * 90));
+          var fineJitter = Math.sin(time * 86 + (u + v) * 42) * 0.0014 * p.stabPulse * pen;
+          var creaseBand = Math.cos((sd2 / stabR2) * Math.PI * 4.4 + time * 24) * 0.0019 * p.stabStrength * pen;
+          current[j + 2] += (pressDown + rimWrinkle + trailWrinkle) * pen + fineJitter + creaseBand;
         }
       }
     }
