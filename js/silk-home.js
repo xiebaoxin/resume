@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-18';
+  var DATA_VERSION = '20260316-19';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -134,6 +134,137 @@
     };
   }
 
+  function hash32(str) {
+    var h = 2166136261;
+    for (var i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+    }
+    return h >>> 0;
+  }
+
+  function seeded01(key, salt) {
+    return (hash32(String(key || '') + '|' + String(salt || '')) % 1000) / 1000;
+  }
+
+  function normalizeTechKey(name) {
+    var key = String(name || '').toLowerCase().replace(/[\s._-]+/g, '');
+    if (key === 'javascriot') key = 'javascript';
+    if (key === 'claudecode') key = 'claudecode';
+    if (key === 'web-rtc') key = 'webrtc';
+    return key;
+  }
+
+  function canonicalTechLabel(name) {
+    var key = normalizeTechKey(name);
+    var map = {
+      cursor: 'Cursor',
+      claudecode: 'Claude Code',
+      flutter: 'Flutter',
+      php: 'PHP',
+      javascript: 'JavaScript',
+      ffmpeg: 'ffmpeg',
+      webrtc: 'WebRTC',
+      rust: 'Rust',
+      electron: 'Electron',
+      canvas: 'Canvas',
+      ethereum: 'Ethereum',
+      solana: 'Solana',
+      nosql: 'NoSql',
+      java: 'Java',
+      python: 'Python',
+      mysql: 'MySQL',
+      webaudio: 'WebAudio',
+      openjdk: 'OpenJDK'
+    };
+    return map[key] || String(name || '');
+  }
+
+  function resolveTechLogoUrl(name) {
+    var key = normalizeTechKey(name);
+    var map = {
+      cursor: 'https://www.cursor.com/favicon.ico',
+      claudecode: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/claude.svg',
+      flutter: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/flutter.svg',
+      php: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/php.svg',
+      javascript: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/javascript.svg',
+      ffmpeg: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/ffmpeg.svg',
+      webrtc: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/webrtc.svg',
+      rust: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/rust.svg',
+      electron: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/electron.svg',
+      canvas: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/html5.svg',
+      ethereum: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/ethereum.svg',
+      solana: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/solana.svg',
+      nosql: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/mongodb.svg',
+      java: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/openjdk.svg',
+      python: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/python.svg',
+      mysql: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/mysql.svg',
+      webaudio: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/html5.svg'
+    };
+    return map[key] || '';
+  }
+
+  function renderSilkTechCloud(data, lang, mobile) {
+    var skills = data.skills || {};
+    var fromData = Array.isArray(skills.tech) ? skills.tech.slice() : [];
+    var merged = ['Cursor', 'Claude Code'].concat(fromData);
+    var seen = Object.create(null);
+    var items = [];
+    for (var i = 0; i < merged.length; i++) {
+      var label = canonicalTechLabel(merged[i]);
+      var key = normalizeTechKey(label);
+      if (!key || seen[key]) continue;
+      seen[key] = true;
+      items.push({ key: key, label: label });
+    }
+
+    var primaryKeys = ['cursor', 'flutter', 'php', 'javascript', 'ffmpeg', 'webrtc'];
+    var primaryIndex = Object.create(null);
+    for (var p = 0; p < primaryKeys.length; p++) primaryIndex[primaryKeys[p]] = p;
+
+    items.sort(function (a, b) {
+      var ar = Object.prototype.hasOwnProperty.call(primaryIndex, a.key) ? primaryIndex[a.key] : 999;
+      var br = Object.prototype.hasOwnProperty.call(primaryIndex, b.key) ? primaryIndex[b.key] : 999;
+      if (ar !== br) return ar - br;
+      return a.label.localeCompare(b.label);
+    });
+
+    var html = [];
+    for (var n = 0; n < items.length; n++) {
+      var item = items[n];
+      var rank = Object.prototype.hasOwnProperty.call(primaryIndex, item.key) ? primaryIndex[item.key] : -1;
+      var rBase = seeded01(item.key, 'r');
+      var x;
+      var y;
+      var rot;
+      var cls;
+      if (rank >= 0) {
+        x = (primaryKeys.length <= 1 ? 50 : 10 + rank * (80 / (primaryKeys.length - 1))) + (rBase - 0.5) * 4;
+        y = (mobile ? 0.12 : 0.18) + seeded01(item.key, 'y') * (mobile ? 0.78 : 0.92);
+        rot = (seeded01(item.key, 'rot') - 0.5) * 10;
+        cls = 'is-primary p' + (rank + 1);
+      } else {
+        x = 6 + seeded01(item.key, 'x') * 88;
+        y = (mobile ? 1.28 : 1.62) + seeded01(item.key, 'y2') * (mobile ? 3.5 : 4.7);
+        rot = (seeded01(item.key, 'rot2') - 0.5) * 24;
+        var sec = 1 + Math.floor(seeded01(item.key, 'w') * 3);
+        cls = 'is-secondary s' + sec;
+      }
+      var logo = resolveTechLogoUrl(item.key);
+      html.push(
+        '<span class="silk-tech-item ' + cls + '" style="--x:' + x.toFixed(2) + '%;--y:' + y.toFixed(2) + 'rem;--r:' + rot.toFixed(2) + 'deg;">' +
+          (logo
+            ? '<span class="tech-logo-wrap"><img class="tech-logo" src="' + escapeHtml(logo) + '" alt="" loading="eager" decoding="async" crossorigin="anonymous" referrerpolicy="no-referrer" /></span>'
+            : '<span class="tech-logo-wrap"><span class="tech-logo-fallback">◆</span></span>') +
+          '<span class="tech-name">' + escapeHtml(item.label) + '</span>' +
+        '</span>'
+      );
+    }
+    if (!html.length) return '';
+    var title = lang === 'en' ? 'Embroidered tech cloud' : '刺绣技术云';
+    return '<div class="silk-tech-cloud" aria-label="' + escapeHtml(title) + '">' + html.join('') + '</div>';
+  }
+
   function applyData(data) {
     var d = document;
     var lang = (data.meta && data.meta.lang) === 'en' ? 'en' : 'zh';
@@ -153,7 +284,8 @@
     setHTML(
       'highlightProducts',
       '<p class="letter-paragraph">' + escapeHtml(narrative.p1) + '</p>' +
-      (narrative.p2 ? '<p class="letter-paragraph">' + escapeHtml(narrative.p2) + '</p>' : '')
+      (narrative.p2 ? '<p class="letter-paragraph">' + escapeHtml(narrative.p2) + '</p>' : '') +
+      renderSilkTechCloud(data, lang, mobile)
     );
     setText('metricPlay', '');
     setText('metricAppstore', '');
