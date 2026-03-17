@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-21';
+  var DATA_VERSION = '20260316-22';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -239,14 +239,14 @@
       var rot;
       var cls;
       if (rank >= 0) {
-        x = (primaryKeys.length <= 1 ? 50 : 10 + rank * (80 / (primaryKeys.length - 1))) + (rBase - 0.5) * 4;
-        y = (mobile ? 1.0 : 1.3) + seeded01(item.key, 'y') * (mobile ? 0.9 : 1.05);
-        rot = (seeded01(item.key, 'rot') - 0.5) * 10;
+        x = (primaryKeys.length <= 1 ? 50 : 8 + rank * (84 / (primaryKeys.length - 1))) + (rBase - 0.5) * 8;
+        y = (mobile ? 1.22 : 1.65) + seeded01(item.key, 'y') * (mobile ? 1.4 : 1.75);
+        rot = (seeded01(item.key, 'rot') - 0.5) * 14;
         cls = 'is-primary p' + (rank + 1);
       } else {
-        x = 6 + seeded01(item.key, 'x') * 88;
-        y = (mobile ? 2.25 : 2.7) + seeded01(item.key, 'y2') * (mobile ? 3.8 : 5.2);
-        rot = (seeded01(item.key, 'rot2') - 0.5) * 24;
+        x = 3 + seeded01(item.key, 'x') * 94;
+        y = (mobile ? 2.9 : 3.4) + seeded01(item.key, 'y2') * (mobile ? 4.6 : 6.4);
+        rot = (seeded01(item.key, 'rot2') - 0.5) * 30;
         var sec = 1 + Math.floor(seeded01(item.key, 'w') * 3);
         cls = 'is-secondary s' + sec;
       }

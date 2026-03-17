@@ -361,8 +361,8 @@ body.silk-home-page .letter-paragraph:last-child {
 body.silk-home-page .silk-tech-cloud {
   position: relative;
   width: min(100%, 780px);
-  min-height: 8.8rem;
-  margin: 1.12rem auto 0;
+  min-height: 10.8rem;
+  margin: 1.22rem auto 0;
   pointer-events: none;
 }
 
@@ -372,8 +372,11 @@ body.silk-home-page .silk-tech-item {
   top: var(--y, 0.8rem);
   transform: translateX(-50%) rotate(var(--r, 0deg));
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 0.26em;
+  padding-inline: 0.04em;
   white-space: nowrap;
   color: rgba(76, 54, 31, 0.98);
   text-shadow: 0 0.7px 0 rgba(255, 248, 238, 0.82), 0 0.12px 0 rgba(66, 44, 24, 0.32);
@@ -381,11 +384,14 @@ body.silk-home-page .silk-tech-item {
 }
 
 body.silk-home-page .silk-tech-item .tech-logo-wrap {
-  width: 1.04em;
-  height: 1.04em;
+  order: 0;
+  width: 1.08em;
+  min-width: 1.08em;
+  height: 1.08em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
 }
 
 body.silk-home-page .silk-tech-item .tech-logo {
@@ -402,6 +408,9 @@ body.silk-home-page .silk-tech-item .tech-logo-fallback {
 }
 
 body.silk-home-page .silk-tech-item .tech-name {
+  order: 1;
+  display: inline-block;
+  line-height: 1.05;
   letter-spacing: 0.01em;
 }
 
@@ -562,8 +571,8 @@ body.silk-home-page .exp-item-head {
   }
 
   body.silk-home-page .silk-tech-cloud {
-    min-height: 6.2rem;
-    margin-top: 0.74rem;
+    min-height: 7.4rem;
+    margin-top: 0.92rem;
   }
 
   body.silk-home-page .silk-tech-item.p1 { font-size: 1.08rem; }
