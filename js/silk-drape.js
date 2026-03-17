@@ -84,7 +84,8 @@
       stabVX: 0,
       stabVY: 0,
       stabStrength: 0,
-      stabPulse: 0
+      stabPulse: 0,
+      stabBurst: 0
     };
 
     this.pageEl = document.querySelector('.page');
@@ -387,7 +388,7 @@
     var dx = e.clientX - p.lastX;
     var dy = e.clientY - p.lastY;
     var speed = Math.hypot(dx, dy) / dt;
-    var gust = Math.min(speed * 0.16, 1.05);
+    var gust = Math.min(speed * 0.18 + 0.04, 1.2);
 
     p.targetWindX = dx * 0.000082 * (1 + gust * 0.48);
     p.targetWindY = -dy * 0.000048 * (1 + gust * 0.34);
@@ -418,6 +419,7 @@
       p.lastStabY = p.stabY;
       p.stabStrength = Math.min(1.5, p.stabStrength + 0.11 + gust * 0.14);
       p.stabPulse = Math.min(1.2, p.stabPulse + 0.04 + gust * 0.05);
+      p.stabBurst = Math.min(1.85, p.stabBurst + 0.05 + gust * 0.06);
     }
 
     p.active = true;
@@ -443,7 +445,9 @@
     p.lastStabY = p.stabY;
     p.stabStrength = Math.min(1.75, Math.max(1.08, p.stabStrength + 0.936));
     p.stabPulse = 1.18;
-    p.targetWindZ += 0.00034;
+    p.stabBurst = Math.min(1.9, p.stabBurst + 1.2);
+    p.targetWindZ += 0.00046;
+    p.windZ += 0.00018;
     p.lastTs = performance.now();
     p.lastX = e.clientX;
     p.lastY = e.clientY;
@@ -453,6 +457,7 @@
     var p = this.pointer;
     p.stabActive = false;
     p.stabPulse = Math.max(0.46, p.stabPulse * 0.82);
+    p.stabBurst = Math.max(0.52, p.stabBurst * 0.86);
   };
 
   SilkDrape.prototype.scheduleCapture = function (delayMs) {
@@ -789,9 +794,11 @@
     if (p.stabActive) {
       p.stabStrength = Math.min(1.7, p.stabStrength * 0.989 + 0.024);
       p.stabPulse = Math.min(1.32, p.stabPulse * 0.946 + 0.012);
+      p.stabBurst = Math.min(1.9, p.stabBurst * 0.95 + 0.03);
     } else {
       p.stabStrength *= 0.935;
       p.stabPulse *= 0.87;
+      p.stabBurst *= 0.86;
     }
     var stabRadius = this.width < 700 ? 0.11 : 0.135;
     var stabR2 = stabRadius * stabRadius;
@@ -850,13 +857,20 @@
         if (sd2 < stabR2) {
           var pen = 1 - sd2 / stabR2;
           pen *= pen;
+          var distNorm = Math.sqrt(Math.max(0, sd2 / stabR2));
+          var centerLift = 1 - distNorm;
+          centerLift *= centerLift;
+          var ring = Math.exp(-Math.pow(distNorm - 0.58, 2) / 0.018);
+          var burst = p.stabBurst;
           var scratch = (Math.abs(p.stabVX) + Math.abs(p.stabVY)) * 0.5;
-          current[j] += p.stabVX * pen * 0.11;
-          current[j + 1] += p.stabVY * pen * 0.065;
+          current[j] += p.stabVX * pen * 0.11 + sdx * centerLift * burst * 0.085;
+          current[j + 1] += p.stabVY * pen * 0.065 + sdy * centerLift * burst * 0.052;
           var tilt = sdx >= 0 ? 1 : -1;
-          var fineJitter = Math.sin(time * 92 + (u + v) * 44) * 0.0018 * p.stabPulse * pen;
-          var creaseBand = Math.cos((sd2 / stabR2) * Math.PI * 4 + time * 26) * 0.0024 * p.stabStrength * pen;
-          current[j + 2] += (-0.0102 * p.stabStrength - 0.0072 * p.stabPulse + tilt * scratch * 0.42) * pen + fineJitter + creaseBand;
+          var pokeOut = (0.0094 * p.stabStrength + 0.0062 * p.stabPulse) * centerLift * (0.45 + burst * 0.55);
+          var ringBack = (0.0053 + 0.0024 * burst) * ring * p.stabStrength;
+          var fineJitter = Math.sin(time * 92 + (u + v) * 44) * 0.0017 * p.stabPulse * pen * (0.7 + burst * 0.6);
+          var creaseBand = Math.cos((sd2 / stabR2) * Math.PI * 4 + time * 26) * 0.0022 * p.stabStrength * pen;
+          current[j + 2] += (pokeOut - ringBack + tilt * scratch * 0.26) * pen + fineJitter + creaseBand;
         }
       }
     }
