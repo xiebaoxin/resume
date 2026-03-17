@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-19';
+  var DATA_VERSION = '20260316-20';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -184,22 +184,22 @@
     var key = normalizeTechKey(name);
     var map = {
       cursor: 'https://www.cursor.com/favicon.ico',
-      claudecode: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/claude.svg',
-      flutter: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/flutter.svg',
-      php: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/php.svg',
-      javascript: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/javascript.svg',
-      ffmpeg: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/ffmpeg.svg',
-      webrtc: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/webrtc.svg',
-      rust: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/rust.svg',
-      electron: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/electron.svg',
-      canvas: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/html5.svg',
-      ethereum: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/ethereum.svg',
-      solana: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/solana.svg',
-      nosql: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/mongodb.svg',
-      java: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/openjdk.svg',
-      python: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/python.svg',
-      mysql: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/mysql.svg',
-      webaudio: 'https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/html5.svg'
+      claudecode: 'https://api.iconify.design/logos:claude-icon.svg',
+      flutter: 'https://api.iconify.design/logos:flutter.svg',
+      php: 'https://api.iconify.design/logos:php.svg',
+      javascript: 'https://api.iconify.design/logos:javascript.svg',
+      ffmpeg: 'https://api.iconify.design/logos:ffmpeg.svg',
+      webrtc: 'https://api.iconify.design/logos:webrtc.svg',
+      rust: 'https://api.iconify.design/logos:rust.svg',
+      electron: 'https://api.iconify.design/logos:electron.svg',
+      canvas: 'https://api.iconify.design/logos:html-5.svg',
+      ethereum: 'https://api.iconify.design/cryptocurrency-color:eth.svg',
+      solana: 'https://api.iconify.design/cryptocurrency-color:sol.svg',
+      nosql: 'https://api.iconify.design/logos:mongodb.svg',
+      java: 'https://api.iconify.design/logos:java.svg',
+      python: 'https://api.iconify.design/logos:python.svg',
+      mysql: 'https://api.iconify.design/logos:mysql.svg',
+      webaudio: 'https://api.iconify.design/logos:html-5.svg'
     };
     return map[key] || '';
   }
@@ -240,12 +240,12 @@
       var cls;
       if (rank >= 0) {
         x = (primaryKeys.length <= 1 ? 50 : 10 + rank * (80 / (primaryKeys.length - 1))) + (rBase - 0.5) * 4;
-        y = (mobile ? 0.12 : 0.18) + seeded01(item.key, 'y') * (mobile ? 0.78 : 0.92);
+        y = (mobile ? 1.0 : 1.3) + seeded01(item.key, 'y') * (mobile ? 0.9 : 1.05);
         rot = (seeded01(item.key, 'rot') - 0.5) * 10;
         cls = 'is-primary p' + (rank + 1);
       } else {
         x = 6 + seeded01(item.key, 'x') * 88;
-        y = (mobile ? 1.28 : 1.62) + seeded01(item.key, 'y2') * (mobile ? 3.5 : 4.7);
+        y = (mobile ? 2.25 : 2.7) + seeded01(item.key, 'y2') * (mobile ? 3.8 : 5.2);
         rot = (seeded01(item.key, 'rot2') - 0.5) * 24;
         var sec = 1 + Math.floor(seeded01(item.key, 'w') * 3);
         cls = 'is-secondary s' + sec;

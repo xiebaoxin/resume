@@ -361,8 +361,8 @@ body.silk-home-page .letter-paragraph:last-child {
 body.silk-home-page .silk-tech-cloud {
   position: relative;
   width: min(100%, 780px);
-  min-height: 7.4rem;
-  margin: 0.5rem auto 0;
+  min-height: 8.8rem;
+  margin: 1.12rem auto 0;
   pointer-events: none;
 }
 
@@ -406,15 +406,16 @@ body.silk-home-page .silk-tech-item .tech-name {
 }
 
 body.silk-home-page .silk-tech-item.is-primary {
-  font-weight: 620;
+  font-weight: 700;
+  text-shadow: 0 0.9px 0 rgba(255, 248, 238, 0.9), 0 0.18px 0 rgba(58, 37, 20, 0.42);
 }
 
-body.silk-home-page .silk-tech-item.p1 { font-size: 1.22rem; }
-body.silk-home-page .silk-tech-item.p2 { font-size: 1.1rem; }
-body.silk-home-page .silk-tech-item.p3 { font-size: 1.02rem; }
-body.silk-home-page .silk-tech-item.p4 { font-size: 0.95rem; }
-body.silk-home-page .silk-tech-item.p5 { font-size: 0.9rem; }
-body.silk-home-page .silk-tech-item.p6 { font-size: 0.86rem; }
+body.silk-home-page .silk-tech-item.p1 { font-size: 1.34rem; }
+body.silk-home-page .silk-tech-item.p2 { font-size: 1.2rem; }
+body.silk-home-page .silk-tech-item.p3 { font-size: 1.1rem; }
+body.silk-home-page .silk-tech-item.p4 { font-size: 1.02rem; }
+body.silk-home-page .silk-tech-item.p5 { font-size: 0.96rem; }
+body.silk-home-page .silk-tech-item.p6 { font-size: 0.92rem; }
 body.silk-home-page .silk-tech-item.s1 { font-size: 0.72rem; font-weight: 530; opacity: 0.9; }
 body.silk-home-page .silk-tech-item.s2 { font-size: 0.77rem; font-weight: 545; opacity: 0.93; }
 body.silk-home-page .silk-tech-item.s3 { font-size: 0.81rem; font-weight: 560; opacity: 0.95; }
@@ -561,16 +562,16 @@ body.silk-home-page .exp-item-head {
   }
 
   body.silk-home-page .silk-tech-cloud {
-    min-height: 5.2rem;
-    margin-top: 0.34rem;
+    min-height: 6.2rem;
+    margin-top: 0.74rem;
   }
 
-  body.silk-home-page .silk-tech-item.p1 { font-size: 0.98rem; }
-  body.silk-home-page .silk-tech-item.p2 { font-size: 0.92rem; }
-  body.silk-home-page .silk-tech-item.p3 { font-size: 0.88rem; }
-  body.silk-home-page .silk-tech-item.p4 { font-size: 0.84rem; }
-  body.silk-home-page .silk-tech-item.p5 { font-size: 0.8rem; }
-  body.silk-home-page .silk-tech-item.p6 { font-size: 0.77rem; }
+  body.silk-home-page .silk-tech-item.p1 { font-size: 1.08rem; }
+  body.silk-home-page .silk-tech-item.p2 { font-size: 1rem; }
+  body.silk-home-page .silk-tech-item.p3 { font-size: 0.93rem; }
+  body.silk-home-page .silk-tech-item.p4 { font-size: 0.87rem; }
+  body.silk-home-page .silk-tech-item.p5 { font-size: 0.82rem; }
+  body.silk-home-page .silk-tech-item.p6 { font-size: 0.78rem; }
   body.silk-home-page .silk-tech-item.s1 { font-size: 0.66rem; }
   body.silk-home-page .silk-tech-item.s2 { font-size: 0.69rem; }
   body.silk-home-page .silk-tech-item.s3 { font-size: 0.72rem; }
