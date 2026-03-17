@@ -104,6 +104,7 @@
     this.bootAt = performance.now();
     this.readyShown = false;
     this.readyTimer = null;
+    this.logoCache = Object.create(null);
 
     this.layer = document.createElement('div');
     this.layer.className = 'silk-drape-layer';
@@ -477,6 +478,50 @@
     return Number.isFinite(n) ? n : fallback;
   };
 
+  SilkDrape.prototype.getLogoEntry = function (src) {
+    if (!src) return null;
+    if (this.logoCache[src]) return this.logoCache[src];
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    var entry = { img: img, loaded: false, failed: false };
+    this.logoCache[src] = entry;
+    var self = this;
+    img.onload = function () {
+      entry.loaded = true;
+      self.scheduleCapture(90);
+    };
+    img.onerror = function () {
+      entry.failed = true;
+    };
+    img.src = src;
+    return entry;
+  };
+
+  SilkDrape.prototype.drawNodeLogos = function (ctx, el, topOffset) {
+    if (!el || !el.querySelectorAll) return;
+    var logos = el.querySelectorAll('img.tech-logo');
+    if (!logos || !logos.length) return;
+    for (var i = 0; i < logos.length; i++) {
+      var logoEl = logos[i];
+      if (!logoEl || !logoEl.getBoundingClientRect) continue;
+      var src = logoEl.currentSrc || logoEl.src;
+      if (!src) continue;
+      var entry = this.getLogoEntry(src);
+      if (!entry || !entry.loaded || entry.failed) continue;
+      var r = logoEl.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) continue;
+      try {
+        ctx.save();
+        ctx.globalAlpha = 0.96;
+        ctx.drawImage(entry.img, r.left, r.top + topOffset, r.width, r.height);
+      } catch (_) {
+        // ignore icon draw failures and keep text rendering
+      } finally {
+        ctx.restore();
+      }
+    }
+  };
+
   SilkDrape.prototype.resolveInkColor = function (style) {
     var color = style && style.color ? style.color : 'rgb(50,36,24)';
     if (color.indexOf('rgb') !== 0) return 'rgba(60,40,22,1)';
@@ -583,7 +628,8 @@
         '.target-role',
         '.tagline',
         '#highlightTitle',
-        '.letter-paragraph'
+        '.letter-paragraph',
+        '.silk-tech-item'
       ]
       : [
         '.name',
@@ -631,6 +677,7 @@
         .replace(/\n{3,}/g, '\n\n')
         .trim();
       if (!text) continue;
+      if (isLetterMode) this.drawNodeLogos(ctx, el, topOffset);
       var switchLike = text.replace(/\s+/g, '').toLowerCase();
       if (rect.top < this.height * 0.26 && (
         switchLike === 'classic中文' ||
