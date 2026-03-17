@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-22';
+  var DATA_VERSION = '20260316-23';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -229,7 +229,72 @@
       return a.label.localeCompare(b.label);
     });
 
-    var html = [];
+    function fontRemByClass(cls) {
+      var desktop = {
+        p1: 1.34, p2: 1.2, p3: 1.1, p4: 1.02, p5: 0.96, p6: 0.92,
+        s1: 0.72, s2: 0.77, s3: 0.81
+      };
+      var phone = {
+        p1: 1.08, p2: 1.0, p3: 0.93, p4: 0.87, p5: 0.82, p6: 0.78,
+        s1: 0.66, s2: 0.69, s3: 0.72
+      };
+      var m = mobile ? phone : desktop;
+      return m[cls] || (mobile ? 0.76 : 0.84);
+    }
+
+    function estimateBox(node) {
+      var fontRem = fontRemByClass(node.sizeClass);
+      var labelLen = Math.max(2, node.label.length);
+      var widthRem = fontRem * (1.55 + labelLen * 0.54);
+      var heightRem = fontRem * 1.45;
+      var containerRem = mobile ? 22 : 48;
+      return {
+        wPct: (widthRem / containerRem) * 100,
+        hRem: heightRem
+      };
+    }
+
+    function relaxPositions(nodes) {
+      var iterations = mobile ? 8 : 11;
+      var minX = 2.2;
+      var maxX = 97.8;
+      var minY = mobile ? 1.05 : 1.45;
+      var maxY = mobile ? 8.7 : 11.2;
+      for (var iter = 0; iter < iterations; iter++) {
+        for (var i2 = 0; i2 < nodes.length; i2++) {
+          for (var j2 = i2 + 1; j2 < nodes.length; j2++) {
+            var a = nodes[i2];
+            var b = nodes[j2];
+            var abox = estimateBox(a);
+            var bbox = estimateBox(b);
+            var dx = a.x - b.x;
+            var dy = a.y - b.y;
+            var limX = (abox.wPct + bbox.wPct) * 0.5 + (mobile ? 0.9 : 1.3);
+            var limY = (abox.hRem + bbox.hRem) * 0.5 + (mobile ? 0.14 : 0.2);
+            if (Math.abs(dx) < limX && Math.abs(dy) < limY) {
+              var ox = limX - Math.abs(dx);
+              var oy = limY - Math.abs(dy);
+              var dirX = dx === 0 ? (seeded01(a.key + b.key, 'rx') > 0.5 ? 1 : -1) : (dx > 0 ? 1 : -1);
+              var dirY = dy === 0 ? (seeded01(a.key + b.key, 'ry') > 0.5 ? 1 : -1) : (dy > 0 ? 1 : -1);
+              var pushX = ox * 0.18 * dirX;
+              var pushY = oy * 0.2 * dirY;
+              var wa = a.primary ? 0.35 : 1;
+              var wb = b.primary ? 0.35 : 1;
+              a.x += pushX * wa;
+              b.x -= pushX * wb;
+              a.y += pushY * wa;
+              b.y -= pushY * wb;
+            }
+          }
+        }
+        for (var k = 0; k < nodes.length; k++) {
+          nodes[k].x = Math.max(minX, Math.min(maxX, nodes[k].x));
+          nodes[k].y = Math.max(minY, Math.min(maxY, nodes[k].y));
+        }
+      }
+    }
+
+    var nodes = [];
     for (var n = 0; n < items.length; n++) {
       var item = items[n];
       var rank = Object.prototype.hasOwnProperty.call(primaryIndex, item.key) ? primaryIndex[item.key] : -1;
@@ -238,25 +303,46 @@
       var y;
       var rot;
       var cls;
-      if (rank >= 0) {
+      var sizeClass;
+      var primary = rank >= 0;
+      if (primary) {
         x = (primaryKeys.length <= 1 ? 50 : 8 + rank * (84 / (primaryKeys.length - 1))) + (rBase - 0.5) * 8;
         y = (mobile ? 1.22 : 1.65) + seeded01(item.key, 'y') * (mobile ? 1.4 : 1.75);
         rot = (seeded01(item.key, 'rot') - 0.5) * 14;
-        cls = 'is-primary p' + (rank + 1);
+        sizeClass = 'p' + (rank + 1);
+        cls = 'is-primary ' + sizeClass;
       } else {
         x = 3 + seeded01(item.key, 'x') * 94;
         y = (mobile ? 2.9 : 3.4) + seeded01(item.key, 'y2') * (mobile ? 4.6 : 6.4);
         rot = (seeded01(item.key, 'rot2') - 0.5) * 30;
         var sec = 1 + Math.floor(seeded01(item.key, 'w') * 3);
-        cls = 'is-secondary s' + sec;
+        sizeClass = 's' + sec;
+        cls = 'is-secondary ' + sizeClass;
       }
-      var logo = resolveTechLogoUrl(item.key);
+      nodes.push({
+        key: item.key,
+        label: item.label,
+        logo: resolveTechLogoUrl(item.key),
+        x: x,
+        y: y,
+        rot: rot,
+        cls: cls,
+        sizeClass: sizeClass,
+        primary: primary
+      });
+    }
+
+    relaxPositions(nodes);
+
+    var html = [];
+    for (var z = 0; z < nodes.length; z++) {
+      var node = nodes[z];
       html.push(
-        '<span class="silk-tech-item ' + cls + '" style="--x:' + x.toFixed(2) + '%;--y:' + y.toFixed(2) + 'rem;--r:' + rot.toFixed(2) + 'deg;">' +
-          (logo
-            ? '<span class="tech-logo-wrap"><img class="tech-logo" src="' + escapeHtml(logo) + '" alt="" loading="eager" decoding="async" crossorigin="anonymous" referrerpolicy="no-referrer" /></span>'
+        '<span class="silk-tech-item ' + node.cls + '" style="--x:' + node.x.toFixed(2) + '%;--y:' + node.y.toFixed(2) + 'rem;--r:' + node.rot.toFixed(2) + 'deg;">' +
+          (node.logo
+            ? '<span class="tech-logo-wrap"><img class="tech-logo" src="' + escapeHtml(node.logo) + '" alt="" loading="eager" decoding="async" crossorigin="anonymous" referrerpolicy="no-referrer" /></span>'
             : '<span class="tech-logo-wrap"><span class="tech-logo-fallback">◆</span></span>') +
-          '<span class="tech-name">' + escapeHtml(item.label) + '</span>' +
+          '<span class="tech-name">' + escapeHtml(node.label) + '</span>' +
         '</span>'
       );
     }
