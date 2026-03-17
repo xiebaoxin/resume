@@ -1,6 +1,7 @@
 /* Unified resume & attachment style (matches AI capability aesthetic) */
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont/style.css");
 
 :root {
   --ink: #0f0f0f;
@@ -45,6 +46,560 @@ body::before {
   z-index: 0;
 }
 
+.silk-drape-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 998;
+  contain: layout paint style;
+}
+
+.silk-drape-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0.95;
+  filter: drop-shadow(0 24px 26px rgba(24, 18, 10, 0.11));
+}
+
+.silk-nail {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 34% 30%, rgba(255, 249, 214, 0.98) 0 20%, rgba(246, 210, 114, 0.98) 21% 52%, rgba(206, 154, 40, 0.98) 53% 78%, rgba(156, 109, 24, 0.98) 79% 100%);
+  border: 1px solid rgba(171, 123, 30, 0.92);
+  box-shadow: 0 2px 5px rgba(84, 56, 8, 0.32), inset 0 0.6px 1.2px rgba(255, 252, 236, 0.56), 0 0 0 1px rgba(238, 206, 115, 0.2);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.silk-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s ease, visibility 0.32s ease;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.56) 0%, rgba(255, 255, 255, 0.3) 28%, rgba(255, 255, 255, 0) 62%);
+}
+
+.silk-loading.is-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.silk-loading-spinner {
+  width: clamp(28px, 4.4vw, 42px);
+  height: clamp(28px, 4.4vw, 42px);
+  border-radius: 50%;
+  border: 2.5px solid rgba(177, 146, 96, 0.22);
+  border-top-color: rgba(124, 85, 35, 0.82);
+  border-right-color: rgba(161, 121, 66, 0.62);
+  box-shadow: 0 10px 24px rgba(88, 62, 34, 0.08), inset 0 0 0 1px rgba(255, 250, 240, 0.42);
+  animation: silkLoadingSpin 0.9s linear infinite;
+}
+
+@keyframes silkLoadingSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.silk-text-bound {
+  will-change: transform;
+  transform-origin: 50% 0;
+}
+
+body.silk-ink-mode .page {
+  opacity: 1;
+}
+
+body.silk-ink-mode .page .main,
+body.silk-ink-mode .page .resume-footer,
+body.silk-ink-mode .page footer {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+body.silk-ink-mode .page .header {
+  position: relative;
+  z-index: 1001;
+}
+
+body.silk-ink-mode .page .header .lang-switch,
+body.silk-ink-mode .page .header .mode-switch {
+  opacity: 0.85;
+}
+
+body.silk-ink-mode .silk-drape-layer {
+  opacity: 1;
+}
+
+body.silk-preparing .silk-drape-layer {
+  opacity: 1;
+}
+
+body.silk-preparing .silk-loading {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.silk-preparing .page .main,
+body.silk-preparing .page .resume-footer,
+body.silk-preparing .page footer {
+  opacity: 0;
+}
+
+@font-face {
+  font-family: "WangXizhiKaishu";
+  src: local("WangXizhiKaishu"), local("WangXizhi Kai"), local("FZWangXizhiKaishuS-R-GB"), local("HYWangXizhiShuFaW"), local("STKaiti"), local("KaiTi");
+  font-display: swap;
+}
+
+body.silk-home-page {
+  overflow-y: auto;
+  background: #fff;
+  font-family: "WangXizhiKaishu", "FZWangXizhiKaishuS-R-GB", "HYWangXizhiShuFaW", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
+  font-weight: 500;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.silk-home-page::before {
+  display: none;
+}
+
+body.silk-home-page .page {
+  max-width: 940px;
+  min-height: 100vh;
+  height: auto;
+  padding: 1.08rem 1.12rem 0.94rem;
+  display: flex;
+  flex-direction: column;
+  color: #2f2923;
+  text-shadow: 0 0.1px 0 rgba(82, 63, 44, 0.14);
+}
+
+body.silk-home-page .name,
+body.silk-home-page .section-title,
+body.silk-home-page .target-role,
+body.silk-home-page .exp-item-company,
+body.silk-home-page .highlight-card .company {
+  font-family: "WangXizhiKaishu", "FZWangXizhiKaishuS-R-GB", "HYWangXizhiShuFaW", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
+  font-weight: 600;
+}
+
+body.silk-home-page .letter-paragraph,
+body.silk-home-page .letter-contact {
+  font-family: "WangXizhiKaishu", "FZWangXizhiKaishuS-R-GB", "HYWangXizhiShuFaW", "STKaiti", "Kaiti SC", "KaiTi", "KaiTi_GB2312", "DFKai-SB", "BiauKai", "LXGW WenKai", "Noto Serif SC", Georgia, serif;
+}
+
+.silk-main {
+  display: block;
+  flex: 1;
+  padding-top: 0.52rem;
+}
+
+.silk-col {
+  min-width: 0;
+}
+
+body.silk-home-page .hero,
+body.silk-home-page .skills,
+body.silk-home-page .education,
+body.silk-home-page .highlight,
+body.silk-home-page .experience {
+  margin-bottom: 0.62rem;
+}
+
+body.silk-home-page .name {
+  font-size: clamp(2.3rem, 4.7vw, 2.9rem);
+  line-height: 1.06;
+  letter-spacing: 0.01em;
+}
+
+body.silk-home-page .basics-line {
+  font-size: 1.02rem;
+  line-height: 1.26;
+}
+
+body.silk-home-page .target-role {
+  font-size: 1.16rem;
+  line-height: 1.28;
+  letter-spacing: 0.015em;
+}
+
+body.silk-home-page .tagline,
+body.silk-home-page .metric,
+body.silk-home-page .exp-item-summary,
+body.silk-home-page .skills-lead,
+body.silk-home-page .education-content,
+body.silk-home-page .ai-note {
+  font-size: 0.98rem;
+  line-height: 1.32;
+  letter-spacing: 0.004em;
+}
+
+body.silk-home-page .highlight-card {
+  padding: 0.72rem 0.84rem;
+}
+
+body.silk-home-page .exp-list li {
+  margin-bottom: 0.34rem;
+  padding-bottom: 0.34rem;
+}
+
+body.silk-home-page .exp-item-summary {
+  display: block;
+  overflow: visible;
+  line-height: 1.28;
+}
+
+body.silk-home-page .section-title {
+  margin: 0 auto 0.52rem;
+  padding-bottom: 0;
+  font-size: 1.34rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+body.silk-home-page .section-title::after {
+  display: none;
+}
+
+body.silk-home-page.silk-letter-mode .highlight {
+  margin-top: 0.56rem;
+}
+
+body.silk-home-page .resume-footer.silk-footer {
+  margin-top: 0.34rem;
+  padding-top: 0.36rem;
+  font-size: 0.82rem;
+}
+
+body.silk-home-page .header {
+  margin-bottom: 0.52rem;
+}
+
+body.silk-home-page .contact {
+  display: block;
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.16;
+}
+
+body.silk-home-page .contact:empty {
+  display: none;
+}
+
+body.silk-home-page .letter-contact {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.24;
+  overflow-wrap: anywhere;
+}
+
+body.silk-home-page .hero .basics-line:empty,
+body.silk-home-page .hero .target-role:empty,
+body.silk-home-page .hero .tagline:empty {
+  display: none;
+}
+
+body.silk-home-page .hero .name:empty {
+  display: none;
+}
+
+body.silk-home-page .detail-grid {
+  margin: 0;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 4.2rem 1fr;
+  row-gap: 0.1rem;
+  column-gap: 0.38rem;
+}
+
+body.silk-home-page .detail-row {
+  display: contents;
+}
+
+body.silk-home-page .detail-label {
+  margin: 0;
+  color: rgba(70, 56, 42, 0.85);
+  font-size: 0.76rem;
+  line-height: 1.2;
+}
+
+body.silk-home-page .detail-value {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+body.silk-home-page .letter-paragraph {
+  margin: 0 0 0.34rem;
+  font-size: 1.32rem;
+  line-height: 1.4;
+}
+
+body.silk-home-page .letter-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+body.silk-home-page .metric:empty,
+body.silk-home-page .ai-note:empty,
+body.silk-home-page .exp-item-role:empty,
+body.silk-home-page .highlight-card .company:empty,
+body.silk-home-page .highlight-card .period:empty {
+  display: none;
+}
+
+body.silk-home-page.silk-letter-mode #experience,
+body.silk-home-page.silk-letter-mode #skills,
+body.silk-home-page.silk-letter-mode #education {
+  display: none !important;
+}
+
+body.silk-home-page.silk-letter-mode .highlight-head,
+body.silk-home-page.silk-letter-mode .metrics {
+  display: none !important;
+}
+
+body.silk-home-page .skills-tech .tag {
+  margin: 0.14rem 0.25rem 0.14rem 0;
+  padding: 0.26rem 0.62rem;
+  font-size: 0.84rem;
+}
+
+body.silk-home-page .exp-item-company {
+  font-size: 0.98rem;
+}
+
+body.silk-home-page .exp-item-period,
+body.silk-home-page .exp-item-role {
+  font-size: 0.86rem;
+  line-height: 1.22;
+}
+
+body.silk-home-page .highlight-card .company {
+  font-size: 1.2rem;
+}
+
+body.silk-home-page .highlight-card .period {
+  font-size: 0.88rem;
+}
+
+body.silk-home-page .product {
+  font-size: 0.82rem;
+  line-height: 1.24;
+}
+
+body.silk-home-page .highlight-head,
+body.silk-home-page .exp-item-head {
+  align-items: baseline;
+}
+
+@media (max-width: 700px) {
+  body.silk-home-page {
+    overflow-y: auto;
+  }
+
+  body.silk-home-page .page {
+    min-height: 100vh;
+    height: auto;
+    max-width: min(90vw, 376px);
+    padding: 0.6rem 0.36rem 0.48rem;
+  }
+
+  .silk-nail {
+    width: 11px;
+    height: 11px;
+  }
+
+  .silk-drape-canvas {
+    filter: drop-shadow(0 16px 18px rgba(24, 18, 10, 0.1));
+  }
+
+  .silk-main {
+    display: block;
+    padding-top: 0.42rem;
+  }
+
+  body.silk-home-page .section-title {
+    font-size: 1.08rem;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0;
+  }
+
+  body.silk-home-page .name {
+    font-size: 1.62rem;
+    margin-bottom: 0.1rem;
+    line-height: 1.02;
+  }
+
+  body.silk-home-page .basics-line,
+  body.silk-home-page .target-role {
+    font-size: 0.76rem;
+    margin-bottom: 0.08rem;
+    line-height: 1.04;
+  }
+
+  body.silk-home-page .tagline,
+  body.silk-home-page .metric,
+  body.silk-home-page .exp-item-summary,
+  body.silk-home-page .skills-lead,
+  body.silk-home-page .education-content,
+  body.silk-home-page .ai-note {
+    font-size: 0.78rem;
+    line-height: 1.16;
+  }
+
+  body.silk-home-page .contact {
+    font-size: 0.76rem;
+    line-height: 1.14;
+  }
+
+  body.silk-home-page .letter-contact {
+    font-size: 0.82rem;
+    line-height: 1.16;
+  }
+
+  body.silk-home-page .detail-grid {
+    grid-template-columns: 2.7rem 1fr;
+    row-gap: 0.1rem;
+    column-gap: 0.22rem;
+  }
+
+  body.silk-home-page .detail-label {
+    font-size: 0.6rem;
+    line-height: 1.1;
+  }
+
+  body.silk-home-page .detail-value {
+    font-size: 0.66rem;
+    line-height: 1.1;
+  }
+
+  body.silk-home-page .letter-paragraph {
+    font-size: 0.96rem;
+    line-height: 1.28;
+    margin-bottom: 0.26rem;
+  }
+
+  body.silk-home-page .exp-item-company {
+    font-size: 0.68rem;
+  }
+
+  body.silk-home-page .highlight-card .company {
+    font-size: 0.74rem;
+  }
+
+  body.silk-home-page .highlight-card .period {
+    font-size: 0.6rem;
+  }
+
+  body.silk-home-page .product {
+    font-size: 0.68rem;
+    line-height: 1.12;
+  }
+
+  body.silk-home-page .exp-item-period,
+  body.silk-home-page .exp-item-role {
+    font-size: 0.58rem;
+    line-height: 1.06;
+  }
+
+  body.silk-home-page .skills-tech .tag {
+    margin: 0.02rem 0.04rem 0.02rem 0;
+    padding: 0.03rem 0.12rem;
+    font-size: 0.5rem;
+  }
+
+  body.silk-home-page .highlight-card {
+    padding: 0.34rem 0.36rem;
+  }
+
+  body.silk-home-page.silk-letter-mode .highlight {
+    margin-top: 0.4rem;
+  }
+
+  body.silk-home-page .hero,
+  body.silk-home-page .skills,
+  body.silk-home-page .education,
+  body.silk-home-page .highlight,
+  body.silk-home-page .experience {
+    margin-bottom: 0.28rem;
+  }
+
+  body.silk-home-page .exp-list li {
+    margin-bottom: 0.14rem;
+    padding-bottom: 0.14rem;
+  }
+
+  body.silk-home-page .resume-footer.silk-footer {
+    margin-top: 0.16rem;
+    padding-top: 0.14rem;
+    font-size: 0.66rem;
+  }
+
+  body.silk-home-page .header {
+    margin-bottom: 0.22rem;
+  }
+}
+
+@media (max-width: 700px) and (max-height: 720px) {
+  body.silk-home-page .name {
+    font-size: 1.42rem;
+    margin-bottom: 0.14rem;
+  }
+
+  body.silk-home-page .section-title {
+    margin-bottom: 0.2rem;
+    padding-bottom: 0.1rem;
+  }
+
+  body.silk-home-page .hero,
+  body.silk-home-page .skills,
+  body.silk-home-page .education,
+  body.silk-home-page .highlight,
+  body.silk-home-page .experience {
+    margin-bottom: 0.3rem;
+  }
+
+  body.silk-home-page .resume-footer.silk-footer {
+    margin-top: 0.2rem;
+    padding-top: 0.22rem;
+    font-size: 0.72rem;
+  }
+
+  body.silk-home-page .detail-label {
+    font-size: 0.6rem;
+  }
+
+  body.silk-home-page .detail-value {
+    font-size: 0.64rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .silk-drape-layer {
+    display: none !important;
+  }
+}
+
 .page {
   position: relative;
   z-index: 1;
@@ -60,6 +615,12 @@ body::before {
   margin-bottom: 0.5rem;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 .lang-switch {
   font-family: var(--mono);
   padding: 0.4rem 0.85rem;
@@ -73,6 +634,24 @@ body::before {
 }
 
 .lang-switch:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.mode-switch {
+  font-family: var(--mono);
+  padding: 0.4rem 0.85rem;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--accent2);
+  background: transparent;
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.mode-switch:hover {
   background: var(--ink);
   color: var(--paper);
   border-color: var(--ink);
