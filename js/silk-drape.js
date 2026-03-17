@@ -716,8 +716,21 @@
       }
       ctx.globalAlpha = Math.max(0.96, Math.min(1, sourceAlpha));
 
+      var drawX = rect.left;
       var maxWidth = Math.max(8, rect.width);
-      written += this.drawWrappedText(ctx, text, rect.left, rect.top + topOffset, maxWidth, lineHeight, ctx.textAlign);
+      if (isLetterMode && el.classList && el.classList.contains('silk-tech-item')) {
+        var logoWrap = el.querySelector('.tech-logo-wrap');
+        if (logoWrap && logoWrap.getBoundingClientRect) {
+          var logoRect = logoWrap.getBoundingClientRect();
+          if (logoRect.width > 1) {
+            // Keep embroidered tech label slightly away from icon to avoid sticking.
+            var iconGap = Math.max(4, fontSize * 0.26);
+            drawX = Math.max(drawX, logoRect.right + iconGap);
+            maxWidth = Math.max(8, rect.right - drawX);
+          }
+        }
+      }
+      written += this.drawWrappedText(ctx, text, drawX, rect.top + topOffset, maxWidth, lineHeight, ctx.textAlign);
     }
 
     var minLines = document.body.classList.contains('silk-letter-mode') ? 2 : 10;
