@@ -71,7 +71,7 @@
   "skills": {
     "title": "关键技能",
     "lead": "以 AI 编程为近期核心优势（Cursor、v0、Claude code），具备物联网、电商供应链、IM 等场景的 Flutter App 全栈经验；熟悉蓝牙、MQTT、WebRTC 及 AI 接口对接，可独立完成后端与 App 的构建与落地。",
-    "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio"],
+    "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "NoSql"],
     "domain": "ERP、智慧社区、物联网、电商与供应链、智能硬件。"
   },
   "education": {

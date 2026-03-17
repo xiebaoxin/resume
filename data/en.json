@@ -71,7 +71,7 @@
   "skills": {
     "title": "Key Skills",
     "lead": "AI coding as a core recent strength (Cursor, v0, Claude code). Full-stack Flutter app experience across IoT, e-commerce supply chain, and IM; familiar with Bluetooth, MQTT, WebRTC, and AI API integration; can independently build and ship backend and app from design to production.",
-    "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio"],
+    "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "NoSql"],
     "domain": "ERP, smart community, IoT, e-commerce and supply chain, smart hardware."
   },
   "education": {
