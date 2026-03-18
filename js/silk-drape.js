@@ -86,7 +86,13 @@
       stabStrength: 0,
       stabPulse: 0,
       stabBurst: 0,
-      stabZoneBoost: 1
+      stabZoneBoost: 1,
+      grabGlow: 0,
+      releaseWaveActive: false,
+      releaseWaveX: 0,
+      releaseWaveY: 0,
+      releaseWaveT: 0,
+      releaseWaveStrength: 0
     };
 
     this.pageEl = document.querySelector('.page');
@@ -172,6 +178,11 @@
     var rim = new THREE.DirectionalLight(0xfff0d8, 0.2);
     rim.position.set(0.1, -0.6, 2.35);
     this.scene.add(rim);
+
+    // Local highlight around the grabbing point.
+    this.grabLight = new THREE.PointLight(0xfff2de, 0, this.width < 700 ? 0.76 : 0.88, 2);
+    this.grabLight.position.set(0, 0, 0.55);
+    this.scene.add(this.grabLight);
   };
 
   SilkDrape.prototype.setupCloth = function () {
@@ -324,6 +335,7 @@
     this._onLeave = function () {
       self.pointer.active = false;
       self.pointer.stabActive = false;
+      self.pointer.grabGlow *= 0.6;
     };
     this._onVisibility = function () { self.hidden = document.hidden; };
     this._onLangSwitch = function () {
@@ -409,6 +421,7 @@
       p.stabPulse = Math.max(p.stabPulse, 0.7);
       p.stabBurst = Math.max(p.stabBurst, 0.84);
       p.stabZoneBoost = zoneBoost;
+      p.grabGlow = Math.max(p.grabGlow, 0.68 * zoneBoost);
     } else if (!pressing && p.stabActive) {
       p.stabActive = false;
     }
@@ -426,6 +439,7 @@
       p.stabPulse = Math.min(1.6, p.stabPulse + 0.04 + gust * 0.05);
       p.stabBurst = Math.min(1.86, p.stabBurst + 0.04 + gust * 0.045);
       p.stabZoneBoost = p.stabZoneBoost * 0.72 + zoneBoost * 0.28;
+      p.grabGlow = Math.min(1.55, p.grabGlow * 0.84 + 0.12 + zoneBoost * 0.09 + gust * 0.06);
     }
 
     p.active = true;
@@ -453,6 +467,8 @@
     p.stabPulse = 1.32;
     p.stabBurst = Math.min(1.9, p.stabBurst + 1.08);
     p.stabZoneBoost = Math.min(1.55, 0.88 + (e.clientY / Math.max(1, this.height)) * 0.74);
+    p.grabGlow = Math.max(0.92, p.grabGlow + 0.42 * p.stabZoneBoost);
+    p.releaseWaveActive = false;
     p.targetWindZ += 0.0006;
     p.windZ += 0.00022;
     p.lastTs = performance.now();
@@ -462,7 +478,14 @@
 
   SilkDrape.prototype.onPointerUp = function () {
     var p = this.pointer;
+    var relSpeed = Math.hypot(p.stabVX, p.stabVY);
     p.stabActive = false;
+    p.releaseWaveActive = true;
+    p.releaseWaveX = p.stabX;
+    p.releaseWaveY = p.stabY;
+    p.releaseWaveT = 0;
+    p.releaseWaveStrength = Math.min(1.9, 0.74 + p.stabStrength * 0.36 + relSpeed * 16 + (p.stabZoneBoost - 1) * 0.42);
+    p.grabGlow = Math.max(0.76, p.grabGlow);
     p.stabStrength = Math.max(0.26, p.stabStrength * 0.68);
     p.stabPulse = Math.max(0.3, p.stabPulse * 0.7);
     p.stabBurst = Math.max(0.24, p.stabBurst * 0.64);
@@ -866,11 +889,22 @@
       p.stabPulse = Math.min(1.62, p.stabPulse * 0.944 + 0.012);
       p.stabBurst = Math.min(1.9, p.stabBurst * 0.936 + 0.02);
       p.stabZoneBoost = Math.min(1.58, p.stabZoneBoost * 0.96 + 0.018);
+      p.grabGlow = Math.min(1.62, p.grabGlow * 0.9 + 0.086 + (p.stabZoneBoost - 1) * 0.09);
     } else {
       p.stabStrength *= 0.86;
       p.stabPulse *= 0.76;
       p.stabBurst *= 0.72;
       p.stabZoneBoost = 1 + (p.stabZoneBoost - 1) * 0.72;
+      p.grabGlow *= 0.84;
+    }
+    if (p.releaseWaveActive) {
+      p.releaseWaveT += dt * 2.55;
+      p.releaseWaveStrength *= 0.95;
+      if (p.releaseWaveT >= 1.02 || p.releaseWaveStrength < 0.02) {
+        p.releaseWaveActive = false;
+        p.releaseWaveT = 0;
+        p.releaseWaveStrength = 0;
+      }
     }
     var stabRadius = this.width < 700 ? 0.118 : 0.148;
     var stabR2 = stabRadius * stabRadius;
@@ -961,6 +995,27 @@
           current[j + 2] += (clawPeak + clawRing + trailWrinkle + clawMarks) * pen + fineJitter + creaseBand;
         }
       }
+
+      if (p.releaseWaveActive && p.releaseWaveStrength > 0.01) {
+        var wdx = x - p.releaseWaveX;
+        var wdy = y - p.releaseWaveY;
+        var wr = Math.sqrt(wdx * wdx + wdy * wdy);
+        var waveT = p.releaseWaveT;
+        var waveRadius = (this.width < 700 ? 0.04 : 0.05) + waveT * (this.width < 700 ? 0.26 : 0.33);
+        var waveBand = Math.max(0.012, 0.028 - waveT * 0.016);
+        var waveEnv = Math.exp(-Math.pow(wr - waveRadius, 2) / waveBand);
+        if (waveEnv > 0.008) {
+          var waveDecay = Math.max(0, 1 - waveT);
+          var waveLower = 0.9 + v * 0.46;
+          var wavePulse = Math.sin((wr - waveRadius) * 54 - waveT * 18);
+          var waveAmp = 0.0062 * p.releaseWaveStrength * waveDecay * waveLower;
+          current[j + 2] += waveEnv * wavePulse * waveAmp;
+          var push = waveEnv * 0.016 * p.releaseWaveStrength * waveDecay * waveLower;
+          var norm = 1 / (wr + 1e-5);
+          current[j] += wdx * norm * push;
+          current[j + 1] += wdy * norm * push * 0.72;
+        }
+      }
     }
 
     for (var ix = 0; ix <= cols; ix++) {
@@ -977,6 +1032,15 @@
 
     for (var it = 0; it < this.iterations; it++) {
       this.relaxConstraints();
+    }
+
+    if (this.grabLight) {
+      var releaseFlash = p.releaseWaveActive ? Math.max(0, (1 - p.releaseWaveT) * 0.56 * p.releaseWaveStrength) : 0;
+      var pulse = p.stabActive ? (0.9 + 0.18 * Math.sin(time * 21)) : 1;
+      var glowIntensity = Math.max(0, p.grabGlow * 1.28 * pulse + releaseFlash);
+      this.grabLight.position.set(p.stabX * 0.99, p.stabY * 0.99 + 0.012, this.mesh.position.z + 0.52 + (p.stabZoneBoost - 1) * 0.18);
+      this.grabLight.intensity = Math.min(2.4, glowIntensity);
+      this.grabLight.distance = this.width < 700 ? 0.78 : 0.9;
     }
 
     this.positionAttr.array.set(current);
