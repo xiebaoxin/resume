@@ -4,26 +4,11 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   const FOLLOW_STOP_DELAY_MS = 220;
   const FOLLOW_EASE = 15;
   const LAYOUT_TRIGGER_DELTA = 0.6;
-  const TARGET_SELECTOR = [
-    ".basics-line",
-    ".target-role",
-    ".tagline",
-    ".highlight-card .role",
-    ".products .product",
-    ".metric",
-    ".ai-note",
-    ".exp-item-role",
-    ".exp-item-summary",
-    ".skills-lead",
-    ".skills-domain",
-    ".education-content"
-  ].join(", ");
+  const TARGET_SELECTOR = ".tagline, .exp-item-summary, .skills-lead, .skills-domain, .product, .metric, .ai-note";
 
   const blocks = [];
   let iconEl = null;
   let overlayEl = null;
-  let mutationObserver = null;
-  let mutationTimer = 0;
 
   const state = {
     x: 0,
@@ -119,10 +104,6 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   }
 
   function collectBlocks() {
-    const oldHidden = document.querySelectorAll(".pretext-source-hidden");
-    for (let i = 0; i < oldHidden.length; i += 1) {
-      oldHidden[i].classList.remove("pretext-source-hidden");
-    }
     blocks.length = 0;
     if (overlayEl) overlayEl.innerHTML = "";
 
@@ -174,7 +155,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
     const width = Math.max(100, block.rect.width);
     const height = Math.max(block.lineHeight * 1.2, block.rect.height);
-    const minWidth = Math.max(56, width * 0.17);
+    const minWidth = Math.max(64, width * 0.24);
     const safetyGap = Math.max(6, state.size * 0.07);
 
     const exLeft = state.x - state.halfSize - safetyGap - block.rect.left;
@@ -270,16 +251,6 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     state.needsLayout = true;
   }
 
-  function scheduleRebuild() {
-    if (mutationTimer) {
-      window.clearTimeout(mutationTimer);
-    }
-    mutationTimer = window.setTimeout(function () {
-      collectBlocks();
-      state.needsLayout = true;
-    }, 80);
-  }
-
   function animate(ts) {
     const w = viewportWidth();
     const h = viewportHeight();
@@ -321,13 +292,6 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("resize", onResize, { passive: true });
-    const main = document.querySelector(".main");
-    if (main) {
-      mutationObserver = new MutationObserver(function () {
-        scheduleRebuild();
-      });
-      mutationObserver.observe(main, { subtree: true, childList: true, characterData: true });
-    }
     window.requestAnimationFrame(animate);
   }
 
