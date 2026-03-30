@@ -1362,3 +1362,90 @@ body.silk-home-page .exp-item-head {
 .resume-footer .footer-note {
   color: var(--muted);
 }
+
+/* ========== Pretext preview page ========== */
+body.pretext-preview-page .page {
+  position: relative;
+  z-index: 2;
+}
+
+.pretext-preview-badge {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1200;
+  padding: 0.35rem 0.55rem;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: #f6f6f6;
+  background: rgba(15, 15, 15, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.pretext-floating-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  pointer-events: none;
+}
+
+.pretext-x-icon {
+  --pretext-x-size: 160px;
+  position: absolute;
+  width: var(--pretext-x-size);
+  height: var(--pretext-x-size);
+  border-radius: 999px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.pretext-x-bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 95%;
+  height: 13%;
+  border-radius: 999px;
+  transform-origin: center;
+  transform: translate(-50%, -50%);
+  background:
+    linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(252, 252, 252, 0.92) 17%,
+      rgba(30, 30, 30, 0.98) 50%,
+      rgba(252, 252, 252, 0.92) 83%,
+      rgba(255, 255, 255, 0.98) 100%
+    );
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.26),
+    0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.pretext-x-bar-a {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.pretext-x-bar-b {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.pretext-x-lines {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: rgba(10, 10, 10, 0.88);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.45);
+  white-space: normal;
+  overflow: hidden;
+}
+
+.pretext-x-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.02em;
+}
