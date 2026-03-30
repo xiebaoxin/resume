@@ -169,14 +169,19 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       "translate3d(" + (state.x - state.halfSize).toFixed(2) + "px, " + (state.y - state.halfSize).toFixed(2) + "px, 0)";
   }
 
-  function buildRangesForLine(width, exLeft, exRight, minWidth) {
-    const ranges = [];
+  function pickRangeForLine(width, exLeft, exRight, minWidth) {
     const leftWidth = exLeft;
     const rightWidth = width - exRight;
-    if (leftWidth >= minWidth) ranges.push({ x: 0, width: leftWidth });
-    if (rightWidth >= minWidth) ranges.push({ x: exRight, width: rightWidth });
-    if (!ranges.length) ranges.push({ x: 0, width: width });
-    return ranges;
+    const leftOk = leftWidth >= minWidth;
+    const rightOk = rightWidth >= minWidth;
+
+    if (!leftOk && !rightOk) return { x: 0, width: width };
+    if (leftOk && !rightOk) return { x: 0, width: leftWidth };
+    if (!leftOk && rightOk) return { x: exRight, width: rightWidth };
+
+    return leftWidth >= rightWidth
+      ? { x: 0, width: leftWidth }
+      : { x: exRight, width: rightWidth };
   }
 
   function layoutBlock(block) {
@@ -184,8 +189,8 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
     const width = Math.max(100, block.rect.width);
     const height = Math.max(block.lineHeight * 1.2, block.rect.height);
-    const minWidth = Math.max(40, width * 0.08);
-    const safetyGap = Math.max(10, state.size * 0.22);
+    const minWidth = Math.max(44, width * 0.1);
+    const safetyGap = Math.max(14, state.size * 0.35);
 
     const exLeft = state.x - state.halfSize - safetyGap - block.rect.left;
     const exRight = state.x + state.halfSize + safetyGap - block.rect.left;
@@ -204,27 +209,25 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       const lineTop = y;
       const lineBottom = y + block.lineHeight;
       const intersects = lineBottom > exTop && lineTop < exBottom;
-      const ranges = intersects ? buildRangesForLine(width, exLeft, exRight, minWidth) : [{ x: 0, width: width }];
-
-      for (let i = 0; i < ranges.length; i += 1) {
-        const range = ranges[i];
-        const line = layoutNextLine(block.prepared, cursor, Math.max(minWidth, range.width));
-        if (!line) {
-          guard = 2001;
-          break;
-        }
-        html +=
-          '<div class="pretext-flow-line" style="left:' +
-          range.x.toFixed(2) +
-          "px;top:" +
-          y.toFixed(2) +
-          "px;max-width:" +
-          range.width.toFixed(2) +
-          'px;">' +
-          escapeHtml(line.text) +
-          "</div>";
-        cursor = line.end;
+      const range = intersects
+        ? pickRangeForLine(width, exLeft, exRight, minWidth)
+        : { x: 0, width: width };
+      const line = layoutNextLine(block.prepared, cursor, Math.max(minWidth, range.width));
+      if (!line) {
+        guard = 2001;
+        break;
       }
+      html +=
+        '<div class="pretext-flow-line" style="left:' +
+        range.x.toFixed(2) +
+        "px;top:" +
+        y.toFixed(2) +
+        "px;max-width:" +
+        range.width.toFixed(2) +
+        'px;">' +
+        escapeHtml(line.text) +
+        "</div>";
+      cursor = line.end;
 
       y += block.lineHeight;
       lineNum += 1;
