@@ -1403,18 +1403,18 @@ body.pretext-preview-page .page {
   border-radius: 999px;
   transform-origin: center;
   transform: translate(-50%, -50%);
-  /* Hollow transparent edges with solid dark core */
+  /* Hollow outside the skeleton, with visible solid X bones */
   background:
     linear-gradient(
       to right,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0) 18%,
-      rgba(22, 22, 22, 0.95) 50%,
-      rgba(255, 255, 255, 0) 82%,
-      rgba(255, 255, 255, 0) 100%
+      rgba(247, 247, 247, 0.88) 0%,
+      rgba(247, 247, 247, 0.82) 18%,
+      rgba(24, 24, 24, 0.98) 50%,
+      rgba(247, 247, 247, 0.82) 82%,
+      rgba(247, 247, 247, 0.88) 100%
     );
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
     0 4px 14px rgba(0, 0, 0, 0.22);
 }
 
@@ -1427,7 +1427,9 @@ body.pretext-preview-page .page {
 }
 
 .pretext-source-hidden {
-  visibility: hidden !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
 }
 
 .pretext-global-flow-layer {
@@ -1449,7 +1451,7 @@ body.pretext-preview-page .page {
   font-size: inherit;
   line-height: inherit;
   letter-spacing: inherit;
-  color: inherit;
+  color: rgba(34, 34, 34, 0.92);
   white-space: pre;
   text-rendering: inherit;
 }
