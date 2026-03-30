@@ -6,7 +6,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   const LAYOUT_TRIGGER_DELTA = 0.6;
   const SIZE_SCALE = 0.5;
   const FOLLOW_DISTANCE_SCALE = 0.5;
-  const ACTIVE_RADIUS_FACTOR = 1.9;
+  const ACTIVE_MARGIN_FACTOR = 0.24;
   const TARGET_SELECTOR = [
     ".contact span",
     ".tagline",
@@ -114,6 +114,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       prepared: prepareWithSegments(sourceText, font),
       originalLineCount: Math.max(1, Math.floor(rect.height / Math.max(16, lineHeight))),
       originalOpacity: node.style.opacity || "",
+      activeSide: null,
       proxy: null,
       sourceEl: null,
       textEl: null,
@@ -156,15 +157,28 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     }
   }
 
-  function distancePointToRect(px, py, rect) {
-    const dx = Math.max(rect.left - px, 0, px - (rect.left + rect.width));
-    const dy = Math.max(rect.top - py, 0, py - (rect.top + rect.height));
-    return Math.hypot(dx, dy);
+  function syncBlockRect(block) {
+    const rect = block.node.getBoundingClientRect();
+    block.rect = rect;
+    block.originalLineCount = Math.max(1, Math.floor(rect.height / Math.max(16, block.lineHeight)));
+    if (!block.proxy) return;
+    block.proxy.style.left = rect.left.toFixed(2) + "px";
+    block.proxy.style.top = rect.top.toFixed(2) + "px";
+    block.proxy.style.width = rect.width.toFixed(2) + "px";
+    block.proxy.style.height = rect.height.toFixed(2) + "px";
   }
 
-  function isBlockNearX(block) {
-    const threshold = Math.max(40, state.size * ACTIVE_RADIUS_FACTOR);
-    return distancePointToRect(state.x, state.y, block.rect) <= threshold;
+  function isBlockHitByX(block) {
+    const margin = Math.max(16, state.size * ACTIVE_MARGIN_FACTOR);
+    const xLeft = state.x - state.halfSize - margin;
+    const xRight = state.x + state.halfSize + margin;
+    const xTop = state.y - state.halfSize - margin;
+    const xBottom = state.y + state.halfSize + margin;
+    const bLeft = block.rect.left;
+    const bRight = block.rect.left + block.rect.width;
+    const bTop = block.rect.top;
+    const bBottom = block.rect.top + block.rect.height;
+    return xRight > bLeft && xLeft < bRight && xBottom > bTop && xTop < bBottom;
   }
 
   function setInitialState() {
@@ -193,15 +207,22 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       "translate3d(" + (state.x - state.halfSize).toFixed(2) + "px, " + (state.y - state.halfSize).toFixed(2) + "px, 0)";
   }
 
-  function pickRange(width, exLeft, exRight, minWidth) {
-    const leftWidth = exLeft;
-    const rightWidth = width - exRight;
+  function pickRange(width, exLeft, exRight, minWidth, side) {
+    const clampedLeft = clamp(exLeft, 0, width);
+    const clampedRight = clamp(exRight, 0, width);
+    if (clampedRight <= clampedLeft) return { x: 0, width: width };
+
+    const leftWidth = clampedLeft;
+    const rightWidth = width - clampedRight;
     const leftOk = leftWidth >= minWidth;
     const rightOk = rightWidth >= minWidth;
     if (!leftOk && !rightOk) return { x: 0, width: width };
-    if (leftOk && !rightOk) return { x: 0, width: leftWidth };
-    if (!leftOk && rightOk) return { x: exRight, width: rightWidth };
-    return leftWidth >= rightWidth ? { x: 0, width: leftWidth } : { x: exRight, width: rightWidth };
+    if (side === "left") {
+      if (leftOk) return { x: 0, width: leftWidth };
+      return { x: clampedRight, width: rightWidth };
+    }
+    if (rightOk) return { x: clampedRight, width: rightWidth };
+    return { x: 0, width: leftWidth };
   }
 
   function renderBlock(block) {
@@ -213,6 +234,10 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     const exRight = state.x + state.halfSize + safetyGap - block.rect.left;
     const exTop = state.y - state.halfSize - safetyGap - block.rect.top;
     const exBottom = state.y + state.halfSize + safetyGap - block.rect.top;
+    if (!block.activeSide) {
+      const centerX = block.rect.left + block.rect.width / 2;
+      block.activeSide = state.x <= centerX ? "right" : "left";
+    }
 
     let cursor = { segmentIndex: 0, graphemeIndex: 0 };
     let y = 0;
@@ -222,7 +247,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       const lineTop = y;
       const lineBottom = y + block.lineHeight;
       const intersects = lineBottom > exTop && lineTop < exBottom;
-      const range = intersects ? pickRange(width, exLeft, exRight, minWidth) : { x: 0, width: width };
+      const range = intersects ? pickRange(width, exLeft, exRight, minWidth, block.activeSide) : { x: 0, width: width };
       const line = layoutNextLine(block.prepared, cursor, Math.max(minWidth, range.width));
       if (line === null) break;
       html +=
@@ -249,13 +274,15 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   function clearBlock(block) {
     block.node.style.opacity = block.originalOpacity;
     if (block.textEl) block.textEl.innerHTML = "";
+    block.activeSide = null;
     block.wasActive = false;
   }
 
   function renderAll() {
     for (let i = 0; i < blocks.length; i += 1) {
       const block = blocks[i];
-      if (isBlockNearX(block)) {
+      syncBlockRect(block);
+      if (isBlockHitByX(block)) {
         renderBlock(block);
       } else if (block.wasActive) {
         clearBlock(block);
