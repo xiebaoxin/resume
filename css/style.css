@@ -1364,6 +1364,48 @@ body.silk-home-page .exp-item-head {
 }
 
 /* ========== Pretext preview (viewport, multi-region) ========== */
+.pretext-preview-page .pretext-viewport-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1002;
+  pointer-events: none;
+}
+
+.pretext-preview-page .pretext-viewport-block {
+  position: absolute;
+  pointer-events: none;
+}
+
+.pretext-preview-page .pretext-viewport-source {
+  opacity: 0;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.pretext-preview-page .pretext-viewport-text {
+  position: absolute;
+  inset: 0;
+}
+
+.pretext-preview-page .pretext-viewport-line {
+  position: absolute;
+  left: 0;
+  white-space: pre;
+  color: rgba(20, 20, 20, 0.98);
+  text-rendering: optimizeLegibility;
+}
+
+.pretext-preview-page .pretext-viewport-x {
+  --x-size: 120px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--x-size);
+  height: var(--x-size);
+  pointer-events: none;
+  z-index: 1003;
+}
+
 .pretext-preview-page .pretext-x-bar {
   position: absolute;
   left: 50%;
@@ -1392,38 +1434,4 @@ body.silk-home-page .exp-item-head {
 
 .pretext-preview-page .pretext-x-bar-b {
   transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-.pretext-preview-page .pretext-global-flow-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 1002;
-  pointer-events: none;
-}
-
-.pretext-preview-page .pretext-flow-block {
-  position: absolute;
-  pointer-events: none;
-}
-
-.pretext-preview-page .pretext-flow-line {
-  position: absolute;
-  left: 0;
-  white-space: pre;
-  color: rgba(20, 20, 20, 0.98);
-  text-rendering: optimizeLegibility;
-}
-
-.pretext-preview-page .pretext-global-x-icon {
-  --x-size: 120px;
-  --x-left: 50%;
-  --x-top: 50%;
-  position: fixed;
-  left: var(--x-left);
-  top: var(--x-top);
-  width: var(--x-size);
-  height: var(--x-size);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 1003;
 }
