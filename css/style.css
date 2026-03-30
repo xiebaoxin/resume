@@ -1427,7 +1427,9 @@ body.pretext-preview-page .page {
 }
 
 .pretext-source-hidden {
-  visibility: hidden !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
 }
 
 .pretext-global-flow-layer {
@@ -1449,7 +1451,7 @@ body.pretext-preview-page .page {
   font-size: inherit;
   line-height: inherit;
   letter-spacing: inherit;
-  color: rgba(20, 20, 20, 0.98);
+  color: rgba(20, 20, 20, 0.96);
   white-space: pre;
   text-rendering: inherit;
 }
