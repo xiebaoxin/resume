@@ -1427,7 +1427,7 @@ body.pretext-preview-page .page {
 }
 
 .pretext-source-hidden {
-  visibility: hidden !important;
+  display: none !important;
 }
 
 .pretext-global-flow-layer {

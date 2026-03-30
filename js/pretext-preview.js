@@ -7,26 +7,14 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   const SIZE_SCALE = 0.5;
   const FOLLOW_DISTANCE_SCALE = 0.5;
   const TARGET_SELECTOR = [
-    ".contact span",
-    ".basics-line",
-    ".target-role",
-    ".tagline",
-    ".highlight-card .company",
-    ".highlight-card .period",
-    ".highlight-card .role",
-    ".products .product",
-    ".metric",
-    ".ai-note",
-    ".exp-item-company",
-    ".exp-item-period",
-    ".exp-item-role",
-    ".exp-item-summary",
-    ".skills-lead",
-    ".skills-tech",
-    ".skills-domain",
-    ".education-content",
-    ".attachments-links",
-    ".footer-note"
+    ".hero",
+    ".highlight-card .products",
+    ".highlight-card .metrics",
+    ".highlight-card .ai-note",
+    ".exp-list",
+    ".skills",
+    ".education",
+    ".attachments"
   ].join(", ");
 
   const blocks = [];
@@ -178,10 +166,8 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     if (!leftOk && !rightOk) return { x: 0, width: width };
     if (leftOk && !rightOk) return { x: 0, width: leftWidth };
     if (!leftOk && rightOk) return { x: exRight, width: rightWidth };
-
-    return leftWidth >= rightWidth
-      ? { x: 0, width: leftWidth }
-      : { x: exRight, width: rightWidth };
+    // Prefer left lane to avoid "line following X" feel.
+    return { x: 0, width: leftWidth };
   }
 
   function layoutBlock(block) {
@@ -189,8 +175,8 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
     const width = Math.max(100, block.rect.width);
     const height = Math.max(block.lineHeight * 1.2, block.rect.height);
-    const minWidth = Math.max(44, width * 0.1);
-    const safetyGap = Math.max(14, state.size * 0.35);
+    const minWidth = Math.max(48, width * 0.14);
+    const safetyGap = Math.max(16, state.size * 0.46);
 
     const exLeft = state.x - state.halfSize - safetyGap - block.rect.left;
     const exRight = state.x + state.halfSize + safetyGap - block.rect.left;
