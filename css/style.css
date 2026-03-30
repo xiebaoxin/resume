@@ -1394,6 +1394,13 @@ body.pretext-preview-page .page {
   will-change: transform;
 }
 
+.pretext-global-x-icon {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1003;
+}
+
 .pretext-x-bar {
   position: absolute;
   left: 50%;
