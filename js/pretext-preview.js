@@ -6,6 +6,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   const LAYOUT_TRIGGER_DELTA = 0.6;
   const SIZE_SCALE = 0.5;
   const FOLLOW_DISTANCE_SCALE = 0.5;
+  const ACTIVE_RADIUS_FACTOR = 1.4;
   const TARGET_SELECTOR = [
     ".tagline",
     ".highlight-card .role",
@@ -141,10 +142,20 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     for (let i = 0; i < nodes.length; i += 1) {
       const block = measureBlock(nodes[i]);
       if (!block) continue;
-      nodes[i].classList.add("pretext-source-hidden");
       createBlockProxy(block);
       blocks.push(block);
     }
+  }
+
+  function distancePointToRect(px, py, rect) {
+    const dx = Math.max(rect.left - px, 0, px - (rect.left + rect.width));
+    const dy = Math.max(rect.top - py, 0, py - (rect.top + rect.height));
+    return Math.hypot(dx, dy);
+  }
+
+  function isBlockNearX(block) {
+    const threshold = Math.max(42, state.size * ACTIVE_RADIUS_FACTOR);
+    return distancePointToRect(state.x, state.y, block.rect) <= threshold;
   }
 
   function setInitialPosition() {
@@ -185,6 +196,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
   function layoutBlock(block) {
     if (!block.proxy || !block.prepared) return;
+    block.node.classList.add("pretext-source-hidden");
 
     const width = Math.max(100, block.rect.width);
     const height = Math.max(block.lineHeight * 1.2, block.rect.height);
@@ -240,12 +252,25 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
   function renderBlocksIfNeeded() {
     if (state.needsLayout) {
-      for (let i = 0; i < blocks.length; i += 1) layoutBlock(blocks[i]);
+      for (let i = 0; i < blocks.length; i += 1) {
+        const block = blocks[i];
+        if (isBlockNearX(block)) {
+          layoutBlock(block);
+        } else if (block.proxy) {
+          block.proxy.innerHTML = "";
+          block.node.classList.remove("pretext-source-hidden");
+        }
+      }
       state.needsLayout = false;
       return;
     }
     for (let i = 0; i < blocks.length; i += 1) {
       const b = blocks[i];
+      if (!isBlockNearX(b)) {
+        if (b.proxy) b.proxy.innerHTML = "";
+        b.node.classList.remove("pretext-source-hidden");
+        continue;
+      }
       const moved =
         Math.abs(b.lastLayoutX - state.x) > LAYOUT_TRIGGER_DELTA ||
         Math.abs(b.lastLayoutY - state.y) > LAYOUT_TRIGGER_DELTA ||
