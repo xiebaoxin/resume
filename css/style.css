@@ -1449,31 +1449,3 @@ body.pretext-preview-page .page {
   text-overflow: ellipsis;
   letter-spacing: 0.02em;
 }
-
-.pretext-preview-page .main {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.pretext-source-mask {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.pretext-auto-article {
-  position: relative;
-  z-index: 2;
-  min-height: 64vh;
-  margin-top: 0.3rem;
-}
-
-.pretext-article-line {
-  position: absolute;
-  font-family: "Noto Serif SC", Georgia, serif;
-  font-size: 16px;
-  line-height: 1.72;
-  letter-spacing: 0.01em;
-  color: rgba(20, 20, 20, 0.88);
-  white-space: pre;
-  text-rendering: optimizeLegibility;
-}
