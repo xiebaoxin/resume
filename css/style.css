@@ -1432,48 +1432,40 @@ body.pretext-preview-page .page {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.pretext-x-lines {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: rgba(10, 10, 10, 0.88);
-  text-shadow: 0 0 1px rgba(255, 255, 255, 0.45);
-  white-space: normal;
-  overflow: hidden;
-}
-
-.pretext-x-line {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  letter-spacing: 0.02em;
-}
-
 .pretext-preview-page .main {
-  opacity: 0;
-  pointer-events: none;
+  display: block;
 }
 
-.pretext-source-mask {
-  opacity: 0;
-  pointer-events: none;
+.pretext-module-preview {
+  margin: 0.8rem 0 1.1rem;
 }
 
-.pretext-auto-article {
+.pretext-module-card {
   position: relative;
-  z-index: 2;
-  min-height: 64vh;
-  margin-top: 0.3rem;
+  min-height: 290px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.56);
+  overflow: hidden;
 }
 
-.pretext-article-line {
+.pretext-module-text {
+  position: absolute;
+  inset: 0;
+}
+
+.pretext-module-line {
   position: absolute;
   font-family: "Noto Serif SC", Georgia, serif;
   font-size: 16px;
-  line-height: 1.72;
+  line-height: 1.68;
   letter-spacing: 0.01em;
   color: rgba(20, 20, 20, 0.88);
   white-space: pre;
   text-rendering: optimizeLegibility;
+}
+
+.pretext-module-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
