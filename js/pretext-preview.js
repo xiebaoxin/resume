@@ -3,30 +3,8 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 (function () {
   const FOLLOW_STOP_DELAY_MS = 220;
   const FOLLOW_EASE = 14;
-  const SIZE_SCALE = 0.5;
-  const FOLLOW_DISTANCE_SCALE = 0.5;
-  const ACTIVE_RADIUS_FACTOR = 2.2;
-  const TARGET_SELECTOR = [
-    ".contact span",
-    ".tagline",
-    ".highlight-card .role",
-    ".products .product",
-    ".metric",
-    ".ai-note",
-    ".exp-item-role",
-    ".exp-item-summary",
-    ".skills-lead",
-    ".skills-domain",
-    ".education-content",
-    ".attachments-links",
-    ".footer-note"
-  ].join(", ");
-
-  const blocks = [];
-  let iconEl = null;
-  let overlayEl = null;
-  let mutationObserver = null;
-  let mutationTimer = 0;
+  const SIZE_SCALE = 0.5; // keep the user-approved half size
+  const FOLLOW_DISTANCE_SCALE = 0.5; // keep the user-approved half drag distance
 
   const state = {
     x: 0,
@@ -41,7 +19,13 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     followDistance: 0,
     lastTs: 0,
     stopTimer: 0,
-    needsLayout: true
+    prepared: null,
+    lineHeight: 0,
+    font: "",
+    needsLayout: true,
+    root: null,
+    textLayer: null,
+    sourceNode: null
   };
 
   function clamp(v, min, max) {
@@ -56,8 +40,8 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
   }
 
-  function escapeHtml(text) {
-    return String(text)
+  function escapeHtml(s) {
+    return String(s)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -65,85 +49,76 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       .replace(/'/g, "&#39;");
   }
 
-  function createLayers() {
-    overlayEl = document.createElement("div");
-    overlayEl.className = "pretext-global-flow-layer";
-    document.body.appendChild(overlayEl);
-
-    iconEl = document.createElement("div");
-    iconEl.className = "pretext-x-icon pretext-global-x-icon";
-    iconEl.setAttribute("aria-hidden", "true");
-    iconEl.innerHTML =
-      '<div class="pretext-x-bar pretext-x-bar-a"></div>' +
-      '<div class="pretext-x-bar pretext-x-bar-b"></div>';
-    document.body.appendChild(iconEl);
-  }
-
-  function measureBlock(node) {
-    const rect = node.getBoundingClientRect();
-    const style = window.getComputedStyle(node);
-    const fontSize = Math.max(12, Math.round(parseFloat(style.fontSize) || 16));
-    const lineHeightRaw = parseFloat(style.lineHeight);
-    const lineHeight = Number.isFinite(lineHeightRaw) ? lineHeightRaw : fontSize * 1.6;
-    const fontFamily = style.fontFamily || "Noto Serif SC, serif";
-    const fontWeight = style.fontWeight || "400";
-    const fontStyle = style.fontStyle || "normal";
-    const font = fontStyle + " " + fontWeight + " " + fontSize + "px " + fontFamily;
-    const sourceText = (node.textContent || "").replace(/\s+/g, " ").trim();
-
-    if (!sourceText || rect.width < 80 || rect.height < lineHeight * 0.8) return null;
-
-    return {
-      node: node,
-      rect: rect,
-      font: font,
-      lineHeight: Math.max(16, lineHeight),
-      originalText: sourceText,
-      prepared: prepareWithSegments(sourceText, font),
-      originalLineCount: Math.max(1, Math.floor(rect.height / Math.max(16, lineHeight))),
-      proxy: null,
-      wasActive: false
-    };
-  }
-
-  function createProxy(block) {
-    const proxy = document.createElement("div");
-    proxy.className = "pretext-flow-block";
-    proxy.style.left = block.rect.left.toFixed(2) + "px";
-    proxy.style.top = block.rect.top.toFixed(2) + "px";
-    proxy.style.width = block.rect.width.toFixed(2) + "px";
-    proxy.style.height = block.rect.height.toFixed(2) + "px";
-    proxy.style.font = block.font;
-    proxy.style.lineHeight = block.lineHeight + "px";
-    overlayEl.appendChild(proxy);
-    block.proxy = proxy;
-  }
-
-  function collectBlocks() {
-    for (let i = 0; i < blocks.length; i += 1) {
-      blocks[i].node.style.opacity = "";
+  function collectSimpleResumeText() {
+    const selectors = [
+      ".tagline",
+      ".highlight-card .role",
+      ".products .product",
+      ".metric",
+      ".ai-note",
+      ".exp-item-summary",
+      ".skills-lead",
+      ".skills-domain",
+      ".education-content"
+    ];
+    const chunks = [];
+    for (let i = 0; i < selectors.length; i += 1) {
+      const nodes = document.querySelectorAll(selectors[i]);
+      for (let j = 0; j < nodes.length; j += 1) {
+        const t = (nodes[j].textContent || "").replace(/\s+/g, " ").trim();
+        if (t) chunks.push(t);
+      }
     }
-    blocks.length = 0;
-    if (overlayEl) overlayEl.innerHTML = "";
+    return chunks.join(" ");
+  }
 
-    const nodes = document.querySelectorAll(TARGET_SELECTOR);
-    for (let i = 0; i < nodes.length; i += 1) {
-      const block = measureBlock(nodes[i]);
-      if (!block) continue;
-      createProxy(block);
-      blocks.push(block);
+  function ensureSimpleArea() {
+    if (state.root && state.textLayer && state.sourceNode) return true;
+    const main = document.querySelector(".main");
+    const hero = document.querySelector(".hero");
+    if (!main) return false;
+
+    const section = document.createElement("section");
+    section.className = "pretext-simple-area";
+    section.innerHTML =
+      '<h2 class="section-title">Pretext Dynamic Reflow</h2>' +
+      '<div class="pretext-simple-box">' +
+      '  <div class="pretext-simple-source"></div>' +
+      '  <div class="pretext-simple-text"></div>' +
+      '  <div class="pretext-simple-x" aria-hidden="true">' +
+      '    <div class="pretext-x-bar pretext-x-bar-a"></div>' +
+      '    <div class="pretext-x-bar pretext-x-bar-b"></div>' +
+      "  </div>" +
+      "</div>";
+
+    if (hero && hero.nextSibling) {
+      main.insertBefore(section, hero.nextSibling);
+    } else {
+      main.insertBefore(section, main.firstChild);
     }
+
+    state.root = section.querySelector(".pretext-simple-box");
+    state.textLayer = section.querySelector(".pretext-simple-text");
+    state.sourceNode = section.querySelector(".pretext-simple-source");
+    return !!(state.root && state.textLayer && state.sourceNode);
   }
 
-  function distancePointToRect(px, py, rect) {
-    const dx = Math.max(rect.left - px, 0, px - (rect.left + rect.width));
-    const dy = Math.max(rect.top - py, 0, py - (rect.top + rect.height));
-    return Math.hypot(dx, dy);
-  }
+  function setupPreparedText() {
+    const text = collectSimpleResumeText();
+    if (!text || !state.root) return;
+    const boxWidth = Math.max(260, state.root.clientWidth);
+    const fontSize = Math.max(15, Math.round(boxWidth * 0.028));
+    const lineHeight = Math.max(24, Math.round(fontSize * 1.6));
+    const font = 'normal 500 ' + fontSize + 'px "Noto Serif SC", serif';
 
-  function isBlockNearX(block) {
-    const threshold = Math.max(40, state.size * ACTIVE_RADIUS_FACTOR);
-    return distancePointToRect(state.x, state.y, block.rect) <= threshold;
+    state.sourceNode.textContent = text;
+    state.sourceNode.style.font = font;
+    state.sourceNode.style.lineHeight = lineHeight + "px";
+
+    state.font = font;
+    state.lineHeight = lineHeight;
+    state.prepared = prepareWithSegments(text, font);
+    state.needsLayout = true;
   }
 
   function setInitialState() {
@@ -152,8 +127,16 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     state.size = (w / 5) * SIZE_SCALE;
     state.halfSize = state.size / 2;
     state.followDistance = (w / 5) * FOLLOW_DISTANCE_SCALE;
-    state.x = w / 2;
-    state.y = h / 2;
+
+    if (state.root) {
+      const rect = state.root.getBoundingClientRect();
+      state.x = rect.left + rect.width * 0.5;
+      state.y = rect.top + rect.height * 0.5;
+    } else {
+      state.x = w / 2;
+      state.y = h / 2;
+    }
+
     state.targetX = state.x;
     state.targetY = state.y;
     state.autoAnchorX = state.x;
@@ -162,90 +145,89 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     state.needsLayout = true;
   }
 
-  function updateXStyle() {
-    iconEl.style.setProperty("--pretext-x-size", state.size.toFixed(2) + "px");
-    iconEl.style.transform =
-      "translate3d(" + (state.x - state.halfSize).toFixed(2) + "px, " + (state.y - state.halfSize).toFixed(2) + "px, 0)";
-  }
+  function renderReflow() {
+    if (!state.prepared || !state.root || !state.textLayer) return;
+    const rect = state.root.getBoundingClientRect();
+    const width = Math.max(200, rect.width - 24);
+    const height = Math.max(200, rect.height - 24);
+    const pad = 12;
+    const minWidth = Math.max(56, width * 0.12);
+    const safety = Math.max(12, state.size * 0.4);
 
-  function pickRange(width, exLeft, exRight, minWidth) {
-    const leftWidth = exLeft;
-    const rightWidth = width - exRight;
-    const leftOk = leftWidth >= minWidth;
-    const rightOk = rightWidth >= minWidth;
-    if (!leftOk && !rightOk) return { x: 0, width: width };
-    if (leftOk && !rightOk) return { x: 0, width: leftWidth };
-    if (!leftOk && rightOk) return { x: exRight, width: rightWidth };
-    return leftWidth >= rightWidth ? { x: 0, width: leftWidth } : { x: exRight, width: rightWidth };
-  }
-
-  function renderBlock(block) {
-    if (!block.proxy || !block.prepared) return;
-
-    const width = Math.max(80, block.rect.width);
-    const minWidth = Math.max(42, width * 0.14);
-    const safetyGap = Math.max(14, state.size * 0.45);
-    const exLeft = state.x - state.halfSize - safetyGap - block.rect.left;
-    const exRight = state.x + state.halfSize + safetyGap - block.rect.left;
-    const exTop = state.y - state.halfSize - safetyGap - block.rect.top;
-    const exBottom = state.y + state.halfSize + safetyGap - block.rect.top;
+    const localX = state.x - rect.left;
+    const localY = state.y - rect.top;
+    const exLeft = localX - state.halfSize - safety - pad;
+    const exRight = localX + state.halfSize + safety - pad;
+    const exTop = localY - state.halfSize - safety - pad;
+    const exBottom = localY + state.halfSize + safety - pad;
 
     let cursor = { segmentIndex: 0, graphemeIndex: 0 };
     let y = 0;
     let html = "";
-    const maxLines = Math.max(1, block.originalLineCount);
+    let guard = 0;
+    const maxLines = Math.max(1, Math.floor(height / state.lineHeight));
 
-    for (let i = 0; i < maxLines; i += 1) {
+    while (guard < 3000 && guard < maxLines) {
+      guard += 1;
       const lineTop = y;
-      const lineBottom = y + block.lineHeight;
+      const lineBottom = y + state.lineHeight;
       const intersects = lineBottom > exTop && lineTop < exBottom;
-      const range = intersects ? pickRange(width, exLeft, exRight, minWidth) : { x: 0, width: width };
-      const line = layoutNextLine(block.prepared, cursor, Math.max(minWidth, range.width));
-      if (line === null) break;
+
+      let x = 0;
+      let w = width;
+      if (intersects) {
+        const leftWidth = exLeft;
+        const rightWidth = width - exRight;
+        if (leftWidth >= minWidth) {
+          x = 0;
+          w = leftWidth;
+        } else if (rightWidth >= minWidth) {
+          x = exRight;
+          w = rightWidth;
+        }
+      }
+
+      const line = layoutNextLine(state.prepared, cursor, Math.max(minWidth, w));
+      if (!line) break;
       html +=
-        '<div class="pretext-flow-line" style="left:' +
-        range.x.toFixed(2) +
+        '<div class="pretext-simple-line" style="left:' +
+        (pad + x).toFixed(2) +
         "px;top:" +
-        y.toFixed(2) +
+        (pad + y).toFixed(2) +
         "px;max-width:" +
-        range.width.toFixed(2) +
+        w.toFixed(2) +
         'px;">' +
         escapeHtml(line.text) +
         "</div>";
       cursor = line.end;
-      y += block.lineHeight;
+      y += state.lineHeight;
     }
 
-    block.node.style.opacity = "0";
-    block.proxy.innerHTML = html;
-    block.wasActive = true;
+    state.textLayer.style.font = state.font;
+    state.textLayer.style.lineHeight = state.lineHeight + "px";
+    state.textLayer.innerHTML = html;
   }
 
-  function clearBlock(block) {
-    block.node.style.opacity = "";
-    if (block.proxy) block.proxy.innerHTML = "";
-    block.wasActive = false;
-  }
+  function updateXStyle() {
+    if (!state.root) return;
+    const rect = state.root.getBoundingClientRect();
+    const x = clamp(state.x, rect.left + state.halfSize, rect.right - state.halfSize);
+    const y = clamp(state.y, rect.top + state.halfSize, rect.bottom - state.halfSize);
+    state.x = x;
+    state.y = y;
 
-  function renderAll() {
-    for (let i = 0; i < blocks.length; i += 1) {
-      const block = blocks[i];
-      if (isBlockNearX(block)) {
-        renderBlock(block);
-      } else if (block.wasActive) {
-        clearBlock(block);
-      }
-    }
+    state.root.style.setProperty("--pretext-simple-x-size", state.size.toFixed(2) + "px");
+    state.root.style.setProperty("--pretext-simple-x-left", (x - rect.left).toFixed(2) + "px");
+    state.root.style.setProperty("--pretext-simple-x-top", (y - rect.top).toFixed(2) + "px");
   }
 
   function onMouseMove(e) {
-    const w = viewportWidth();
-    const h = viewportHeight();
+    if (!state.root) return;
     const d = state.followDistance;
     const diag = d / Math.sqrt(2);
     state.mode = "follow";
-    state.targetX = clamp(e.clientX + diag, state.halfSize, w - state.halfSize);
-    state.targetY = clamp(e.clientY - diag, state.halfSize, h - state.halfSize);
+    state.targetX = e.clientX + diag;
+    state.targetY = e.clientY - diag;
     state.autoAnchorX = state.targetX;
     state.needsLayout = true;
     if (state.stopTimer) window.clearTimeout(state.stopTimer);
@@ -257,24 +239,9 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     }, FOLLOW_STOP_DELAY_MS);
   }
 
-  function onResize() {
-    setInitialState();
-    collectBlocks();
-    updateXStyle();
-    state.needsLayout = true;
-  }
-
-  function scheduleRebuild() {
-    if (mutationTimer) window.clearTimeout(mutationTimer);
-    mutationTimer = window.setTimeout(function () {
-      collectBlocks();
-      state.needsLayout = true;
-    }, 80);
-  }
-
   function animate(ts) {
-    const w = viewportWidth();
-    const h = viewportHeight();
+    if (!state.root) return;
+    const rect = state.root.getBoundingClientRect();
     const dt = state.lastTs ? Math.min(0.05, (ts - state.lastTs) / 1000) : 0;
     state.lastTs = ts;
 
@@ -283,11 +250,11 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       state.x += (state.targetX - state.x) * lerp;
       state.y += (state.targetY - state.y) * lerp;
     } else {
-      const speed = Math.max(30, h * 0.05);
+      const speed = Math.max(24, rect.height * 0.18);
       state.y += state.direction * speed * dt;
-      state.x += (state.autoAnchorX - state.x) * Math.min(1, dt * 2.3);
-      const minY = state.halfSize;
-      const maxY = h - state.halfSize;
+      state.x += (state.autoAnchorX - state.x) * Math.min(1, dt * 2.2);
+      const minY = rect.top + state.halfSize;
+      const maxY = rect.bottom - state.halfSize;
       if (state.y >= maxY) {
         state.y = maxY;
         state.direction = -1;
@@ -297,34 +264,30 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       }
     }
 
-    state.x = clamp(state.x, state.halfSize, w - state.halfSize);
-    state.y = clamp(state.y, state.halfSize, h - state.halfSize);
     updateXStyle();
-    if (state.needsLayout) {
-      renderAll();
+    if (state.needsLayout || Math.abs(state.targetX - state.x) > LAYOUT_TRIGGER_DELTA || Math.abs(state.targetY - state.y) > LAYOUT_TRIGGER_DELTA) {
+      renderReflow();
       state.needsLayout = false;
-    } else {
-      renderAll();
     }
     window.requestAnimationFrame(animate);
   }
 
-  function init() {
-    createLayers();
+  function onResize() {
     setInitialState();
-    collectBlocks();
+    setupPreparedText();
     updateXStyle();
-    renderAll();
+    state.needsLayout = true;
+  }
 
+  function init() {
+    if (!ensureSimpleArea()) return;
+    createOverlayAndIcon(); // no-op visual container; keeps consistency
+    setupPreparedText();
+    setInitialState();
+    updateXStyle();
+    renderReflow();
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("resize", onResize, { passive: true });
-    const main = document.querySelector(".main");
-    if (main) {
-      mutationObserver = new MutationObserver(function () {
-        scheduleRebuild();
-      });
-      mutationObserver.observe(main, { subtree: true, childList: true, characterData: true });
-    }
     window.requestAnimationFrame(animate);
   }
 
