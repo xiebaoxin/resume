@@ -6,17 +6,21 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   const LAYOUT_TRIGGER_DELTA = 0.6;
   const SIZE_SCALE = 0.5;
   const FOLLOW_DISTANCE_SCALE = 0.5;
-  const ACTIVE_RADIUS_FACTOR = 1.4;
+  const ACTIVE_RADIUS_FACTOR = 2.4;
   const TARGET_SELECTOR = [
+    ".contact span",
     ".tagline",
     ".highlight-card .role",
     ".products .product",
     ".metric",
     ".ai-note",
+    ".exp-item-role",
     ".exp-item-summary",
     ".skills-lead",
     ".skills-domain",
-    ".education-content"
+    ".education-content",
+    ".attachments-links",
+    ".footer-note"
   ].join(", ");
 
   const blocks = [];
@@ -77,14 +81,19 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   }
 
   function collectSourceTextFromContainer(node) {
-    const leaves = node.querySelectorAll("p, li, div");
     const chunks = [];
-    for (let i = 0; i < leaves.length; i += 1) {
-      const t = (leaves[i].textContent || "").replace(/\s+/g, " ").trim();
+    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) {
+      const textNode = walker.currentNode;
+      const parent = textNode && textNode.parentElement ? textNode.parentElement : null;
+      if (!parent) continue;
+      if (parent.closest("script, style, noscript, figure, img, svg, canvas, button")) continue;
+      const cs = window.getComputedStyle(parent);
+      if (cs.display === "none" || cs.visibility === "hidden") continue;
+      const t = (textNode.nodeValue || "").replace(/\s+/g, " ").trim();
       if (t) chunks.push(t);
     }
-    if (chunks.length > 1) return chunks.join(" ");
-    return (node.textContent || "").replace(/\s+/g, " ").trim();
+    return chunks.join(" ");
   }
 
   function measureBlock(node) {
@@ -100,7 +109,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     const font = fontStyle + " " + fontWeight + " " + fontSize + "px " + fontFamily;
     const sourceText = collectSourceTextFromContainer(node);
 
-    if (!sourceText || rect.width < 120 || rect.height < lineHeight * 1.6) return null;
+    if (!sourceText || rect.width < 90 || rect.height < lineHeight * 0.8) return null;
 
     return {
       node: node,
@@ -110,6 +119,9 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       lineHeight: Math.max(16, lineHeight),
       prepared: prepareWithSegments(sourceText, font),
       originalLineCount: Math.max(1, Math.floor(rect.height / Math.max(16, lineHeight))),
+      originalDisplay: style.display || "",
+      originalVisibility: style.visibility || "",
+      originalOpacity: style.opacity || "",
       proxy: null,
       lastLayoutX: NaN,
       lastLayoutY: NaN,
@@ -196,7 +208,6 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
   function layoutBlock(block) {
     if (!block.proxy || !block.prepared) return;
-    block.node.classList.add("pretext-source-hidden");
 
     const width = Math.max(100, block.rect.width);
     const height = Math.max(block.lineHeight * 1.2, block.rect.height);
@@ -258,7 +269,9 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
           layoutBlock(block);
         } else if (block.proxy) {
           block.proxy.innerHTML = "";
-          block.node.classList.remove("pretext-source-hidden");
+          block.node.style.display = block.originalDisplay;
+          block.node.style.visibility = block.originalVisibility;
+          block.node.style.opacity = block.originalOpacity;
         }
       }
       state.needsLayout = false;
@@ -268,7 +281,9 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       const b = blocks[i];
       if (!isBlockNearX(b)) {
         if (b.proxy) b.proxy.innerHTML = "";
-        b.node.classList.remove("pretext-source-hidden");
+        b.node.style.display = b.originalDisplay;
+        b.node.style.visibility = b.originalVisibility;
+        b.node.style.opacity = b.originalOpacity;
         continue;
       }
       const moved =
