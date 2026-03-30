@@ -4,19 +4,29 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   const FOLLOW_STOP_DELAY_MS = 220;
   const FOLLOW_EASE = 15;
   const LAYOUT_TRIGGER_DELTA = 0.6;
+  const SIZE_SCALE = 0.5;
+  const FOLLOW_DISTANCE_SCALE = 0.5;
   const TARGET_SELECTOR = [
+    ".contact span",
     ".basics-line",
     ".target-role",
     ".tagline",
+    ".highlight-card .company",
+    ".highlight-card .period",
     ".highlight-card .role",
     ".products .product",
     ".metric",
     ".ai-note",
+    ".exp-item-company",
+    ".exp-item-period",
     ".exp-item-role",
     ".exp-item-summary",
     ".skills-lead",
+    ".skills-tech",
     ".skills-domain",
-    ".education-content"
+    ".education-content",
+    ".attachments-links",
+    ".footer-note"
   ].join(", ");
 
   const blocks = [];
@@ -139,9 +149,9 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   function setInitialPosition() {
     const w = viewportWidth();
     const h = viewportHeight();
-    state.size = w / 5;
+    state.size = (w / 5) * SIZE_SCALE;
     state.halfSize = state.size / 2;
-    state.followDistance = w / 5;
+    state.followDistance = (w / 5) * FOLLOW_DISTANCE_SCALE;
     state.x = w / 2;
     state.y = h / 2;
     state.targetX = state.x;
@@ -174,8 +184,8 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
     const width = Math.max(100, block.rect.width);
     const height = Math.max(block.lineHeight * 1.2, block.rect.height);
-    const minWidth = Math.max(56, width * 0.17);
-    const safetyGap = Math.max(6, state.size * 0.07);
+    const minWidth = Math.max(40, width * 0.08);
+    const safetyGap = Math.max(10, state.size * 0.22);
 
     const exLeft = state.x - state.halfSize - safetyGap - block.rect.left;
     const exRight = state.x + state.halfSize + safetyGap - block.rect.left;
