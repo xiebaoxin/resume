@@ -80,23 +80,19 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     document.body.appendChild(iconEl);
   }
 
-  function collectSourceTextFromContainer(node) {
-    const chunks = [];
-    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
-    while (walker.nextNode()) {
-      const textNode = walker.currentNode;
-      const parent = textNode && textNode.parentElement ? textNode.parentElement : null;
-      if (!parent) continue;
-      if (parent.closest("script, style, noscript, figure, img, svg, canvas, button")) continue;
-      const cs = window.getComputedStyle(parent);
-      if (cs.display === "none" || cs.visibility === "hidden") continue;
-      const t = (textNode.nodeValue || "").replace(/\s+/g, " ").trim();
-      if (t) chunks.push(t);
-    }
-    return chunks.join(" ");
+  function collectSourceText(node) {
+    return (node.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  function isTextOnlyNode(node) {
+    if (!node) return false;
+    if (node.querySelector("img, figure, canvas, svg, video, table, iframe")) return false;
+    return true;
   }
 
   function measureBlock(node) {
+    if (!isTextOnlyNode(node)) return null;
+
     const rect = node.getBoundingClientRect();
     const style = window.getComputedStyle(node);
     const lineHeightRaw = parseFloat(style.lineHeight);
@@ -107,7 +103,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     const fontStyle = style.fontStyle || "normal";
     const fontSize = Math.max(12, Math.round(fontSizeRaw || 16));
     const font = fontStyle + " " + fontWeight + " " + fontSize + "px " + fontFamily;
-    const sourceText = collectSourceTextFromContainer(node);
+    const sourceText = collectSourceText(node);
 
     if (!sourceText || rect.width < 90 || rect.height < lineHeight * 0.8) return null;
 
@@ -119,9 +115,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       lineHeight: Math.max(16, lineHeight),
       prepared: prepareWithSegments(sourceText, font),
       originalLineCount: Math.max(1, Math.floor(rect.height / Math.max(16, lineHeight))),
-      originalDisplay: style.display || "",
-      originalVisibility: style.visibility || "",
-      originalOpacity: style.opacity || "",
+      originalPointerEvents: node.style.pointerEvents || "",
       proxy: null,
       lastLayoutX: NaN,
       lastLayoutY: NaN,
@@ -142,10 +136,13 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     block.proxy = proxy;
   }
 
+  function restoreSourceNode(block) {
+    block.node.style.pointerEvents = block.originalPointerEvents;
+  }
+
   function collectBlocks() {
-    const oldHidden = document.querySelectorAll(".pretext-source-hidden");
-    for (let i = 0; i < oldHidden.length; i += 1) {
-      oldHidden[i].classList.remove("pretext-source-hidden");
+    for (let i = 0; i < blocks.length; i += 1) {
+      restoreSourceNode(blocks[i]);
     }
     blocks.length = 0;
     if (overlayEl) overlayEl.innerHTML = "";
@@ -202,7 +199,6 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     if (!leftOk && !rightOk) return { x: 0, width: width };
     if (leftOk && !rightOk) return { x: 0, width: leftWidth };
     if (!leftOk && rightOk) return { x: exRight, width: rightWidth };
-    // Prefer left lane to avoid "line following X" feel.
     return { x: 0, width: leftWidth };
   }
 
@@ -210,7 +206,6 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     if (!block.proxy || !block.prepared) return;
 
     const width = Math.max(100, block.rect.width);
-    const height = Math.max(block.lineHeight * 1.2, block.rect.height);
     const minWidth = Math.max(52, width * 0.16);
     const safetyGap = Math.max(18, state.size * 0.52);
 
@@ -235,10 +230,8 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
         ? pickRangeForLine(width, exLeft, exRight, minWidth)
         : { x: 0, width: width };
       const line = layoutNextLine(block.prepared, cursor, Math.max(minWidth, range.width));
-      if (!line) {
-        guard = 2001;
-        break;
-      }
+      if (line === null) break;
+
       html +=
         '<div class="pretext-flow-line" style="left:' +
         range.x.toFixed(2) +
@@ -250,11 +243,11 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
         escapeHtml(line.text) +
         "</div>";
       cursor = line.end;
-
       y += block.lineHeight;
       lineNum += 1;
     }
 
+    block.node.style.pointerEvents = "none";
     block.proxy.innerHTML = html;
     block.lastLayoutX = state.x;
     block.lastLayoutY = state.y;
@@ -269,21 +262,18 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
           layoutBlock(block);
         } else if (block.proxy) {
           block.proxy.innerHTML = "";
-          block.node.style.display = block.originalDisplay;
-          block.node.style.visibility = block.originalVisibility;
-          block.node.style.opacity = block.originalOpacity;
+          restoreSourceNode(block);
         }
       }
       state.needsLayout = false;
       return;
     }
+
     for (let i = 0; i < blocks.length; i += 1) {
       const b = blocks[i];
       if (!isBlockNearX(b)) {
         if (b.proxy) b.proxy.innerHTML = "";
-        b.node.style.display = b.originalDisplay;
-        b.node.style.visibility = b.originalVisibility;
-        b.node.style.opacity = b.originalOpacity;
+        restoreSourceNode(b);
         continue;
       }
       const moved =
@@ -323,9 +313,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   }
 
   function scheduleRebuild() {
-    if (mutationTimer) {
-      window.clearTimeout(mutationTimer);
-    }
+    if (mutationTimer) window.clearTimeout(mutationTimer);
     mutationTimer = window.setTimeout(function () {
       collectBlocks();
       state.needsLayout = true;
@@ -389,4 +377,3 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     init();
   }
 })();
-

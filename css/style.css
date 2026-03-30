@@ -1426,12 +1426,6 @@ body.pretext-preview-page .page {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.pretext-source-hidden {
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
-  text-shadow: none !important;
-}
-
 .pretext-global-flow-layer {
   position: fixed;
   inset: 0;
