@@ -1427,9 +1427,7 @@ body.pretext-preview-page .page {
 }
 
 .pretext-source-hidden {
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
-  text-shadow: none !important;
+  visibility: hidden !important;
 }
 
 .pretext-global-flow-layer {
