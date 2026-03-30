@@ -7,15 +7,14 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
   const SIZE_SCALE = 0.5;
   const FOLLOW_DISTANCE_SCALE = 0.5;
   const TARGET_SELECTOR = [
-    ".tagline",
-    ".highlight-card .role",
-    ".products .product",
-    ".metric",
-    ".ai-note",
-    ".exp-item-summary",
-    ".skills-lead",
-    ".skills-domain",
-    ".education-content"
+    ".hero",
+    ".highlight-card .products",
+    ".highlight-card .metrics",
+    ".highlight-card .ai-note",
+    ".exp-list",
+    ".skills",
+    ".education",
+    ".attachments"
   ].join(", ");
 
   const blocks = [];
@@ -75,17 +74,6 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     document.body.appendChild(iconEl);
   }
 
-  function collectSourceTextFromContainer(node) {
-    const leaves = node.querySelectorAll("p, li, div");
-    const chunks = [];
-    for (let i = 0; i < leaves.length; i += 1) {
-      const t = (leaves[i].textContent || "").replace(/\s+/g, " ").trim();
-      if (t) chunks.push(t);
-    }
-    if (chunks.length > 1) return chunks.join(" ");
-    return (node.textContent || "").replace(/\s+/g, " ").trim();
-  }
-
   function measureBlock(node) {
     const rect = node.getBoundingClientRect();
     const style = window.getComputedStyle(node);
@@ -97,9 +85,9 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     const fontStyle = style.fontStyle || "normal";
     const fontSize = Math.max(12, Math.round(fontSizeRaw || 16));
     const font = fontStyle + " " + fontWeight + " " + fontSize + "px " + fontFamily;
-    const sourceText = collectSourceTextFromContainer(node);
+    const sourceText = (node.textContent || "").replace(/\s+/g, " ").trim();
 
-    if (!sourceText || rect.width < 120 || rect.height < lineHeight * 1.6) return null;
+    if (!sourceText || rect.width < 120 || rect.height < lineHeight * 1.1) return null;
 
     return {
       node: node,
@@ -108,7 +96,6 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
       font: font,
       lineHeight: Math.max(16, lineHeight),
       prepared: prepareWithSegments(sourceText, font),
-      originalLineCount: Math.max(1, Math.floor(rect.height / Math.max(16, lineHeight))),
       proxy: null,
       lastLayoutX: NaN,
       lastLayoutY: NaN,
@@ -188,8 +175,8 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
 
     const width = Math.max(100, block.rect.width);
     const height = Math.max(block.lineHeight * 1.2, block.rect.height);
-    const minWidth = Math.max(52, width * 0.16);
-    const safetyGap = Math.max(18, state.size * 0.52);
+    const minWidth = Math.max(48, width * 0.14);
+    const safetyGap = Math.max(16, state.size * 0.46);
 
     const exLeft = state.x - state.halfSize - safetyGap - block.rect.left;
     const exRight = state.x + state.halfSize + safetyGap - block.rect.left;
@@ -201,7 +188,7 @@ import { prepareWithSegments, layoutNextLine } from "https://esm.sh/@chenglou/pr
     let guard = 0;
     let html = "";
     let lineNum = 0;
-    const maxLines = Math.max(1, block.originalLineCount);
+    const maxLines = Math.max(1, Math.floor(height / block.lineHeight));
 
     while (guard < 2000 && lineNum < maxLines) {
       guard += 1;
