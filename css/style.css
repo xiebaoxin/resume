@@ -1362,3 +1362,88 @@ body.silk-home-page .exp-item-head {
 .resume-footer .footer-note {
   color: var(--muted);
 }
+
+/* ========== Pretext preview (clean reset) ========== */
+.pretext-preview-page .pretext-playground {
+  position: relative;
+  margin: 1rem 0 1.2rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.64);
+  min-height: 420px;
+}
+
+.pretext-preview-page .pretext-playground .section-title {
+  margin-bottom: 0.6rem;
+}
+
+.pretext-preview-page .pretext-source,
+.pretext-preview-page .pretext-lines {
+  position: relative;
+  min-height: 330px;
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 16px;
+  line-height: 1.62;
+  color: rgba(24, 24, 24, 0.95);
+}
+
+.pretext-preview-page .pretext-source {
+  opacity: 0.22;
+}
+
+.pretext-preview-page .pretext-lines {
+  position: absolute;
+  inset: 0.9rem 1rem;
+  pointer-events: none;
+}
+
+.pretext-preview-page .pretext-line {
+  position: absolute;
+  left: 0;
+  white-space: pre;
+  text-rendering: optimizeLegibility;
+}
+
+.pretext-preview-page .pretext-x {
+  --x-size: 120px;
+  --x-left: 50%;
+  --x-top: 50%;
+  position: absolute;
+  left: var(--x-left);
+  top: var(--x-top);
+  width: var(--x-size);
+  height: var(--x-size);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.pretext-preview-page .pretext-x .pretext-x-bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 95%;
+  height: 13%;
+  border-radius: 999px;
+  transform-origin: center;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(
+    to right,
+    rgba(247, 247, 247, 0.88) 0%,
+    rgba(247, 247, 247, 0.82) 18%,
+    rgba(24, 24, 24, 0.98) 50%,
+    rgba(247, 247, 247, 0.82) 82%,
+    rgba(247, 247, 247, 0.88) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.pretext-preview-page .pretext-x .pretext-x-bar-a {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.pretext-preview-page .pretext-x .pretext-x-bar-b {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
