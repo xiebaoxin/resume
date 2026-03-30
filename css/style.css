@@ -1362,3 +1362,76 @@ body.silk-home-page .exp-item-head {
 .resume-footer .footer-note {
   color: var(--muted);
 }
+
+/* ========== Pretext preview (viewport, multi-region) ========== */
+.pretext-preview-page .pretext-viewport-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1002;
+  pointer-events: none;
+}
+
+.pretext-preview-page .pretext-viewport-block {
+  position: absolute;
+  pointer-events: none;
+}
+
+.pretext-preview-page .pretext-viewport-source {
+  opacity: 0;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.pretext-preview-page .pretext-viewport-text {
+  position: absolute;
+  inset: 0;
+}
+
+.pretext-preview-page .pretext-viewport-line {
+  position: absolute;
+  left: 0;
+  white-space: pre;
+  color: rgba(20, 20, 20, 0.98);
+  text-rendering: optimizeLegibility;
+}
+
+.pretext-preview-page .pretext-viewport-x {
+  --x-size: 120px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--x-size);
+  height: var(--x-size);
+  pointer-events: none;
+  z-index: 1003;
+}
+
+.pretext-preview-page .pretext-x-bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 95%;
+  height: 13%;
+  border-radius: 999px;
+  transform-origin: center;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(
+    to right,
+    rgba(247, 247, 247, 0.88) 0%,
+    rgba(247, 247, 247, 0.82) 18%,
+    rgba(24, 24, 24, 0.98) 50%,
+    rgba(247, 247, 247, 0.82) 82%,
+    rgba(247, 247, 247, 0.88) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.pretext-preview-page .pretext-x-bar-a {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.pretext-preview-page .pretext-x-bar-b {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
