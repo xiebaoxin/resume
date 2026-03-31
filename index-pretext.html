@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>谢宝新 - 简历（丝绸版）</title>
-  <link rel="stylesheet" href="css/style.css?v=20260317-3">
+  <title>谢宝新 - 简历（Pretext 预览）</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-silk-page="1" class="silk-home-page">
+<body class="pretext-preview-page">
+  <div class="pretext-preview-badge no-print">PRETEXT PREVIEW</div>
   <div class="page">
     <header class="header no-print">
       <div class="header-actions">
         <a href="index.html" class="mode-switch">普通版</a>
+        <a href="index-silk.html" class="mode-switch">丝绸版</a>
         <button type="button" id="langSwitch" class="lang-switch" aria-label="Switch language">English</button>
       </div>
     </header>
 
-    <main class="main silk-main">
+    <main class="main">
       <section class="hero">
         <h1 id="name" class="name"></h1>
         <p id="basicsLine" class="basics-line"></p>
@@ -37,6 +39,16 @@
             <p id="metricPlay" class="metric"></p>
             <p id="metricAppstore" class="metric"></p>
           </div>
+          <div class="charts-row">
+            <figure class="chart-fig">
+              <img src="assets/chart-play.png?v=20260312-1" alt="Google Play installed users" class="chart-img">
+              <figcaption id="chartPlayLabel" class="chart-caption"></figcaption>
+            </figure>
+            <figure class="chart-fig">
+              <img src="assets/chart-appstore.png?v=20260312-1" alt="App Store downloads" class="chart-img">
+              <figcaption id="chartAppstoreLabel" class="chart-caption"></figcaption>
+            </figure>
+          </div>
           <p id="aiNote" class="ai-note"></p>
         </div>
       </section>
@@ -57,12 +69,18 @@
         <h2 id="educationTitle" class="section-title"></h2>
         <p id="educationContent" class="education-content"></p>
       </section>
+
+      <section id="attachments" class="attachments">
+        <h2 id="attachmentsTitle" class="section-title"></h2>
+        <p id="attachmentsLinks" class="attachments-links"></p>
+      </section>
     </main>
-    <footer class="resume-footer no-print silk-footer">
+    <footer class="resume-footer no-print">
       <span class="footer-note">谢宝新 · Xie Baoxin</span>
     </footer>
   </div>
-  <script src="js/silk-home.js?v=20260316-24"></script>
-  <script src="js/silk-drape.js?v=20260330-1"></script>
+
+  <script src="js/main.js?v=20260317-2"></script>
+  <script type="module" src="js/pretext-preview.js?v=20260330-2"></script>
 </body>
 </html>
