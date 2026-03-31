@@ -4,42 +4,22 @@
   if (window.__silkDrapeBooted) return;
   window.__silkDrapeBooted = true;
 
-  var forceMotion =
-    (window.location && /(?:\?|&)silkMotion=1(?:&|$)/.test(window.location.search || '')) ||
-    (window.location && (window.location.hash || '').indexOf('silk-motion') >= 0);
-  if (!forceMotion && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!window.requestAnimationFrame) return;
 
-  var THREE_CANDIDATES = [
-    './js/vendor/three.module.js',
-    'https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js',
-    'https://unpkg.com/three@0.183.2/build/three.module.js',
-    'https://esm.sh/three@0.183.2?bundle'
-  ];
+  var THREE_CDN = 'https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js';
 
   function loadThree(done) {
     if (window.__silkThreeModule) {
       done(window.__silkThreeModule);
       return;
     }
-    var idx = 0;
-    var errors = [];
-    function tryNext() {
-      if (idx >= THREE_CANDIDATES.length) {
-        console.warn('[silk-drape] three.js failed to load from all sources.', errors);
-        return;
-      }
-      var url = THREE_CANDIDATES[idx++];
-      import(url).then(function (mod) {
-        window.__silkThreeModule = mod;
-        window.__silkThreeSource = url;
-        done(mod);
-      }).catch(function (err) {
-        errors.push({ source: url, error: String(err && err.message ? err.message : err) });
-        tryNext();
-      });
-    }
-    tryNext();
+    import(THREE_CDN).then(function (mod) {
+      window.__silkThreeModule = mod;
+      done(mod);
+    }).catch(function () {
+      console.warn('[silk-drape] three.js failed to load.');
+    });
   }
 
   function createClothTexture(THREE) {
