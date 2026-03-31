@@ -63,6 +63,28 @@ body::before {
   filter: drop-shadow(0 24px 26px rgba(24, 18, 10, 0.11));
 }
 
+.silk-drape-fallback-wave {
+  position: absolute;
+  left: -8%;
+  top: 6%;
+  width: 116%;
+  height: 84%;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 70% at 50% 22%, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.08) 52%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(168deg, rgba(255, 255, 255, 0.3) 0%, rgba(244, 236, 222, 0.2) 42%, rgba(228, 214, 190, 0.16) 78%, rgba(215, 199, 172, 0.14) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  transform-origin: 50% 0;
+  animation: silkFallbackWave 3.8s ease-in-out infinite alternate;
+}
+
+@keyframes silkFallbackWave {
+  0% { transform: translate3d(0, 0, 0) rotate(-0.6deg) skewX(-0.55deg); }
+  50% { transform: translate3d(0, 0.8%, 0) rotate(0.35deg) skewX(0.35deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(-0.25deg) skewX(-0.2deg); }
+}
+
 .silk-nail {
   position: absolute;
   width: 14px;
