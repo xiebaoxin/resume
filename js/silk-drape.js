@@ -7,7 +7,7 @@
   var forceMotion =
     (window.location && /(?:\?|&)silkMotion=1(?:&|$)/.test(window.location.search || '')) ||
     (window.location && (window.location.hash || '').indexOf('silk-motion') >= 0);
-  // Always boot silk on silk page; we keep forceMotion for compatibility with old links.
+  if (!forceMotion && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!window.requestAnimationFrame) return;
 
   var THREE_CANDIDATES = [
