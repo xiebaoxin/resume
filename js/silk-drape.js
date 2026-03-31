@@ -7,10 +7,11 @@
   var forceMotion =
     (window.location && /(?:\?|&)silkMotion=1(?:&|$)/.test(window.location.search || '')) ||
     (window.location && (window.location.hash || '').indexOf('silk-motion') >= 0);
-  if (!forceMotion && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Dedicated silk page should still animate on desktop even when OS enables reduced motion.
   if (!window.requestAnimationFrame) return;
 
   var THREE_CANDIDATES = [
+    './js/vendor/three.module.js',
     'https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js',
     'https://unpkg.com/three@0.183.2/build/three.module.js',
     'https://esm.sh/three@0.183.2?bundle'
