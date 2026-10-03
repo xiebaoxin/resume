@@ -7,7 +7,7 @@
   var forceMotion =
     (window.location && /(?:\?|&)silkMotion=1(?:&|$)/.test(window.location.search || '')) ||
     (window.location && (window.location.hash || '').indexOf('silk-motion') >= 0);
-  // Always boot silk on silk page; we keep forceMotion for compatibility with old links.
+  // Dedicated silk page should still animate on desktop even when OS enables reduced motion.
   if (!window.requestAnimationFrame) return;
 
   var THREE_CANDIDATES = [
@@ -17,7 +17,19 @@
     'https://esm.sh/three@0.183.2?bundle'
   ];
 
-  function loadThree(done) {
+  function enableCssFallback() {
+    if (!document.body || document.body.classList.contains('silk-css-fallback')) return;
+    document.body.classList.add('silk-css-fallback');
+    document.body.classList.remove('silk-preparing');
+    document.body.classList.remove('silk-ink-mode');
+    if (document.querySelector('.silk-drape-fallback')) return;
+    var layer = document.createElement('div');
+    layer.className = 'silk-drape-layer silk-drape-fallback';
+    layer.innerHTML = '<div class="silk-drape-fallback-wave" aria-hidden="true"></div>';
+    document.body.appendChild(layer);
+  }
+
+  function loadThree(done, onFailure) {
     if (window.__silkThreeModule) {
       done(window.__silkThreeModule);
       return;
@@ -27,6 +39,7 @@
     function tryNext() {
       if (idx >= THREE_CANDIDATES.length) {
         console.warn('[silk-drape] three.js failed to load from all sources.', errors);
+        if (onFailure) onFailure();
         return;
       }
       var url = THREE_CANDIDATES[idx++];
@@ -1130,16 +1143,20 @@
   function boot() {
     if (!document.body) return;
     if (document.body.getAttribute('data-silk-page') !== '1') return;
-    loadThree(function (THREE) {
-      try {
-        // eslint-disable-next-line no-new
-        new SilkDrape(THREE);
-      } catch (err) {
-        console.warn('[silk-drape] init failed:', err);
-        document.body.classList.remove('silk-preparing');
-        document.body.classList.remove('silk-ink-mode');
+    loadThree(
+      function (THREE) {
+        try {
+          // eslint-disable-next-line no-new
+          new SilkDrape(THREE);
+        } catch (err) {
+          console.warn('[silk-drape] init failed:', err);
+          enableCssFallback();
+        }
+      },
+      function () {
+        enableCssFallback();
       }
-    });
+    );
   }
 
   if (document.readyState === 'loading') {
