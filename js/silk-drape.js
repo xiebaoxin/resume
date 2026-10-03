@@ -11,7 +11,7 @@
   if (!window.requestAnimationFrame) return;
 
   var THREE_CANDIDATES = [
-    './js/vendor/three.module.js',
+    './vendor/three.module.js',
     'https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js',
     'https://unpkg.com/three@0.183.2/build/three.module.js',
     'https://esm.sh/three@0.183.2?bundle'
@@ -218,16 +218,28 @@
     this.scene.add(this.grabLight);
   };
 
+  SilkDrape.prototype.viewSizeAtCloth = function () {
+    var mobile = this.width < 700;
+    var fovDeg = mobile ? 38 : 32;
+    var camZ = mobile ? 6.02 : 5.1;
+    var lookY = mobile ? -0.26 : -0.2;
+    var dist = Math.max(0.2, camZ - 0.08);
+    var visH = 2 * dist * Math.tan((fovDeg * Math.PI / 180) / 2);
+    var visW = visH * (this.width / Math.max(1, this.height));
+    return { width: visW, height: visH, lookY: lookY };
+  };
+
   SilkDrape.prototype.setupCloth = function () {
     var THREE = this.THREE;
     var compact = window.innerWidth < 960;
     var mobile = window.innerWidth < 700;
+    var view = this.viewSizeAtCloth();
 
     this.cols = mobile ? 16 : (compact ? 20 : 28);
     this.rows = mobile ? 24 : (compact ? 34 : 46);
-    this.clothWidth = mobile ? 1.72 : (compact ? 2.28 : 2.42);
-    this.clothHeight = mobile ? 2.08 : (compact ? 2.76 : 2.94);
-    this.topY = mobile ? 0.56 : 0.92;
+    this.clothWidth = view.width * 0.98;
+    this.clothHeight = view.height * 1.05;
+    this.topY = view.lookY + this.clothHeight * 0.5;
     this.gravity = mobile ? 0.00056 : 0.00046;
     this.damping = mobile ? 0.979 : 0.985;
     this.iterations = mobile ? 3 : (compact ? 4 : 4);
