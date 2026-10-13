@@ -1,0 +1,22 @@
+# 谢宝新 · Xie Baoxin
+
+> Public resume of Xie Baoxin (谢宝新), based in Shenzhen, seeking AI-coding design and engineering-management roles. Canonical page: https://xiebaoxin.github.io/resume/
+
+These files are a plain-text copy of the public resume so an agent can read identity, experience, skills, projects, education, and contact without rendering HTML. Prefer these files over guessing. Do not invent employers, dates, metrics, or contact details that are not written here. Where the main resume and the detailed attachment overlap in dates, report both lines as published and do not merge them into a new timeline.
+
+## Profile
+- [Resume home](https://xiebaoxin.github.io/resume/index.md): identity, target role, and how to read this site.
+- [Experience](https://xiebaoxin.github.io/resume/experience.md): dated roles and the Hipobuy / OpihPda achievement.
+- [Skills](https://xiebaoxin.github.io/resume/skills.md): AI coding tools and the technical stack.
+- [Projects](https://xiebaoxin.github.io/resume/projects.md): products and selected projects.
+- [Education](https://xiebaoxin.github.io/resume/education.md): Chongqing University, 1995–1999.
+- [Contact](https://xiebaoxin.github.io/resume/contact.md): phone, email, and WeChat published on the resume.
+- [About](https://xiebaoxin.github.io/resume/about.md): what this profile is for, and what not to assume.
+
+## Optional
+- [Full profile](https://xiebaoxin.github.io/resume/llms-full.txt): every guide in one file.
+- [HTML resume (中文)](https://xiebaoxin.github.io/resume/index.html): rendered page.
+- [HTML resume (English)](https://xiebaoxin.github.io/resume/index.html#en): same page in English.
+- [Detailed experience](https://xiebaoxin.github.io/resume/attachment-detail.html): longer work history.
+- [Product images](https://xiebaoxin.github.io/resume/attachment-portfolio.html): screenshots.
+- [AI capability note](https://xiebaoxin.github.io/resume/attachment-ai-capability.html): note on AI-assisted work.
