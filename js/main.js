@@ -1,7 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
-  const DATA_VERSION = '20261013-agents-1';
+  const DATA_VERSION = '20261013-anjia-1';
 
   function getLang() {
     const hash = (window.location.hash || '').toLowerCase();
@@ -117,6 +117,25 @@
       .join('');
   }
 
+  function renderCurrentShots(shots) {
+    if (!shots || !shots.length) return '';
+    var wide = shots[0];
+    var rest = shots.slice(1);
+    var html = '<figure class="chart-fig current-shot-wide">' +
+      '<img src="' + escapeHtml(wide.src) + '" alt="' + escapeHtml(wide.alt || '') + '" class="chart-img">' +
+      '<figcaption class="chart-caption">' + escapeHtml(wide.caption || '') + '</figcaption>' +
+      '</figure>';
+    if (rest.length) {
+      html += '<div class="charts-row">' + rest.map(function (shot) {
+        return '<figure class="chart-fig">' +
+          '<img src="' + escapeHtml(shot.src) + '" alt="' + escapeHtml(shot.alt || '') + '" class="chart-img">' +
+          '<figcaption class="chart-caption">' + escapeHtml(shot.caption || '') + '</figcaption>' +
+          '</figure>';
+      }).join('') + '</div>';
+    }
+    return html;
+  }
+
   function renderTech(tech) {
     if (!Array.isArray(tech)) return '';
     return tech.map(function (t) {
@@ -139,6 +158,28 @@
     d.getElementById('targetRole').textContent = basics.targetRole;
     d.getElementById('tagline').textContent = basics.tagline;
     d.getElementById('contact').innerHTML = renderContact(data, ui);
+
+    var current = data.current;
+    var currentSection = d.getElementById('current');
+    if (current && currentSection) {
+      currentSection.style.display = '';
+      d.getElementById('currentTitle').textContent = current.title || '';
+      d.getElementById('currentCompany').textContent = current.company || '';
+      d.getElementById('currentPeriod').textContent = current.period || '';
+      d.getElementById('currentRole').textContent = current.role || '';
+      var siteEl = d.getElementById('currentSite');
+      if (current.site) {
+        var siteSep = (data.meta && data.meta.lang) === 'en' ? ': ' : '：';
+        siteEl.innerHTML = escapeHtml(current.siteLabel || 'Site') + siteSep + '<a href="' + escapeHtml(current.site) + '" target="_blank" rel="noopener noreferrer" class="contact-link">' + escapeHtml(current.site) + '</a>';
+      } else {
+        siteEl.innerHTML = '';
+      }
+      d.getElementById('currentPoints').innerHTML = renderProducts(current.points || []);
+      d.getElementById('currentShots').innerHTML = renderCurrentShots(current.shots || []);
+      d.getElementById('currentNote').textContent = current.note || '';
+    } else if (currentSection) {
+      currentSection.style.display = 'none';
+    }
 
     d.getElementById('highlightTitle').textContent = highlight.title;
     d.getElementById('highlightCompany').textContent = highlight.company;

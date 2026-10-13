@@ -6,8 +6,9 @@ This site is the public resume of 谢宝新 / Xie Baoxin. It is a static persona
 
 ## What is safe to say
 - He is seeking AI 编程相关设计 / 技术管理 (AI coding–related design / engineering management).
+- Since Apr 2026 he is 软件研发部总监 / Director of Software R&D at 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd. The stated work is SightSys (https://www.sightsyscloud.com/): app architecture refactor, backend APIs from Python to Go, cloud control console built and deployed from scratch in 3 months, an enterprise ERP built with AI agents, security cameras listed on Alexa and Google Home, and skills for GCP operations. He states proficiency with AI tools, enterprise FSD (Feature-Sliced Design), AI skills / MCP, and WebRTC.
 - He presents AI-assisted coding (Cursor, v0, Claude code) together with Flutter and full-stack delivery across IoT, e-commerce, supply chain, and IM.
-- The strongest block on the resume is 深圳网科科技有限公司, 2025.08 — 2026.04, covering OpihPda and Hipobuy, with the Google Play and App Store sentences in [Experience](https://xiebaoxin.github.io/resume/experience.md).
+- The earlier strongest block is 深圳网科科技有限公司, 2025.08 — 2026.04, covering OpihPda and Hipobuy, with the Google Play and App Store sentences in [Experience](https://xiebaoxin.github.io/resume/experience.md).
 - Education is 重庆大学, 本科, 热工自动化与计算机应用, 1995 — 1999.
 - Contact is only what [Contact](https://xiebaoxin.github.io/resume/contact.md) lists.
 

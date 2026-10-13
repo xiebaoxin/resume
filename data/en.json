@@ -7,7 +7,7 @@
   "basics": {
     "genderAge": "Male | 48",
     "targetRole": "Target: AI Coding–Related Design / Engineering Management",
-    "tagline": "AI-aided coding and full-stack app: fluent with Cursor / Claude; Flutter, backend, IoT, e-commerce, and IM end-to-end delivery. See project portfolio.",
+    "tagline": "Director of Software R&D at Shenzhen Anjia Technology since Apr 2026. Proficient with AI tools, enterprise FSD, and AI skills / MCP. Led the SightSys app architecture refactor and the backend move from Python to Go, and stood up the cloud control console from scratch in 3 months. Flutter and IoT / e-commerce delivery end to end.",
     "contact": {
       "phone": "+86 13902658317",
       "email": "xiebaoxin@gmail.com",
@@ -17,6 +17,40 @@
     },
     "location": "Shenzhen",
     "yearsExp": "12 years"
+  },
+  "current": {
+    "title": "Current Role",
+    "company": "Shenzhen Anjia Technology Co., Ltd.",
+    "period": "Apr 2026 — Present",
+    "role": "Director of Software R&D",
+    "siteLabel": "Site",
+    "site": "https://www.sightsyscloud.com/",
+    "points": [
+      { "name": "SightSys App", "desc": "Completed the app architecture refactor." },
+      { "name": "Backend APIs", "desc": "Refactored the backend from Python to Go." },
+      { "name": "SightSys Cloud Control", "desc": "Built and deployed the cloud control console from scratch in 3 months." },
+      { "name": "Enterprise ERP", "desc": "Built an enterprise ERP from scratch with AI agents." },
+      { "name": "Security cameras", "desc": "Completed listing on Alexa and Google Home." },
+      { "name": "GCP operations", "desc": "Built skills for GCP operations." }
+    ],
+    "shots": [
+      {
+        "src": "assets/sightsys-console.png",
+        "alt": "SightSys cloud control console home",
+        "caption": "SightSys cloud control console: devices, cloud storage, and orders."
+      },
+      {
+        "src": "assets/sightsys-device.png",
+        "alt": "SightSys device list and device preview",
+        "caption": "Device list and device preview."
+      },
+      {
+        "src": "assets/sightsys-regions.png",
+        "alt": "SightSys devices by region and model",
+        "caption": "Device trends by country/region and model."
+      }
+    ],
+    "note": "Proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP. Familiar with WebRTC."
   },
   "highlight": {
     "title": "Top Achievement",
@@ -70,9 +104,9 @@
   },
   "skills": {
     "title": "Key Skills",
-    "lead": "AI coding as a core recent strength (Cursor, v0, Claude code). Full-stack Flutter app experience across IoT, e-commerce supply chain, and IM; familiar with Bluetooth, MQTT, WebRTC, and AI API integration; can independently build and ship backend and app from design to production.",
-    "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "NoSql", "websocket", "Bluetooth", "Mqtt"],
-    "domain": "ERP, smart community, IoT, e-commerce and supply chain, smart hardware."
+    "lead": "AI coding is a current core strength: proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP, including skills built for GCP operations. Full-stack experience across SightSys cloud control, IoT, e-commerce supply chain, and IM; familiar with WebRTC and with moving backends from Python to Go; can independently build and ship backend and app from design to production.",
+    "tech": ["Flutter", "Go", "Python", "Java", "PHP", "JavaScript", "WebRTC", "MySQL", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "NoSql", "websocket", "Bluetooth", "Mqtt", "GCP"],
+    "domain": "ERP, security cameras, smart home (Alexa / Google Home), smart community, IoT, e-commerce and supply chain, smart hardware."
   },
   "education": {
     "title": "Education",
@@ -100,6 +134,6 @@
   },
   "agents": {
     "ask": "See what ChatGPT, Claude, Perplexity, Gemini or Grok say about Xie Baoxin.",
-    "prompt": "Who is Xie Baoxin (谢宝新, https://xiebaoxin.github.io/resume/)? Summarize this public resume for hiring: identity, location, target role, strongest achievement using only the stated Hipobuy and OpihPda metrics, work history, skills, education, projects, and contact. Start from https://xiebaoxin.github.io/resume/llms.txt and https://xiebaoxin.github.io/resume/llms-full.txt, cite the relevant pages, and clearly distinguish verified facts from unknowns. Do not invent employers, dates, metrics, or contact details."
+    "prompt": "Who is Xie Baoxin (谢宝新, https://xiebaoxin.github.io/resume/)? Summarize this public resume for hiring: identity, location, target role, current role (Shenzhen Anjia Technology, Director of Software R&D since Apr 2026, SightSys), strongest achievement using only the stated Hipobuy and OpihPda metrics, work history, skills, education, projects, and contact. Start from https://xiebaoxin.github.io/resume/llms.txt and https://xiebaoxin.github.io/resume/llms-full.txt, cite the relevant pages, and clearly distinguish verified facts from unknowns. Do not invent employers, dates, metrics, or contact details, and do not read extra numbers out of screenshots."
   }
 }

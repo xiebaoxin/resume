@@ -4,6 +4,24 @@ Canonical page: https://xiebaoxin.github.io/resume/
 
 The resume labels experience as 12年 / 12 years. The dated roles below are copied from the public pages. Some lines on the detailed attachment overlap in time with lines on the main resume. Report them as published. Do not collapse them into one employer or fill the gaps.
 
+## Current role (main resume)
+
+- Company: 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd.
+- Period: 2026.04 — 至今 / Apr 2026 — Present
+- Role: 软件研发部总监 / Director of Software R&D
+- Site: https://www.sightsyscloud.com/
+- SightSys App: 完成 App 架构重构。 Completed the app architecture refactor.
+- Backend APIs: 完成后台接口由 Python 到 Go 的系统重构。 Refactored the backend from Python to Go.
+- SightSys 云智控 / SightSys Cloud Control: 从无到有，3 个月完成云智控后台的搭建与部署。 Built and deployed the cloud control console from scratch in 3 months.
+- Enterprise ERP: 从无到有，使用 AI 智能体搭建企业 ERP 系统。 Built an enterprise ERP from scratch with AI agents.
+- Security cameras: 完成上架 Alexa 与 Google Home。 Completed listing on Alexa and Google Home.
+- GCP: 搭建 Skill，用于 GCP 运营。 Built skills for GCP operations.
+- Practice, as stated: 熟练使用 AI 工具，熟悉企业 FSD 设计，熟练使用 AI Skill / MCP；熟悉 WebRTC。 Proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP. Familiar with WebRTC.
+- Screenshots on the HTML resume are interface evidence. Do not turn pixels into extra metrics.
+  - https://xiebaoxin.github.io/resume/assets/sightsys-console.png
+  - https://xiebaoxin.github.io/resume/assets/sightsys-device.png
+  - https://xiebaoxin.github.io/resume/assets/sightsys-regions.png
+
 ## Strongest achievement (main resume)
 
 - Company: 深圳网科科技有限公司 / Shenzhen Wangke Technology Co., Ltd.
@@ -26,6 +44,7 @@ The resume labels experience as 12年 / 12 years. The dated roles below are copi
 
 Source: https://xiebaoxin.github.io/resume/attachment-detail.html
 
+- 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd. · 软件研发部总监 / Director of Software R&D · 2026.04 — 至今 / Apr 2026 — Present. SightSys（https://www.sightsyscloud.com/）。完成 SightSys App 架构重构；后台 API 由 Python 到 Go；3 个月从零搭建并部署云智控后台；使用 AI 智能体搭建企业 ERP；安防摄像机上架 Alexa 与 Google Home；搭建 Skill 做 GCP 运营。熟悉 WebRTC、企业 FSD、AI Skill / MCP。 Completed the SightSys app architecture refactor; moved backend APIs from Python to Go; built and deployed the cloud control console from scratch in 3 months; built an enterprise ERP with AI agents; listed security cameras on Alexa and Google Home; built skills for GCP operations.
 - 深圳网科科技有限公司 · App 开发主管 · 2025.08 — 2026.04. 负责 OpihPda（工厂代采与仓库管理）、Hipobuy（海外代采）从开发到上架 App Store / Google Play；使用 AI 工具提升效率。
 - 新美耶科技（深圳）有限公司 · 技术总监 · 2024.01 — 2025.07. 新美耶、瑞琰龄小程序开发与运维，美业 AI 矩阵营销，入驻门店近千家。
 - 广西网沛物联科技有限公司深圳分公司 · 技术总监 · 2020.05 — 2023.11. 智慧社区、音视频对讲（WebRTC）、潮之味 ERP 供应链、智慧门禁、自动售卖机、咖啡机、美容仪等；技术决策与团队管理。

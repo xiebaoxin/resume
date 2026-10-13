@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20260316-24';
+  var DATA_VERSION = '20261013-anjia-1';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
@@ -114,8 +114,8 @@
         tagline: '',
         title: 'Awaiting the Right Horizon',
         p1: mobile
-          ? 'I, Xie Baoxin, seek a stage worthy of full commitment and real outcomes. With AI-assisted engineering leadership and full-stack execution, I turn complex goals into clear milestones and deliver practical results with speed and discipline.'
-          : 'I, Xie Baoxin, seek a stage worthy of full commitment and real outcomes. With AI-assisted engineering leadership and full-stack execution, I turn complex goals into clear milestones, align teams around delivery, and produce measurable business value.',
+          ? 'I, Xie Baoxin, seek a stage worthy of full commitment and real outcomes. Since April 2026 I have been Director of Software R&D at Shenzhen Anjia Technology, leading SightSys: the app architecture refactor, the backend move from Python to Go, and a cloud control console stood up from scratch in three months. With AI-assisted engineering leadership and full-stack execution, I turn complex goals into clear milestones and deliver practical results with speed and discipline.'
+          : 'I, Xie Baoxin, seek a stage worthy of full commitment and real outcomes. Since April 2026 I have been Director of Software R&D at Shenzhen Anjia Technology, leading SightSys: the app architecture refactor, the backend move from Python to Go, and a cloud control console stood up from scratch in three months. With AI-assisted engineering leadership and full-stack execution, I turn complex goals into clear milestones, align teams around delivery, and produce measurable business value.',
         p2: mobile
           ? 'Like a steed awaiting a true rider, I value the right mission and long-term direction. My strength is combining AI productivity with end-to-end delivery across Flutter, backend, and IoT / e-commerce / IM scenarios, so technical effort reliably becomes business value.'
           : 'Like a steed awaiting a true rider, I value the right mission and long-term direction. My strength is combining AI productivity with end-to-end delivery across Flutter, backend, and IoT / e-commerce / IM scenarios, while shaping engineering standards and team workflows that keep technical decisions aligned with business value.',
@@ -126,8 +126,8 @@
       tagline: '',
       title: '待时乘风',
       p1: mobile
-        ? '我，谢宝新，愿求一方可尽展所长的天地。若千里马待伯乐，我愿执 AI 辅助研发管理与全栈交付之缰，将繁难目标化为清晰里程碑，以确定性交付回应期许。'
-        : '我，谢宝新，愿求一方可尽展所长的天地。若千里马待伯乐，我愿执 AI 辅助研发管理与全栈交付之缰，将繁难目标化为清晰里程碑，统筹协同、压实节奏，以确定性交付回应期许。',
+        ? '我，谢宝新，愿求一方可尽展所长的天地。2026 年 4 月起任深圳安嘉科技软件研发部总监，主导 SightSys：完成 App 架构重构、后台由 Python 迁至 Go，并在 3 个月内从零交付云智控后台。若千里马待伯乐，我愿执 AI 辅助研发管理与全栈交付之缰，将繁难目标化为清晰里程碑，以确定性交付回应期许。'
+        : '我，谢宝新，愿求一方可尽展所长的天地。2026 年 4 月起任深圳安嘉科技软件研发部总监，主导 SightSys：完成 App 架构重构、后台由 Python 迁至 Go，并在 3 个月内从零交付云智控后台。若千里马待伯乐，我愿执 AI 辅助研发管理与全栈交付之缰，将繁难目标化为清晰里程碑，统筹协同、压实节奏，以确定性交付回应期许。',
       p2: mobile
         ? '亦如姜子牙待明主，所重者在同道同频。我的长处在“AI 提效 + 端到端落地”并进：自 Flutter 客户端至后端系统，再到 IoT / 电商 / IM 场景，皆可独立贯通，并使技术投入持续沉淀为业务增量。'
         : '亦如姜子牙待明主，所重者在同道同频。我的长处在“AI 提效 + 端到端落地”并进：自 Flutter 客户端至后端系统，再到 IoT / 电商 / IM 场景，皆可独立贯通；并以工程规范、协作机制与技术决策体系，令技术投入持续沉淀为业务增量。',

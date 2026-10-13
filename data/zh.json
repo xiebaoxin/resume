@@ -7,7 +7,7 @@
   "basics": {
     "genderAge": "男 | 48岁",
     "targetRole": "求职意向：AI 编程相关设计 / 技术管理",
-    "tagline": "AI 辅助编程与全栈 App 双强：熟练 Cursor / Claude 等工具，Flutter 跨端、后端与 IoT / 电商 / IM 全链路可独立交付。详见项目作品展。",
+    "tagline": "现任深圳安嘉科技软件研发部总监。熟练使用 AI 工具，熟悉企业 FSD 设计与 AI Skill / MCP；主导 SightSys App 架构重构、后台由 Python 迁至 Go，并在 3 个月内从零搭建云智控后台。Flutter 跨端与 IoT / 电商全链路可独立交付。",
     "contact": {
       "phone": "13902658317",
       "email": "xiebaoxin@gmail.com",
@@ -17,6 +17,40 @@
     },
     "location": "深圳",
     "yearsExp": "12年"
+  },
+  "current": {
+    "title": "当前任职",
+    "company": "深圳安嘉科技有限公司",
+    "period": "2026.04 — 至今",
+    "role": "软件研发部总监",
+    "siteLabel": "官网",
+    "site": "https://www.sightsyscloud.com/",
+    "points": [
+      { "name": "SightSys App", "desc": "完成 App 架构重构。" },
+      { "name": "后台 API", "desc": "完成后台接口由 Python 到 Go 的系统重构。" },
+      { "name": "SightSys 云智控", "desc": "从无到有，3 个月完成云智控后台的搭建与部署。" },
+      { "name": "企业 ERP", "desc": "从无到有，使用 AI 智能体搭建企业 ERP 系统。" },
+      { "name": "安防摄像机", "desc": "完成上架 Alexa 与 Google Home。" },
+      { "name": "GCP 运营", "desc": "搭建 Skill，用于 GCP 运营。" }
+    ],
+    "shots": [
+      {
+        "src": "assets/sightsys-console.png",
+        "alt": "SightSys 云智控后台首页",
+        "caption": "SightSys 云智控后台：设备、云存与订单概览。"
+      },
+      {
+        "src": "assets/sightsys-device.png",
+        "alt": "SightSys 设备列表与设备预览",
+        "caption": "设备列表与设备预览。"
+      },
+      {
+        "src": "assets/sightsys-regions.png",
+        "alt": "SightSys 设备地区与型号趋势",
+        "caption": "按国家/地区与型号查看设备趋势。"
+      }
+    ],
+    "note": "熟练使用 AI 工具，熟悉企业 FSD 设计，熟练使用 AI Skill / MCP；熟悉 WebRTC。"
   },
   "highlight": {
     "title": "最强成就",
@@ -70,9 +104,9 @@
   },
   "skills": {
     "title": "关键技能",
-    "lead": "以 AI 编程为近期核心优势（Cursor、v0、Claude code），具备物联网、电商供应链、IM 等场景的 Flutter App 全栈经验；熟悉蓝牙、MQTT、WebRTC 及 AI 接口对接，可独立完成后端与 App 的构建与落地。",
-    "tech": ["Flutter", "Java", "PHP", "JavaScript", "Python", "WebRTC", "MySQL", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "NoSql", "websocket", "Bluetooth", "Mqtt"],
-    "domain": "ERP、智慧社区、物联网、电商与供应链、智能硬件。"
+    "lead": "以 AI 编程为近期核心优势：熟练使用 AI 工具，熟悉企业 FSD 设计，熟练使用 AI Skill / MCP，并能搭建 Skill 做 GCP 运营。具备 SightSys 云智控、物联网、电商供应链、IM 等场景的全栈经验；熟悉 WebRTC、Go 与 Python 后台重构，可独立完成后端与 App 的构建与落地。",
+    "tech": ["Flutter", "Go", "Python", "Java", "PHP", "JavaScript", "WebRTC", "MySQL", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "NoSql", "websocket", "Bluetooth", "Mqtt", "GCP"],
+    "domain": "ERP、安防摄像机、智能家居（Alexa / Google Home）、智慧社区、物联网、电商与供应链、智能硬件。"
   },
   "education": {
     "title": "教育",
@@ -100,6 +134,6 @@
   },
   "agents": {
     "ask": "看看 ChatGPT、Claude、Perplexity、Gemini 或 Grok 怎么介绍谢宝新。",
-    "prompt": "谢宝新（Xie Baoxin，https://xiebaoxin.github.io/resume/）是谁？请根据这份公开简历做求职向总结：身份与所在地、求职意向、最强成就（只引用页面写明的 Hipobuy 与 OpihPda 数据）、工作经历、技能、教育、项目和联系方式。请先阅读 https://xiebaoxin.github.io/resume/llms.txt 和 https://xiebaoxin.github.io/resume/llms-full.txt，引用相关页面，并明确区分已写明的事实与未知信息。不要编造雇主、时间、数据或联系方式。"
+    "prompt": "谢宝新（Xie Baoxin，https://xiebaoxin.github.io/resume/）是谁？请根据这份公开简历做求职向总结：身份与所在地、求职意向、当前任职（深圳安嘉科技有限公司，2026.04 起，软件研发部总监，SightSys）、最强成就（只引用页面写明的 Hipobuy 与 OpihPda 数据）、工作经历、技能、教育、项目和联系方式。请先阅读 https://xiebaoxin.github.io/resume/llms.txt 和 https://xiebaoxin.github.io/resume/llms-full.txt，引用相关页面，并明确区分已写明的事实与未知信息。不要编造雇主、时间、数据或联系方式，也不要从截图里另读数字。"
   }
 }

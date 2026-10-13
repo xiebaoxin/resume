@@ -947,6 +947,29 @@ body.silk-home-page .exp-item-head {
   color: var(--color-muted);
 }
 
+.current-site {
+  margin: -0.35rem 0 0.75rem;
+  font-size: 13px;
+}
+
+.current-shots {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.current-shots .charts-row {
+  margin-bottom: 0;
+}
+
+.current-shot-wide .chart-img {
+  max-height: 420px;
+  object-fit: contain;
+  object-position: top left;
+  background: #fff;
+}
+
 /* Experience list */
 .experience {
   margin-bottom: 1.5rem;
