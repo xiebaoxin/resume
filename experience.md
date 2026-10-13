@@ -1,0 +1,37 @@
+# Experience · 谢宝新 / Xie Baoxin
+
+Canonical page: https://xiebaoxin.github.io/resume/
+
+The resume labels experience as 12年 / 12 years. The dated roles below are copied from the public pages. Some lines on the detailed attachment overlap in time with lines on the main resume. Report them as published. Do not collapse them into one employer or fill the gaps.
+
+## Strongest achievement (main resume)
+
+- Company: 深圳网科科技有限公司 / Shenzhen Wangke Technology Co., Ltd.
+- Period: 2025.08 — 2026.04 / Aug 2025 — Apr 2026
+- Role: App 开发主管 / App Development Lead
+- OpihPda: 专业工厂代采与仓库管理 App，从需求到上线的全流程负责。 Professional factory procurement and warehouse management app; full ownership from requirements to release.
+- Hipobuy: 海外代采 App，面向海外市场，上架 App Store 与 Google Play，从开发到上线全程主导。 Overseas procurement app for global markets; published on App Store and Google Play; led development and launch.
+- Google Play, as stated: 过去 180 天，安装用户从约 1 万增至约 6.5–7 万，持续增长。 Last ~180 days: installed users grew from about 10K to about 65–70K, with sustained growth.
+- App Store, as stated: 至 2026.3，iPhone 累计下载 34.4 万+，日下载后期显著攀升。 Through Mar 2026: 344K+ cumulative iPhone downloads; daily downloads rose sharply later in the period.
+- AI note, as stated: 使用 Cursor、v0、Claude code 等 AI 工具大幅提升 Flutter 开发与设计效率。 Used Cursor, v0, Claude code, and other AI tools to raise Flutter development and design efficiency.
+
+## Roles on the main resume
+
+- 新美耶科技（深圳）有限公司 / Xinmeiye Technology (Shenzhen) Co., Ltd. · 技术总监 / Technical Director · 2024.01 — 2025.07 / Jan 2024 — Jul 2025. 负责新美耶、瑞琰龄小程序开发与运维，美业 AI 矩阵营销；已入驻门店近千家。 Led mini-program development and operations for Xinmeiye and Ruiyanling; AI-driven marketing for beauty; nearly 1,000 stores onboarded.
+- 广西网沛物联科技有限公司深圳分公司 / Guangxi Wangpei IoT Technology (Shenzhen Branch) · 技术总监 / Technical Director · 2020.05 — 2023.11 / May 2020 — Nov 2023. 智慧社区 App/音视频对讲（WebRTC）、潮之味 ERP 供应链、智慧门禁、自动售卖机等；技术决策与团队管理。 Smart community app, video intercom (WebRTC), Chaozhiwei ERP supply chain, smart access, vending machines; technical decisions and team leadership.
+- 深圳独尊科技 / Shenzhen Duzun Technology · 项目经理/主管 / Project Manager / Lead · 2016.07 — 2018.06 / Jul 2016 — Jun 2018. 后端研发与技术管理，主导独尊探霸等物联网项目。 Backend R&D and technical management; led IoT projects including Duzun Tanba.
+- 北京致远互联软件股份有限公司 / Beijing Seeyon Software Co., Ltd. · 实施顾问 / Implementation Consultant · 2003.01 — 2013.10 / Jan 2003 — Oct 2013. OA/ERP 售前、实施与顾问；政府、企业办公系统解决方案。 OA/ERP presales, implementation, and consulting; government and enterprise office systems.
+
+## Additional lines on the detailed attachment
+
+Source: https://xiebaoxin.github.io/resume/attachment-detail.html
+
+- 深圳网科科技有限公司 · App 开发主管 · 2025.08 — 2026.04. 负责 OpihPda（工厂代采与仓库管理）、Hipobuy（海外代采）从开发到上架 App Store / Google Play；使用 AI 工具提升效率。
+- 新美耶科技（深圳）有限公司 · 技术总监 · 2024.01 — 2025.07. 新美耶、瑞琰龄小程序开发与运维，美业 AI 矩阵营销，入驻门店近千家。
+- 广西网沛物联科技有限公司深圳分公司 · 技术总监 · 2020.05 — 2023.11. 智慧社区、音视频对讲（WebRTC）、潮之味 ERP 供应链、智慧门禁、自动售卖机、咖啡机、美容仪等；技术决策与团队管理。
+- 潮之味智慧供应链系统 / Chaozhiwei Smart Supply Chain · 技术总监 / Technical Director · 2021.03 — 2024.01 / Mar 2021 — Jan 2024. 采购、销售、入库、分拣、物流 ERP，POS/扫码器与 App 整合，一码溯源。 ERP for procurement, sales, warehousing, sorting, and logistics; POS/scanner and app integration; one-code traceability.
+- 自动售卖机、亿美梵、瑞颜龄等 / Vending machines, Yimeifan, Ruiyanling, and related work · 项目总监 / Project Director · 2022.04 — 至今 / Apr 2022 — present. 自动售卖机/咖啡机软硬件与 App/小程序；亿美梵美容仪小程序与三方支付；瑞颜龄美业商城、SaaS、ERP、小程序；智慧物联门禁（慧欣物联）、大石二维扫码音视频通话。 Vending and coffee-machine hardware plus app/mini-programs; Yimeifan beauty-device mini-program and third-party payment; Ruiyanling beauty commerce, SaaS, ERP, and mini-programs; smart access (Huixin IoT); Dashi 2D scan-to-video-call.
+- 深圳独尊科技 · 项目经理/主管 · 2016.07 — 2018.06. 后端研发与技术管理，独尊探霸等物联网项目；PHP、Redis、Swoole。
+- 北京致远互联软件股份有限公司 · 实施顾问 · 2003.01 — 2013.10. OA/ERP 售前、实施与顾问；政府、企业办公系统解决方案。
+
+Related: [Projects](https://xiebaoxin.github.io/resume/projects.md), [Skills](https://xiebaoxin.github.io/resume/skills.md), [Contact](https://xiebaoxin.github.io/resume/contact.md).

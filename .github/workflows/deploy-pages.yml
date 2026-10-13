@@ -26,6 +26,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html index-silk.html attachment-portfolio.html attachment-detail.html attachment-ai-capability.html _site/
+          cp llms.txt llms-full.txt index.md experience.md skills.md projects.md education.md contact.md about.md _site/
           cp -r css js data assets _site/
           touch _site/.nojekyll
 

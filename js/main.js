@@ -1,7 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
-  const DATA_VERSION = '20260317-2';
+  const DATA_VERSION = '20261013-agents-1';
 
   function getLang() {
     const hash = (window.location.hash || '').toLowerCase();
@@ -192,6 +192,24 @@
     }
     if (data.meta && data.meta.lang) {
       d.documentElement.lang = data.meta.lang === 'en' ? 'en' : 'zh-CN';
+    }
+
+    var agents = data.agents || {};
+    var askEl = d.getElementById('agentAskText');
+    if (askEl && agents.ask) askEl.textContent = agents.ask;
+    if (agents.prompt) {
+      var aiBases = {
+        chatgpt: 'https://chatgpt.com/?q=',
+        claude: 'https://claude.ai/new?q=',
+        perplexity: 'https://www.perplexity.ai/search?q=',
+        gemini: 'https://www.google.com/search?udm=50&q=',
+        grok: 'https://grok.com/?q='
+      };
+      var encodedPrompt = encodeURIComponent(agents.prompt);
+      [].slice.call(d.querySelectorAll('.agent-ask-link')).forEach(function (link) {
+        var key = link.getAttribute('data-ai');
+        if (aiBases[key]) link.href = aiBases[key] + encodedPrompt;
+      });
     }
 
     [].slice.call(d.querySelectorAll('.btn-copy')).forEach(function (btn) {

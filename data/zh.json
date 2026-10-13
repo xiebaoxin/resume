@@ -97,5 +97,9 @@
     "langSwitch": "English",
     "copy": "复制",
     "copied": "已复制"
+  },
+  "agents": {
+    "ask": "看看 ChatGPT、Claude、Perplexity、Gemini 或 Grok 怎么介绍谢宝新。",
+    "prompt": "谢宝新（Xie Baoxin，https://xiebaoxin.github.io/resume/）是谁？请根据这份公开简历做求职向总结：身份与所在地、求职意向、最强成就（只引用页面写明的 Hipobuy 与 OpihPda 数据）、工作经历、技能、教育、项目和联系方式。请先阅读 https://xiebaoxin.github.io/resume/llms.txt 和 https://xiebaoxin.github.io/resume/llms-full.txt，引用相关页面，并明确区分已写明的事实与未知信息。不要编造雇主、时间、数据或联系方式。"
   }
 }

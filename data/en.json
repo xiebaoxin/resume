@@ -97,5 +97,9 @@
     "langSwitch": "中文",
     "copy": "Copy",
     "copied": "Copied"
+  },
+  "agents": {
+    "ask": "See what ChatGPT, Claude, Perplexity, Gemini or Grok say about Xie Baoxin.",
+    "prompt": "Who is Xie Baoxin (谢宝新, https://xiebaoxin.github.io/resume/)? Summarize this public resume for hiring: identity, location, target role, strongest achievement using only the stated Hipobuy and OpihPda metrics, work history, skills, education, projects, and contact. Start from https://xiebaoxin.github.io/resume/llms.txt and https://xiebaoxin.github.io/resume/llms-full.txt, cite the relevant pages, and clearly distinguish verified facts from unknowns. Do not invent employers, dates, metrics, or contact details."
   }
 }
