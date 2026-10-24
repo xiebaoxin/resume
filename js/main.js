@@ -1,7 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
-  const DATA_VERSION = '20261024-overseas-fds';
+  const DATA_VERSION = '20261024-pg-redis';
 
   function getLang() {
     const hash = (window.location.hash || '').toLowerCase();

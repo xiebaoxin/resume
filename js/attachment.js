@@ -1,7 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
-  const DATA_VERSION = '20261024-overseas-fds';
+  const DATA_VERSION = '20261024-pg-redis';
   const attachment = document.body.getAttribute('data-attachment') || 'portfolio';
 
   function getLang() {
@@ -107,20 +107,6 @@
       document.getElementById('projectsList').innerHTML = s.items.map(function (item) {
         return '<li><div class="project-name">' + escapeHtml(item.name) + '</div><p class="project-desc">' + escapeHtml(item.desc) + '</p></li>';
       }).join('');
-    }
-    s = sections.cursorScreenshots;
-    if (s && s.items && s.items.length) {
-      document.getElementById('cursorScreenshotsSection').style.display = '';
-      document.getElementById('cursorScreenshotsTitle').textContent = s.title;
-      document.getElementById('cursorScreenshotsList').innerHTML = s.items.map(function (item) {
-        return '<figure class="project-image-fig">' + renderImage(item.src, 'project-image-img', '', {
-          loading: 'lazy',
-          decoding: 'async',
-          fetchPriority: 'low'
-        }) + '<figcaption class="project-image-caption">' + escapeHtml(item.caption) + '</figcaption></figure>';
-      }).join('');
-    } else {
-      document.getElementById('cursorScreenshotsSection').style.display = 'none';
     }
     s = sections.skills;
     if (s) {

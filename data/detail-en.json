@@ -16,13 +16,6 @@
         { "company": "Beijing Seeyon Software Co., Ltd.", "role": "Implementation Consultant", "period": "Jan 2003 — Oct 2013", "summary": "OA/ERP presales, implementation and consulting; government and enterprise office systems." }
       ]
     },
-    "cursorScreenshots": {
-      "title": "Technical Evidence",
-      "items": [
-        { "src": "assets/cursor-workflow.png", "caption": "Cursor workflow: Settings, MCP (Feishu/Figma/qmd), debug & AI-assisted coding." },
-        { "src": "assets/cursor-rules-skills.png", "caption": "Cursor Rules/Skills: project rules, theme style, Figma design alignment." }
-      ]
-    },
     "projects": {
       "title": "Selected Projects",
       "items": [
@@ -35,7 +28,7 @@
     },
     "skills": {
       "title": "Skills (Detail)",
-      "tech": ["Flutter", "Go", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "Redis", "Swoole", "Electron", "Node.js", "GCP"],
+      "tech": ["Flutter", "Go", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "PostgreSQL", "Redis", "Swoole", "Electron", "Node.js", "GCP"],
       "tools": "Proficient with AI tools (Cursor, v0, Claude code) and cloud coding agents. Writes functional design specifications (FDS) for AnjiaERP and uses AI skills/rules and MCP to drive delivery; can build skills for GCP operations. Project management, R&D team leadership, technical strategy, and process improvement.",
       "domain": "ERP, security cameras, smart home (Alexa / Google Home), smart retail, IoT, smart community, smart hardware, e‑commerce and supply chain."
     },

@@ -114,7 +114,7 @@ Canonical page: https://xiebaoxin.github.io/resume/
 
 Leads with AI coding and functional design (FDS) for AnjiaERP, an enterprise manufacturing ERP: Cursor, Claude Code, cloud coding agents, custom skills/rules, and MCP, including skills built for GCP operations. Then Flutter, Go, and the IoT stack: full-stack delivery across SightSys cloud control, IoT, e-commerce supply chain, and IM. Familiar with WebRTC and with moving backends from Python to Go. FDS means functional design specifications for AnjiaERP.
 
-Technologies named on the main resume: Flutter, Go, Python, Java, PHP, JavaScript, WebRTC, MySQL, WebAudio, Rust, Electron, ffmpeg, canvas, Ethereum, Solana, NoSql, websocket, Bluetooth, Mqtt, GCP.
+Technologies named on the main resume: Flutter, Go, Python, Java, PHP, JavaScript, WebRTC, MySQL, PostgreSQL, Redis, NoSql, WebAudio, Rust, Electron, ffmpeg, canvas, Ethereum, Solana, websocket, Bluetooth, Mqtt, GCP.
 
 Domains named on the main resume: ERP、安防摄像机、智能家居（Alexa / Google Home）、智慧社区、物联网、电商与供应链、智能硬件。 ERP, security cameras, smart home (Alexa / Google Home), smart community, IoT, e-commerce and supply chain, smart hardware.
 
@@ -122,15 +122,11 @@ Domains named on the main resume: ERP、安防摄像机、智能家居（Alexa /
 
 Source: https://xiebaoxin.github.io/resume/attachment-detail.html
 
-Technologies named there: Flutter, Go, Java, PHP, JavaScript, Python, WebRTC, WebAudio, MySQL, Redis, Swoole, Electron, Node.js, GCP.
+Technologies named there: Flutter, Go, Java, PHP, JavaScript, Python, WebRTC, WebAudio, MySQL, PostgreSQL, Redis, Swoole, Electron, Node.js, GCP.
 
 Tools and practice, as stated: 熟练使用 AI 工具（Cursor、v0、Claude code）与云端编程智能体。为 AnjiaERP 编写功能设计规格（FDS），并用 AI skills/rules 与 MCP 推动交付；可搭建 Skill 进行 GCP 运营。 Proficient with AI tools (Cursor, v0, Claude code) and cloud coding agents. Writes functional design specifications (FDS) for AnjiaERP and uses AI skills/rules and MCP to drive delivery; can build skills for GCP operations. Also project management, R&D team leadership, technical strategy, and process improvement.
 
 Domains named there: ERP、安防摄像机、智能家居（Alexa / Google Home）、智慧商业、物联网、智慧社区、智能硬件、电商与供应链。 ERP, security cameras, smart home (Alexa / Google Home), smart retail, IoT, smart community, smart hardware, e-commerce and supply chain.
-
-The detailed attachment also points at two images:
-- Cursor workflow (settings, MCP for Feishu/Figma/qmd, debugging, AI-assisted coding): https://xiebaoxin.github.io/resume/assets/cursor-workflow.png
-- Cursor rules and skills (project rules, theme, Figma alignment): https://xiebaoxin.github.io/resume/assets/cursor-rules-skills.png
 
 A separate HTML note on AI-assisted work: https://xiebaoxin.github.io/resume/attachment-ai-capability.html
 

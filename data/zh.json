@@ -106,7 +106,7 @@
   "skills": {
     "title": "关键技能",
     "lead": "近期核心是 AI 编程与企业 ERP 功能设计（FDS）：为 AnjiaERP 编写功能设计规格，并用 Cursor、Claude Code、云端编程智能体、自建 skills/rules 与 MCP 推动实现，含用于 GCP 运营的 Skill。其后是 Flutter / Go 与物联网技术栈：具备 SightSys 云智控、物联网、电商供应链、IM 等场景的全栈交付经验；熟悉 WebRTC，以及后台由 Python 迁至 Go。",
-    "tech": ["Flutter", "Go", "Python", "Java", "PHP", "JavaScript", "WebRTC", "MySQL", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "NoSql", "websocket", "Bluetooth", "Mqtt", "GCP"],
+    "tech": ["Flutter", "Go", "Python", "Java", "PHP", "JavaScript", "WebRTC", "MySQL", "PostgreSQL", "Redis", "NoSql", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "websocket", "Bluetooth", "Mqtt", "GCP"],
     "domain": "ERP、安防摄像机、智能家居（Alexa / Google Home）、智慧社区、物联网、电商与供应链、智能硬件。"
   },
   "education": {

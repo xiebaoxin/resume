@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20261024-overseas-fds';
+  var DATA_VERSION = '20261024-pg-redis';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {
