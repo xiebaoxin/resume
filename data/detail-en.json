@@ -6,7 +6,7 @@
     "work": {
       "title": "Work History (Detail)",
       "items": [
-        { "company": "Shenzhen Anjia Technology Co., Ltd.", "role": "Director of Software R&D", "period": "Apr 2026 — Present", "summary": "SightSys (https://www.sightsyscloud.com/). Completed the SightSys app architecture refactor; refactored backend APIs from Python to Go; built and deployed the SightSys cloud control console from scratch in 3 months; built an enterprise ERP from scratch with AI agents. Proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP; familiar with WebRTC; built skills for GCP operations; completed listing security cameras on Alexa and Google Home." },
+        { "company": "Shenzhen Anjia Technology Co., Ltd.", "role": "Director of Software R&D", "period": "Apr 2026 — Present", "summary": "SightSys (https://www.sightsyscloud.com/). Completed the SightSys app architecture refactor; refactored backend APIs from Python to Go; built and deployed the SightSys cloud control console from scratch in 3 months. Owns AnjiaERP (AJERP) functional design specifications (FDS) for the manufacturing ERP: product and BOM data center, quote-to-sales-order flow, seat permissions, and hard product locks. Drives implementation with AI coding agents (Cursor, Claude Code, cloud agents), custom skills/rules, and MCP. Familiar with WebRTC; built skills for GCP operations; completed listing security cameras on Alexa and Google Home." },
         { "company": "Shenzhen Wangke Technology Co., Ltd.", "role": "App Development Lead", "period": "Aug 2025 — Apr 2026", "summary": "Led OpihPda (factory procurement & warehouse) and Hipobuy (overseas procurement) from development to App Store / Google Play; used AI tools to improve efficiency." },
         { "company": "Xinmeiye Technology (Shenzhen) Co., Ltd.", "role": "Technical Director", "period": "Jan 2024 — Jul 2025", "summary": "Mini-program development and ops for Xinmeiye and Ruiyanling; AI-driven beauty marketing; nearly 1,000 stores onboarded." },
         { "company": "Guangxi Wangpei IoT Technology (Shenzhen Branch)", "role": "Technical Director", "period": "May 2020 — Nov 2023", "summary": "Smart community, video intercom (WebRTC), Chaozhiwei ERP supply chain, smart access, vending machines, coffee machines, beauty devices; technical decisions and team leadership." },
@@ -26,7 +26,7 @@
     "projects": {
       "title": "Selected Projects",
       "items": [
-        { "name": "SightSys Cloud Control", "desc": "Shenzhen Anjia Technology, from Apr 2026. App architecture refactor; backend APIs moved from Python to Go; cloud control console built and deployed from scratch in 3 months; enterprise ERP built with AI agents; security cameras listed on Alexa / Google Home. Site: https://www.sightsyscloud.com/ ." },
+        { "name": "SightSys Cloud Control", "desc": "Shenzhen Anjia Technology, from Apr 2026. App architecture refactor; backend APIs moved from Python to Go; cloud control console built and deployed from scratch in 3 months; AnjiaERP (AJERP) functional design (FDS) and build-out with AI coding agents; security cameras listed on Alexa / Google Home. Site: https://www.sightsyscloud.com/ ." },
         { "name": "Xjumping dynamic spectrum tool", "desc": "Electron + Node.js + Canvas + WebAudio + FFmpeg; record animation as MP4; Mac/Windows." },
         { "name": "Dashi 2D", "desc": "QR-code app for scan-to-video-call; on App Store. Flutter + WebRTC." },
         { "name": "Huixin IoT", "desc": "Smart access app and mini-program; WebRTC, Bluetooth, MQTT; on App Store. Flutter." },
@@ -36,7 +36,7 @@
     "skills": {
       "title": "Skills (Detail)",
       "tech": ["Flutter", "Go", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "Redis", "Swoole", "Electron", "Node.js", "GCP"],
-      "tools": "Proficient with AI tools (Cursor, v0, Claude code), enterprise FSD (Feature-Sliced Design), and AI skills / MCP; can build skills for GCP operations. Project management, R&D team leadership, technical strategy, and process improvement.",
+      "tools": "Proficient with AI tools (Cursor, v0, Claude code) and cloud coding agents. Writes functional design specifications (FDS) for AnjiaERP and uses AI skills/rules and MCP to drive delivery; can build skills for GCP operations. Project management, R&D team leadership, technical strategy, and process improvement.",
       "domain": "ERP, security cameras, smart home (Alexa / Google Home), smart retail, IoT, smart community, smart hardware, e‑commerce and supply chain."
     },
     "education": {

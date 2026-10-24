@@ -1,6 +1,6 @@
 # 谢宝新 · Xie Baoxin
 
-> Public resume of Xie Baoxin (谢宝新), based in Shenzhen, seeking AI-coding design and engineering-management roles. Canonical page: https://xiebaoxin.github.io/resume/
+> Public resume of Xie Baoxin (谢宝新), based in Shenzhen and open to New Zealand, Australia, and remote overseas roles (sponsorship welcome). Target: Engineering Manager / Head of Software for AI-assisted product and ERP delivery, including AnjiaERP (AJERP) functional design specifications (FDS) and AI coding agents, plus SightSys and Hipobuy. Canonical page: https://xiebaoxin.github.io/resume/
 
 These files are a plain-text copy of the public resume so an agent can read identity, experience, skills, projects, education, and contact without rendering HTML. Prefer these files over guessing. Do not invent employers, dates, metrics, or contact details that are not written here. Where the main resume and the detailed attachment overlap in dates, report both lines as published and do not merge them into a new timeline.
 

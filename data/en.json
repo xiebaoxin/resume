@@ -5,9 +5,9 @@
   },
   "name": "Xie Baoxin",
   "basics": {
-    "genderAge": "Male | 48",
-    "targetRole": "Target: AI Coding–Related Design / Engineering Management",
-    "tagline": "Director of Software R&D at Shenzhen Anjia Technology since Apr 2026. Proficient with AI tools, enterprise FSD, and AI skills / MCP. Led the SightSys app architecture refactor and the backend move from Python to Go, and stood up the cloud control console from scratch in 3 months. Flutter and IoT / e-commerce delivery end to end.",
+    "genderAge": "",
+    "targetRole": "Target: Engineering Manager / Head of Software · AI-assisted product & ERP delivery (open to NZ, AU, remote overseas)",
+    "tagline": "Leads AnjiaERP (AJERP) functional design (FDS) with AI coding agents, and the SightSys cloud platform (app refactor, Python to Go, cloud console in 3 months). Flutter, IoT, and e-commerce end to end, including Hipobuy for overseas markets.",
     "contact": {
       "phone": "+86 13902658317",
       "email": "xiebaoxin@gmail.com",
@@ -15,7 +15,7 @@
       "resumeRepo": "https://xiebaoxin.github.io/resume/",
       "resumeRepoLabel": "Resume"
     },
-    "location": "Shenzhen",
+    "location": "Shenzhen · open to New Zealand, Australia, and remote overseas (sponsorship welcome)",
     "yearsExp": "12 years"
   },
   "current": {
@@ -26,10 +26,11 @@
     "siteLabel": "Site",
     "site": "https://www.sightsyscloud.com/",
     "points": [
+      { "name": "AnjiaERP (AJERP)", "desc": "Owns functional design specifications (FDS) for the manufacturing ERP: product and BOM data center, quote-to-sales-order flow, and seat permissions. Drives the build with AI coding agents, custom skills/rules, and MCP." },
+      { "name": "AI-assisted delivery", "desc": "Uses Cursor, Claude Code, and cloud coding agents for implementation and acceptance. Encodes hard product locks as skills and rules, and orchestrates delivery with agents rather than hand-only coding." },
       { "name": "SightSys App", "desc": "Completed the app architecture refactor." },
       { "name": "Backend APIs", "desc": "Refactored the backend from Python to Go." },
       { "name": "SightSys Cloud Control", "desc": "Built and deployed the cloud control console from scratch in 3 months." },
-      { "name": "Enterprise ERP", "desc": "Built an enterprise ERP from scratch with AI agents." },
       { "name": "Security cameras", "desc": "Completed listing on Alexa and Google Home." },
       { "name": "GCP operations", "desc": "Built skills for GCP operations." }
     ],
@@ -50,7 +51,7 @@
         "caption": "Device trends by country/region and model."
       }
     ],
-    "note": "Proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP. Familiar with WebRTC."
+    "note": "Owns AnjiaERP functional design (FDS) and AI-agent delivery with Cursor, Claude Code, cloud agents, skills/rules, and MCP. Familiar with WebRTC."
   },
   "highlight": {
     "title": "Top Achievement",
@@ -104,7 +105,7 @@
   },
   "skills": {
     "title": "Key Skills",
-    "lead": "AI coding is a current core strength: proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP, including skills built for GCP operations. Full-stack experience across SightSys cloud control, IoT, e-commerce supply chain, and IM; familiar with WebRTC and with moving backends from Python to Go; can independently build and ship backend and app from design to production.",
+    "lead": "Leads with AI coding and functional design (FDS) for AnjiaERP, an enterprise manufacturing ERP: Cursor, Claude Code, cloud coding agents, custom skills/rules, and MCP, including skills built for GCP operations. Then Flutter, Go, and the IoT stack: full-stack delivery across SightSys cloud control, IoT, e-commerce supply chain, and IM; familiar with WebRTC and with moving backends from Python to Go.",
     "tech": ["Flutter", "Go", "Python", "Java", "PHP", "JavaScript", "WebRTC", "MySQL", "WebAudio", "Rust", "Electron", "ffmpeg", "canvas", "Ethereum", "Solana", "NoSql", "websocket", "Bluetooth", "Mqtt", "GCP"],
     "domain": "ERP, security cameras, smart home (Alexa / Google Home), smart community, IoT, e-commerce and supply chain, smart hardware."
   },
@@ -134,6 +135,6 @@
   },
   "agents": {
     "ask": "See what ChatGPT, Claude, Perplexity, Gemini or Grok say about Xie Baoxin.",
-    "prompt": "Who is Xie Baoxin (谢宝新, https://xiebaoxin.github.io/resume/)? Summarize this public resume for hiring: identity, location, target role, current role (Shenzhen Anjia Technology, Director of Software R&D since Apr 2026, SightSys), strongest achievement using only the stated Hipobuy and OpihPda metrics, work history, skills, education, projects, and contact. Start from https://xiebaoxin.github.io/resume/llms.txt and https://xiebaoxin.github.io/resume/llms-full.txt, cite the relevant pages, and clearly distinguish verified facts from unknowns. Do not invent employers, dates, metrics, or contact details, and do not read extra numbers out of screenshots."
+    "prompt": "Who is Xie Baoxin (谢宝新, https://xiebaoxin.github.io/resume/)? Summarize this public resume for overseas hiring (New Zealand, Australia, and remote overseas): identity, location and relocation openness, target role (Engineering Manager / Head of Software, AI-assisted product and ERP delivery), current role (Shenzhen Anjia Technology, Director of Software R&D since Apr 2026: AnjiaERP / AJERP functional design specifications (FDS) and AI coding agents — Cursor, Claude Code, cloud agents, skills/rules, MCP — plus SightSys), strongest achievement using only the stated Hipobuy and OpihPda metrics, work history, skills, education, projects, and contact. Start from https://xiebaoxin.github.io/resume/llms.txt and https://xiebaoxin.github.io/resume/llms-full.txt, cite the relevant pages, and clearly distinguish verified facts from unknowns. Do not invent employers, dates, metrics, or contact details, and do not read extra numbers out of screenshots. FDS here means functional design specifications for AnjiaERP, not Feature-Sliced Design."
   }
 }

@@ -1,7 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
-  const DATA_VERSION = '20261013-anjia-1';
+  const DATA_VERSION = '20261024-overseas-fds';
   const attachment = document.body.getAttribute('data-attachment') || 'portfolio';
 
   function getLang() {

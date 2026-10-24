@@ -6,7 +6,7 @@
     "work": {
       "title": "工作经历（详）",
       "items": [
-        { "company": "深圳安嘉科技有限公司", "role": "软件研发部总监", "period": "2026.04 — 至今", "summary": "SightSys（https://www.sightsyscloud.com/）。完成 SightSys App 架构重构；完成后台 API 由 Python 到 Go 的系统重构；从无到有，3 个月完成 SightSys 云智控后台的搭建与部署；从无到有使用 AI 智能体搭建企业 ERP。熟练使用 AI 工具，熟悉企业 FSD 设计，熟练使用 AI Skill / MCP；熟悉 WebRTC；搭建 Skill 进行 GCP 运营；完成安防摄像机上架 Alexa 与 Google Home。" },
+        { "company": "深圳安嘉科技有限公司", "role": "软件研发部总监", "period": "2026.04 — 至今", "summary": "SightSys（https://www.sightsyscloud.com/）。完成 SightSys App 架构重构；完成后台 API 由 Python 到 Go 的系统重构；从无到有，3 个月完成 SightSys 云智控后台的搭建与部署。负责 AnjiaERP（AJERP）制造型 ERP 的功能设计规格（FDS）：产品与 BOM 数据中心、报价到销售订单、席位权限与硬性产品锁定；并用 AI 编程智能体（Cursor、Claude Code、云端编程智能体）、自建 skills/rules 与 MCP 推动实现。熟悉 WebRTC；搭建 Skill 进行 GCP 运营；完成安防摄像机上架 Alexa 与 Google Home。" },
         { "company": "深圳网科科技有限公司", "role": "App 开发主管", "period": "2025.08 — 2026.04", "summary": "负责 OpihPda（工厂代采与仓库管理）、Hipobuy（海外代采）从开发到上架 App Store / Google Play；使用 AI 工具提升效率。" },
         { "company": "新美耶科技（深圳）有限公司", "role": "技术总监", "period": "2024.01 — 2025.07", "summary": "新美耶、瑞琰龄小程序开发与运维，美业 AI 矩阵营销，入驻门店近千家。" },
         { "company": "广西网沛物联科技有限公司深圳分公司", "role": "技术总监", "period": "2020.05 — 2023.11", "summary": "智慧社区、音视频对讲（WebRTC）、潮之味 ERP 供应链、智慧门禁、自动售卖机、咖啡机、美容仪等；技术决策与团队管理。" },
@@ -26,7 +26,7 @@
     "projects": {
       "title": "部分项目",
       "items": [
-        { "name": "SightSys 云智控", "desc": "深圳安嘉科技，2026.04 起。App 架构重构；后台 API 由 Python 迁至 Go；3 个月从零搭建并部署云智控后台；AI 智能体搭建企业 ERP；安防摄像机上架 Alexa / Google Home。官网 https://www.sightsyscloud.com/ 。" },
+        { "name": "SightSys 云智控", "desc": "深圳安嘉科技，2026.04 起。App 架构重构；后台 API 由 Python 迁至 Go；3 个月从零搭建并部署云智控后台；AnjiaERP（AJERP）功能设计规格（FDS）并由 AI 编程智能体推动实现；安防摄像机上架 Alexa / Google Home。官网 https://www.sightsyscloud.com/ 。" },
         { "name": "虾皮动态谱制作工具", "desc": "Electron + Node.js + Canvas + WebAudio + FFmpeg，动画录制为 MP4，支持 Mac/Windows。" },
         { "name": "大石二维", "desc": "可扫码发起音视频通话的二维码应用，App Store 可搜「大石二维」。Flutter + WebRTC。" },
         { "name": "慧欣物联", "desc": "智慧门禁 App/小程序，WebRTC、蓝牙、MQTT，App Store 可搜「慧欣物联」。Flutter。" },
@@ -36,7 +36,7 @@
     "skills": {
       "title": "技能详述",
       "tech": ["Flutter", "Go", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "Redis", "Swoole", "Electron", "Node.js", "GCP"],
-      "tools": "熟练使用 AI 工具（Cursor、v0、Claude code），熟悉企业 FSD 设计，熟练使用 AI Skill / MCP；可搭建 Skill 进行 GCP 运营。项目管理、研发团队管理、技术战略与流程优化。",
+      "tools": "熟练使用 AI 工具（Cursor、v0、Claude code）与云端编程智能体。为 AnjiaERP 编写功能设计规格（FDS），并用 AI skills/rules 与 MCP 推动交付；可搭建 Skill 进行 GCP 运营。项目管理、研发团队管理、技术战略与流程优化。",
       "domain": "ERP、安防摄像机、智能家居（Alexa / Google Home）、智慧商业、物联网、智慧社区、智能硬件、电商与供应链。"
     },
     "education": {

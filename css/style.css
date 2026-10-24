@@ -785,6 +785,12 @@ body.silk-home-page .exp-item-head {
   color: var(--color-muted);
 }
 
+.basics-line:empty,
+.basics-line[hidden] {
+  display: none;
+  margin: 0;
+}
+
 .target-role {
   margin: 0 0 0.5rem;
   font-size: 14px;

@@ -2,7 +2,7 @@
   'use strict';
 
   var LANG_KEY = 'resume-lang';
-  var DATA_VERSION = '20261013-anjia-1';
+  var DATA_VERSION = '20261024-overseas-fds';
   var DEFAULT_LANG = 'zh';
 
   function escapeHtml(s) {

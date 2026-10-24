@@ -1,7 +1,7 @@
 (function () {
   const LANG_KEY = 'resume-lang';
   const DEFAULT_LANG = 'zh';
-  const DATA_VERSION = '20261013-anjia-1';
+  const DATA_VERSION = '20261024-overseas-fds';
 
   function getLang() {
     const hash = (window.location.hash || '').toLowerCase();
@@ -154,7 +154,13 @@
     var charts = data.charts || {};
 
     d.getElementById('name').textContent = data.name;
-    d.getElementById('basicsLine').textContent = [basics.genderAge, basics.location, basics.yearsExp].filter(Boolean).join(' · ');
+    var basicsParts = [basics.genderAge, basics.location, basics.yearsExp].map(function (value) {
+      if (value == null) return '';
+      return String(value).replace(/\s+/g, ' ').trim();
+    }).filter(Boolean);
+    var basicsLineEl = d.getElementById('basicsLine');
+    basicsLineEl.textContent = basicsParts.join(' · ');
+    basicsLineEl.hidden = basicsParts.length === 0;
     d.getElementById('targetRole').textContent = basics.targetRole;
     d.getElementById('tagline').textContent = basics.tagline;
     d.getElementById('contact').innerHTML = renderContact(data, ui);

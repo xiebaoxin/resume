@@ -9,7 +9,8 @@ Company: 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd. Pe
 - SightSys App: architecture refactor.
 - Backend APIs: Python to Go.
 - SightSys 云智控: cloud control console built and deployed from scratch in 3 months.
-- Enterprise ERP: built from scratch with AI agents.
+- AnjiaERP (AJERP): functional design specifications (FDS) for the manufacturing ERP (product and BOM data center, quote-to-sales-order flow, seat permissions) and build-out with AI coding agents, skills/rules, and MCP. 负责制造型 ERP 的功能设计规格（FDS），并用 AI 编程智能体、skills/rules 与 MCP 推动实现。
+- AI-assisted delivery: Cursor, Claude Code, and cloud coding agents; hard product locks encoded as skills and rules.
 - Security cameras listed on Alexa and Google Home.
 - Skills built for GCP operations.
 - Site: https://www.sightsyscloud.com/
@@ -33,7 +34,7 @@ Product screenshots:
 
 Source: https://xiebaoxin.github.io/resume/attachment-detail.html
 
-- SightSys 云智控 / SightSys Cloud Control: 深圳安嘉科技，2026.04 起。App 架构重构；后台 API 由 Python 迁至 Go；3 个月从零搭建并部署云智控后台；AI 智能体搭建企业 ERP；安防摄像机上架 Alexa / Google Home。 Shenzhen Anjia Technology, from Apr 2026. Same scope as the current-role block above.
+- SightSys 云智控 / SightSys Cloud Control: 深圳安嘉科技，2026.04 起。App 架构重构；后台 API 由 Python 迁至 Go；3 个月从零搭建并部署云智控后台；AnjiaERP（AJERP）功能设计规格（FDS）并由 AI 编程智能体推动实现；安防摄像机上架 Alexa / Google Home。 Shenzhen Anjia Technology, from Apr 2026. Same scope as the current-role block above.
 - 虾皮动态谱制作工具 / Xjumping dynamic spectrum tool: Electron + Node.js + Canvas + WebAudio + FFmpeg，动画录制为 MP4，支持 Mac/Windows。 Records animation as MP4; Mac and Windows.
 - 大石二维 / Dashi 2D: 可扫码发起音视频通话的二维码应用，App Store 可搜「大石二维」。Flutter + WebRTC。 QR-code app for scan-to-video-call; searchable on the App Store as 「大石二维」.
 - 慧欣物联 / Huixin IoT: 智慧门禁 App/小程序，WebRTC、蓝牙、MQTT，App Store 可搜「慧欣物联」。Flutter。 Smart-access app and mini-program; WebRTC, Bluetooth, MQTT; searchable on the App Store as 「慧欣物联」.

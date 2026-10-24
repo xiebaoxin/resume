@@ -14,16 +14,16 @@ Canonical page: https://xiebaoxin.github.io/resume/
 
 ## Identity
 - Name: 谢宝新 / Xie Baoxin
-- The resume states: 男 | 48岁 / Male | 48
-- Location: 深圳 / Shenzhen
+- Gender and age are not printed on the public resume.
+- Location: 深圳 / Shenzhen · 接受新西兰、澳大利亚及海外远程（欢迎担保） / open to New Zealand, Australia, and remote overseas (sponsorship welcome)
 - Experience label printed on the resume: 12年 / 12 years
-- Target role: 求职意向：AI 编程相关设计 / 技术管理
-- English target: AI Coding–Related Design / Engineering Management
+- Target role: 求职意向：工程管理 / 软件研发负责人 · AI 辅助产品与 ERP 交付（新西兰、澳大利亚、海外远程）
+- English target: Engineering Manager / Head of Software · AI-assisted product & ERP delivery (open to NZ, AU, remote overseas)
 
 ## Summary
-现任深圳安嘉科技有限公司软件研发部总监（2026.04 — 至今）。熟练使用 AI 工具，熟悉企业 FSD 设计与 AI Skill / MCP。主导 SightSys（https://www.sightsyscloud.com/）：App 架构重构，后台由 Python 迁至 Go，3 个月从零搭建云智控后台，并用 AI 智能体搭建企业 ERP；安防摄像机已上架 Alexa 与 Google Home。此前 Flutter 跨端与 IoT / 电商全链路可独立交付。
+现任深圳安嘉科技有限公司软件研发部总监（2026.04 — 至今）。主导 AnjiaERP（AJERP）功能设计规格（FDS）与 AI 编程智能体交付（Cursor、Claude Code、云端编程智能体、skills/rules、MCP），并负责 SightSys（https://www.sightsyscloud.com/）：App 架构重构，后台由 Python 迁至 Go，3 个月从零搭建云智控后台；安防摄像机已上架 Alexa 与 Google Home。此前 Flutter 跨端与 IoT / 电商全链路可交付，含面向海外市场的 Hipobuy。
 
-Director of Software R&D at Shenzhen Anjia Technology Co., Ltd. since Apr 2026. Proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP. Leads SightSys (https://www.sightsyscloud.com/): app architecture refactor, backend moved from Python to Go, cloud control console built from scratch in 3 months, and an enterprise ERP built with AI agents. Security cameras listed on Alexa and Google Home. Earlier Flutter, IoT, and e-commerce delivery remains on the resume.
+Director of Software R&D at Shenzhen Anjia Technology Co., Ltd. since Apr 2026. Leads AnjiaERP (AJERP) functional design specifications (FDS) and AI-agent delivery (Cursor, Claude Code, cloud agents, skills/rules, MCP), and SightSys (https://www.sightsyscloud.com/): app architecture refactor, backend moved from Python to Go, cloud control console built from scratch in 3 months. Security cameras listed on Alexa and Google Home. Earlier Flutter, IoT, and e-commerce delivery remains on the resume, including Hipobuy for overseas markets. FDS means functional design specifications for AnjiaERP.
 
 ## Read next
 - [Experience](https://xiebaoxin.github.io/resume/experience.md)
@@ -59,10 +59,11 @@ The resume labels experience as 12年 / 12 years. The dated roles below are copi
 - SightSys App: 完成 App 架构重构。 Completed the app architecture refactor.
 - Backend APIs: 完成后台接口由 Python 到 Go 的系统重构。 Refactored the backend from Python to Go.
 - SightSys 云智控 / SightSys Cloud Control: 从无到有，3 个月完成云智控后台的搭建与部署。 Built and deployed the cloud control console from scratch in 3 months.
-- Enterprise ERP: 从无到有，使用 AI 智能体搭建企业 ERP 系统。 Built an enterprise ERP from scratch with AI agents.
+- AnjiaERP (AJERP) FDS: 负责制造型 ERP 的功能设计规格（FDS）：产品与 BOM 数据中心、报价到销售订单、席位权限；并用 AI 编程智能体、自建 skills/rules 与 MCP 推动实现。 Owns functional design specifications (FDS) for the manufacturing ERP: product and BOM data center, quote-to-sales-order flow, and seat permissions. Drives the build with AI coding agents, custom skills/rules, and MCP.
+- AI-assisted delivery: 日常使用 Cursor、Claude Code 与云端编程智能体做实现与验收；把产品锁定要求写成 skills 与 rules，由智能体协同交付，而不是只靠手写每一行代码。 Uses Cursor, Claude Code, and cloud coding agents for implementation and acceptance. Encodes hard product locks as skills and rules, and orchestrates delivery with agents rather than hand-only coding.
 - Security cameras: 完成上架 Alexa 与 Google Home。 Completed listing on Alexa and Google Home.
 - GCP: 搭建 Skill，用于 GCP 运营。 Built skills for GCP operations.
-- Practice, as stated: 熟练使用 AI 工具，熟悉企业 FSD 设计，熟练使用 AI Skill / MCP；熟悉 WebRTC。 Proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP. Familiar with WebRTC.
+- Practice, as stated: 负责 AnjiaERP 功能设计规格（FDS），并以 Cursor、Claude Code、云端编程智能体、skills/rules 与 MCP 推进交付；熟悉 WebRTC。 Owns AnjiaERP functional design (FDS) and AI-agent delivery with Cursor, Claude Code, cloud agents, skills/rules, and MCP. Familiar with WebRTC. FDS means functional design specifications for AnjiaERP.
 - Screenshots on the HTML resume are interface evidence. Do not turn pixels into extra metrics.
   - https://xiebaoxin.github.io/resume/assets/sightsys-console.png
   - https://xiebaoxin.github.io/resume/assets/sightsys-device.png
@@ -90,7 +91,7 @@ The resume labels experience as 12年 / 12 years. The dated roles below are copi
 
 Source: https://xiebaoxin.github.io/resume/attachment-detail.html
 
-- 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd. · 软件研发部总监 / Director of Software R&D · 2026.04 — 至今 / Apr 2026 — Present. SightSys（https://www.sightsyscloud.com/）。完成 SightSys App 架构重构；后台 API 由 Python 到 Go；3 个月从零搭建并部署云智控后台；使用 AI 智能体搭建企业 ERP；安防摄像机上架 Alexa 与 Google Home；搭建 Skill 做 GCP 运营。熟悉 WebRTC、企业 FSD、AI Skill / MCP。 Completed the SightSys app architecture refactor; moved backend APIs from Python to Go; built and deployed the cloud control console from scratch in 3 months; built an enterprise ERP with AI agents; listed security cameras on Alexa and Google Home; built skills for GCP operations.
+- 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd. · 软件研发部总监 / Director of Software R&D · 2026.04 — 至今 / Apr 2026 — Present. SightSys（https://www.sightsyscloud.com/）。完成 SightSys App 架构重构；后台 API 由 Python 到 Go；3 个月从零搭建并部署云智控后台。负责 AnjiaERP（AJERP）功能设计规格（FDS）：产品与 BOM 数据中心、报价到销售订单、席位权限与硬性产品锁定；并用 Cursor、Claude Code、云端编程智能体、skills/rules 与 MCP 推动实现。安防摄像机上架 Alexa 与 Google Home；搭建 Skill 做 GCP 运营。熟悉 WebRTC。 Completed the SightSys app architecture refactor; moved backend APIs from Python to Go; built and deployed the cloud control console from scratch in 3 months. Owns AnjiaERP (AJERP) functional design specifications (FDS) — product and BOM data center, quote-to-sales-order flow, seat permissions, and hard product locks — and drives the build with Cursor, Claude Code, cloud coding agents, skills/rules, and MCP. Listed security cameras on Alexa and Google Home; built skills for GCP operations. Familiar with WebRTC.
 - 深圳网科科技有限公司 · App 开发主管 · 2025.08 — 2026.04. 负责 OpihPda（工厂代采与仓库管理）、Hipobuy（海外代采）从开发到上架 App Store / Google Play；使用 AI 工具提升效率。
 - 新美耶科技（深圳）有限公司 · 技术总监 · 2024.01 — 2025.07. 新美耶、瑞琰龄小程序开发与运维，美业 AI 矩阵营销，入驻门店近千家。
 - 广西网沛物联科技有限公司深圳分公司 · 技术总监 · 2020.05 — 2023.11. 智慧社区、音视频对讲（WebRTC）、潮之味 ERP 供应链、智慧门禁、自动售卖机、咖啡机、美容仪等；技术决策与团队管理。
@@ -109,9 +110,9 @@ Canonical page: https://xiebaoxin.github.io/resume/
 
 ## As stated on the main resume
 
-以 AI 编程为近期核心优势：熟练使用 AI 工具，熟悉企业 FSD 设计，熟练使用 AI Skill / MCP，并能搭建 Skill 做 GCP 运营。具备 SightSys 云智控、物联网、电商供应链、IM 等场景的全栈经验；熟悉 WebRTC、Go 与 Python 后台重构，可独立完成后端与 App 的构建与落地。
+近期核心是 AI 编程与企业 ERP 功能设计（FDS）：为 AnjiaERP 编写功能设计规格，并用 Cursor、Claude Code、云端编程智能体、自建 skills/rules 与 MCP 推动实现，含用于 GCP 运营的 Skill。其后是 Flutter / Go 与物联网技术栈：具备 SightSys 云智控、物联网、电商供应链、IM 等场景的全栈交付经验；熟悉 WebRTC，以及后台由 Python 迁至 Go。
 
-AI coding is a current core strength: proficient with AI tools, enterprise FSD (Feature-Sliced Design), and AI skills / MCP, including skills built for GCP operations. Full-stack experience across SightSys cloud control, IoT, e-commerce supply chain, and IM. Familiar with WebRTC and with moving backends from Python to Go. Can independently build and ship backend and app from design to production.
+Leads with AI coding and functional design (FDS) for AnjiaERP, an enterprise manufacturing ERP: Cursor, Claude Code, cloud coding agents, custom skills/rules, and MCP, including skills built for GCP operations. Then Flutter, Go, and the IoT stack: full-stack delivery across SightSys cloud control, IoT, e-commerce supply chain, and IM. Familiar with WebRTC and with moving backends from Python to Go. FDS means functional design specifications for AnjiaERP.
 
 Technologies named on the main resume: Flutter, Go, Python, Java, PHP, JavaScript, WebRTC, MySQL, WebAudio, Rust, Electron, ffmpeg, canvas, Ethereum, Solana, NoSql, websocket, Bluetooth, Mqtt, GCP.
 
@@ -123,7 +124,7 @@ Source: https://xiebaoxin.github.io/resume/attachment-detail.html
 
 Technologies named there: Flutter, Go, Java, PHP, JavaScript, Python, WebRTC, WebAudio, MySQL, Redis, Swoole, Electron, Node.js, GCP.
 
-Tools and practice, as stated: 熟练使用 AI 工具（Cursor、v0、Claude code），熟悉企业 FSD 设计，熟练使用 AI Skill / MCP；可搭建 Skill 进行 GCP 运营。 Proficient with AI tools (Cursor, v0, Claude code), enterprise FSD (Feature-Sliced Design), and AI skills / MCP; can build skills for GCP operations. Also project management, R&D team leadership, technical strategy, and process improvement.
+Tools and practice, as stated: 熟练使用 AI 工具（Cursor、v0、Claude code）与云端编程智能体。为 AnjiaERP 编写功能设计规格（FDS），并用 AI skills/rules 与 MCP 推动交付；可搭建 Skill 进行 GCP 运营。 Proficient with AI tools (Cursor, v0, Claude code) and cloud coding agents. Writes functional design specifications (FDS) for AnjiaERP and uses AI skills/rules and MCP to drive delivery; can build skills for GCP operations. Also project management, R&D team leadership, technical strategy, and process improvement.
 
 Domains named there: ERP、安防摄像机、智能家居（Alexa / Google Home）、智慧商业、物联网、智慧社区、智能硬件、电商与供应链。 ERP, security cameras, smart home (Alexa / Google Home), smart retail, IoT, smart community, smart hardware, e-commerce and supply chain.
 
@@ -148,7 +149,8 @@ Company: 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd. Pe
 - SightSys App: architecture refactor.
 - Backend APIs: Python to Go.
 - SightSys 云智控: cloud control console built and deployed from scratch in 3 months.
-- Enterprise ERP: built from scratch with AI agents.
+- AnjiaERP (AJERP): functional design specifications (FDS) for the manufacturing ERP (product and BOM data center, quote-to-sales-order flow, seat permissions) and build-out with AI coding agents, skills/rules, and MCP. 负责制造型 ERP 的功能设计规格（FDS），并用 AI 编程智能体、skills/rules 与 MCP 推动实现。
+- AI-assisted delivery: Cursor, Claude Code, and cloud coding agents; hard product locks encoded as skills and rules.
 - Security cameras listed on Alexa and Google Home.
 - Skills built for GCP operations.
 - Site: https://www.sightsyscloud.com/
@@ -172,7 +174,7 @@ Product screenshots:
 
 Source: https://xiebaoxin.github.io/resume/attachment-detail.html
 
-- SightSys 云智控 / SightSys Cloud Control: 深圳安嘉科技，2026.04 起。App 架构重构；后台 API 由 Python 迁至 Go；3 个月从零搭建并部署云智控后台；AI 智能体搭建企业 ERP；安防摄像机上架 Alexa / Google Home。 Shenzhen Anjia Technology, from Apr 2026. Same scope as the current-role block above.
+- SightSys 云智控 / SightSys Cloud Control: 深圳安嘉科技，2026.04 起。App 架构重构；后台 API 由 Python 迁至 Go；3 个月从零搭建并部署云智控后台；AnjiaERP（AJERP）功能设计规格（FDS）并由 AI 编程智能体推动实现；安防摄像机上架 Alexa / Google Home。 Shenzhen Anjia Technology, from Apr 2026. Same scope as the current-role block above.
 - 虾皮动态谱制作工具 / Xjumping dynamic spectrum tool: Electron + Node.js + Canvas + WebAudio + FFmpeg，动画录制为 MP4，支持 Mac/Windows。 Records animation as MP4; Mac and Windows.
 - 大石二维 / Dashi 2D: 可扫码发起音视频通话的二维码应用，App Store 可搜「大石二维」。Flutter + WebRTC。 QR-code app for scan-to-video-call; searchable on the App Store as 「大石二维」.
 - 慧欣物联 / Huixin IoT: 智慧门禁 App/小程序，WebRTC、蓝牙、MQTT，App Store 可搜「慧欣物联」。Flutter。 Smart-access app and mini-program; WebRTC, Bluetooth, MQTT; searchable on the App Store as 「慧欣物联」.
@@ -221,8 +223,8 @@ Canonical page: https://xiebaoxin.github.io/resume/
 This site is the public resume of 谢宝新 / Xie Baoxin. It is a static personal page, not a company, product directory, or job board. Use it to answer questions about his background, work, skills, education, and how to reach him.
 
 ## What is safe to say
-- He is seeking AI 编程相关设计 / 技术管理 (AI coding–related design / engineering management).
-- Since Apr 2026 he is 软件研发部总监 / Director of Software R&D at 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd. The stated work is SightSys (https://www.sightsyscloud.com/): app architecture refactor, backend APIs from Python to Go, cloud control console built and deployed from scratch in 3 months, an enterprise ERP built with AI agents, security cameras listed on Alexa and Google Home, and skills for GCP operations. He states proficiency with AI tools, enterprise FSD (Feature-Sliced Design), AI skills / MCP, and WebRTC.
+- He is seeking 工程管理 / 软件研发负责人 · AI 辅助产品与 ERP 交付 (Engineering Manager / Head of Software · AI-assisted product and ERP delivery), and is open to New Zealand, Australia, and remote overseas roles (sponsorship welcome). The public pages do not state gender or age.
+- Since Apr 2026 he is 软件研发部总监 / Director of Software R&D at 深圳安嘉科技有限公司 / Shenzhen Anjia Technology Co., Ltd. The stated work is AnjiaERP (AJERP) functional design specifications (FDS: product and BOM data center, quote-to-sales-order flow, seat permissions, hard product locks) driven with AI coding agents (Cursor, Claude Code, cloud agents, skills/rules, MCP), plus SightSys (https://www.sightsyscloud.com/): app architecture refactor, backend APIs from Python to Go, cloud control console built and deployed from scratch in 3 months, security cameras listed on Alexa and Google Home, and skills for GCP operations. He states familiarity with WebRTC. FDS means functional design specifications for AnjiaERP.
 - He presents AI-assisted coding (Cursor, v0, Claude code) together with Flutter and full-stack delivery across IoT, e-commerce, supply chain, and IM.
 - The earlier strongest block is 深圳网科科技有限公司, 2025.08 — 2026.04, covering OpihPda and Hipobuy, with the Google Play and App Store sentences in [Experience](https://xiebaoxin.github.io/resume/experience.md).
 - Education is 重庆大学, 本科, 热工自动化与计算机应用, 1995 — 1999.
