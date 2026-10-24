@@ -28,7 +28,7 @@
     },
     "skills": {
       "title": "Skills (Detail)",
-      "tech": ["Flutter", "Go", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "PostgreSQL", "Redis", "Swoole", "Electron", "Node.js", "GCP"],
+      "tech": ["Flutter", "Go", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "PostgreSQL", "Redis", "Swoole", "Electron", "Node.js", "GCP", "Alexa", "Google Home"],
       "tools": "Proficient with AI tools (Cursor, v0, Claude code) and cloud coding agents. Writes functional design specifications (FDS) for AnjiaERP and uses AI skills/rules and MCP to drive delivery; can build skills for GCP operations. Project management, R&D team leadership, technical strategy, and process improvement.",
       "domain": "ERP, security cameras, smart home (Alexa / Google Home), smart retail, IoT, smart community, smart hardware, e‑commerce and supply chain."
     },

@@ -28,7 +28,7 @@
     },
     "skills": {
       "title": "技能详述",
-      "tech": ["Flutter", "Go", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "PostgreSQL", "Redis", "Swoole", "Electron", "Node.js", "GCP"],
+      "tech": ["Flutter", "Go", "Java", "PHP", "JavaScript", "Python", "WebRTC", "WebAudio", "MySQL", "PostgreSQL", "Redis", "Swoole", "Electron", "Node.js", "GCP", "Alexa", "Google Home"],
       "tools": "熟练使用 AI 工具（Cursor、v0、Claude code）与云端编程智能体。为 AnjiaERP 编写功能设计规格（FDS），并用 AI skills/rules 与 MCP 推动交付；可搭建 Skill 进行 GCP 运营。项目管理、研发团队管理、技术战略与流程优化。",
       "domain": "ERP、安防摄像机、智能家居（Alexa / Google Home）、智慧商业、物联网、智慧社区、智能硬件、电商与供应链。"
     },

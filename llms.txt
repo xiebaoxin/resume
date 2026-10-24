@@ -19,4 +19,3 @@ These files are a plain-text copy of the public resume so an agent can read iden
 - [HTML resume (English)](https://xiebaoxin.github.io/resume/index.html#en): same page in English.
 - [Detailed experience](https://xiebaoxin.github.io/resume/attachment-detail.html): longer work history.
 - [Product images](https://xiebaoxin.github.io/resume/attachment-portfolio.html): screenshots.
-- [AI capability note](https://xiebaoxin.github.io/resume/attachment-ai-capability.html): note on AI-assisted work.

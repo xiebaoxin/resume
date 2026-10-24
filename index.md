@@ -28,7 +28,6 @@ Director of Software R&D at Shenzhen Anjia Technology Co., Ltd. since Apr 2026. 
 Rendered attachments:
 - Product images: https://xiebaoxin.github.io/resume/attachment-portfolio.html
 - Detailed experience and skills: https://xiebaoxin.github.io/resume/attachment-detail.html
-- AI capability note: https://xiebaoxin.github.io/resume/attachment-ai-capability.html
 
 Charts on the HTML page are images. The numeric claims to quote are the sentences in [Experience](https://xiebaoxin.github.io/resume/experience.md), not a new reading of the chart pixels.
 - Google Play chart: https://xiebaoxin.github.io/resume/assets/chart-play.png
